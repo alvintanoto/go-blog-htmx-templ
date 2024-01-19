@@ -1,0 +1,1 @@
+Trying fullstack go app with htmx and templ
