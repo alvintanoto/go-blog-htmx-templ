@@ -9,6 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// InitializeDB to create connection to DB
 func InitializeDB(dbUsername, dbPassword, dbHost, dbPort, dbName string) (db *sql.DB, err error) {
 	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", dbUsername, dbPassword, dbHost, dbPort, dbName)
 	db, err = sql.Open("postgres", dsn)

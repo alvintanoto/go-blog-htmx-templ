@@ -15,6 +15,7 @@ type Application struct {
 	Database       *sql.DB
 }
 
+// InitializeConfigs set up env variable configurations
 func (a *Application) InitializeConfigs() {
 	configs := &Configurations{}
 	err := configs.ReadConfigurations()
@@ -26,6 +27,7 @@ func (a *Application) InitializeConfigs() {
 	a.Configurations = configs
 }
 
+// Initialize Database to set up connection to database
 func (a *Application) InitializeDatabase() {
 	db, err := db.InitializeDB(a.Configurations.Database.User,
 		a.Configurations.Database.Password,
