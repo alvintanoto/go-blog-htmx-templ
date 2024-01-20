@@ -8,11 +8,13 @@ import (
 	"time"
 
 	"alvintanoto.id/blog-htmx-templ/internal/db"
+	"alvintanoto.id/blog-htmx-templ/view"
 )
 
 type Application struct {
 	Configurations *Configurations
 	Database       *sql.DB
+	HttpServer     *http.ServeMux
 }
 
 // InitializeConfigs set up env variable configurations
@@ -27,7 +29,7 @@ func (a *Application) InitializeConfigs() {
 	a.Configurations = configs
 }
 
-// Initialize Database to set up connection to database
+// InitializeDatabase to set up connection to database
 func (a *Application) InitializeDatabase() {
 	db, err := db.InitializeDB(a.Configurations.Database.User,
 		a.Configurations.Database.Password,
@@ -43,14 +45,34 @@ func (a *Application) InitializeDatabase() {
 	a.Database = db
 }
 
+// SetupRoutes to setup routes here
+func (a *Application) SetupRoutes() {
+	mux := http.NewServeMux()
+
+	mux.Handle("/", http.HandlerFunc((func(w http.ResponseWriter, r *http.Request) {
+		log.Println("masuk kesini")
+		view.NotFoundPage().Render(r.Context(), w)
+	})))
+
+	mux.Handle("/123", http.HandlerFunc((func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("hehe"))
+	})))
+
+	mux.Handle("/assets/", http.FileServer(http.Dir("./")))
+
+	a.HttpServer = mux
+}
+
 func main() {
 	app := &Application{}
 	app.InitializeConfigs()
 	app.InitializeDatabase()
+	app.SetupRoutes()
 
 	// start the server here
 	server := http.Server{
 		Addr:         fmt.Sprintf(":%d", app.Configurations.Server.Port),
+		Handler:      app.HttpServer,
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
