@@ -15,6 +15,7 @@ module.exports = {
       '8xl': ['68px', '76px'],
     },
     fontWeight: {
+      light: '200',
       normal: '400',
       medium: '500',
       semibold: '600'

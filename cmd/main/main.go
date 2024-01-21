@@ -9,12 +9,13 @@ import (
 
 	"alvintanoto.id/blog-htmx-templ/internal/db"
 	"alvintanoto.id/blog-htmx-templ/view"
+	"github.com/gorilla/mux"
 )
 
 type Application struct {
 	Configurations *Configurations
 	Database       *sql.DB
-	HttpServer     *http.ServeMux
+	Router         *mux.Router
 }
 
 // InitializeConfigs set up env variable configurations
@@ -47,20 +48,19 @@ func (a *Application) InitializeDatabase() {
 
 // SetupRoutes to setup routes here
 func (a *Application) SetupRoutes() {
-	mux := http.NewServeMux()
+	router := mux.NewRouter()
+	router.HandleFunc("/", http.HandlerFunc((func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("homepage"))
+	})))
 
-	mux.Handle("/", http.HandlerFunc((func(w http.ResponseWriter, r *http.Request) {
-		log.Println("masuk kesini")
+	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
+
+	router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		view.NotFoundPage().Render(r.Context(), w)
-	})))
+	})
 
-	mux.Handle("/123", http.HandlerFunc((func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hehe"))
-	})))
-
-	mux.Handle("/assets/", http.FileServer(http.Dir("./")))
-
-	a.HttpServer = mux
+	// mux.Handle("*")
+	a.Router = router
 }
 
 func main() {
@@ -72,7 +72,7 @@ func main() {
 	// start the server here
 	server := http.Server{
 		Addr:         fmt.Sprintf(":%d", app.Configurations.Server.Port),
-		Handler:      app.HttpServer,
+		Handler:      app.Router,
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
