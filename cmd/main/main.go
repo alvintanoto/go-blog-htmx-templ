@@ -35,9 +35,7 @@ func (a *Application) InitializeConfigs() {
 }
 
 func (a *Application) InitializeController() {
-	a.Controller = &controller.Controller{
-		ViewController: &controller.ViewController{},
-	}
+	a.Controller = &controller.Controller{}
 }
 
 // InitializeDatabase to set up connection to database
@@ -59,6 +57,9 @@ func (a *Application) InitializeDatabase() {
 // SetupRoutes to setup routes here
 func (a *Application) SetupRoutes() {
 	router := mux.NewRouter()
+
+	router.Use(a.Controller.Middlewares.LoggingMiddleware)
+
 	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
 
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
