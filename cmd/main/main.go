@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
+	"alvintanoto.id/blog-htmx-templ/internal/controller"
 	"alvintanoto.id/blog-htmx-templ/internal/db"
-	"alvintanoto.id/blog-htmx-templ/view"
 	"github.com/gorilla/mux"
 )
 
@@ -16,6 +16,7 @@ type Application struct {
 	Configurations *Configurations
 	Database       *sql.DB
 	Router         *mux.Router
+	Controller     *controller.Controller
 }
 
 // InitializeConfigs set up env variable configurations
@@ -28,6 +29,12 @@ func (a *Application) InitializeConfigs() {
 	}
 
 	a.Configurations = configs
+}
+
+func (a *Application) InitializeController() {
+	a.Controller = &controller.Controller{
+		ViewController: &controller.ViewController{},
+	}
 }
 
 // InitializeDatabase to set up connection to database
@@ -55,9 +62,7 @@ func (a *Application) SetupRoutes() {
 
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 
-	router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		view.NotFoundPage().Render(r.Context(), w)
-	})
+	router.NotFoundHandler = http.HandlerFunc(a.Controller.ViewController.NotFoundViewHandler())
 
 	// mux.Handle("*")
 	a.Router = router
@@ -67,6 +72,7 @@ func main() {
 	app := &Application{}
 	app.InitializeConfigs()
 	app.InitializeDatabase()
+	app.InitializeController()
 	app.SetupRoutes()
 
 	// start the server here
