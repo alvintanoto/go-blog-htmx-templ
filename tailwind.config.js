@@ -23,7 +23,8 @@ module.exports = {
     colors: {
       white: '#FFFFFF',
       grey: '#F2F3F5',
-      "grey-darker": '#d9d9d9',
+      "grey-darker": '#b3b3b3',
+      "grey-hover": '#d9d9d9',
       primary: '#1677ff',
       success: '#52c41a',
       warning: '#faad14',

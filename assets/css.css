@@ -548,22 +548,54 @@ video {
   display: flex;
 }
 
+.hidden {
+  display: none;
+}
+
 .h-\[64px\] {
   height: 64px;
+}
+
+.max-h-\[100vh\] {
+  max-height: 100vh;
+}
+
+.max-h-\[calc\(100vh-64px\)\] {
+  max-height: calc(100vh - 64px);
 }
 
 .min-h-\[100vh\] {
   min-height: 100vh;
 }
 
+.min-h-\[72px\] {
+  min-height: 72px;
+}
+
 .min-h-\[90vh\] {
   min-height: 90vh;
+}
+
+.min-h-\[96px\] {
+  min-height: 96px;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .select-none {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .items-center {
@@ -574,6 +606,28 @@ video {
   justify-content: center;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
+.border-y {
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+}
+
+.border-grey-darker {
+  --tw-border-opacity: 1;
+  border-color: rgb(179 179 179 / var(--tw-border-opacity));
+}
+
 .bg-grey {
   --tw-bg-opacity: 1;
   background-color: rgb(242 243 245 / var(--tw-bg-opacity));
@@ -581,6 +635,10 @@ video {
 
 .p-2 {
   padding: 12px;
+}
+
+.p-3 {
+  padding: 20px;
 }
 
 .text-center {
@@ -597,6 +655,16 @@ video {
   line-height: 38px;
 }
 
+.text-base {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.text-xl {
+  font-size: 16px;
+  line-height: 24px;
+}
+
 .font-light {
   font-weight: 200;
 }
@@ -605,4 +673,36 @@ video {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\:bg-grey-hover:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(217 217 217 / var(--tw-bg-opacity));
+}
+
+@media (min-width: 768px) {
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:min-h-full {
+    min-height: 100%;
+  }
+
+  .md\:min-w-\[192px\] {
+    min-width: 192px;
+  }
+
+  .md\:border-r {
+    border-right-width: 1px;
+  }
+
+  .md\:border-grey-darker {
+    --tw-border-opacity: 1;
+    border-color: rgb(179 179 179 / var(--tw-border-opacity));
+  }
 }

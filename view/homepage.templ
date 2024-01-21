@@ -1,0 +1,57 @@
+package view
+
+import (
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+)
+
+templ sideNavigationComponent(user *dto.UserDTO) {
+	<div class="text-xl w-full">
+		<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Home </div>
+		if user != nil {
+			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Notification </div>
+			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Read Later </div>
+			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Private Messages </div>
+		}
+	</div>
+}
+
+templ createPostComponent() {
+	<div class="min-h-[72px] p-2 text-center border-y border-grey-darker text-base flex items-center justify-center cursor-pointer">
+		Create a new post 
+	</div>
+}
+
+templ loadMoreComponent() {
+	<div class="min-h-[72px] p-2 text-center border-y border-grey-darker text-base flex items-center justify-center cursor-pointer">
+		Load More
+	</div>
+}
+
+templ postComponent(posts []dto.PostDTO) {
+	<div class="overflow-y-scroll max-h-[calc(100vh-64px)]">
+		for _, post := range posts {
+			<div class="min-h-[96px] p-2 border-b border-grey-darker">
+				{ post.Message }
+			</div>
+		}
+	</div>
+}
+
+templ Homepage(dto *dto.HomepageDTO) {
+	<html>
+		@headerComponent()
+		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
+			<div class="md:hidden">
+				@createPostComponent()
+			</div>
+			<div class="grid-cols-2 md:flex md:min-h-full">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+					@sideNavigationComponent(dto.User)
+				</div>
+				<div class="w-full">
+					@postComponent(dto.Posts)
+				</div>
+			</div>
+		</body>
+	</html>
+}

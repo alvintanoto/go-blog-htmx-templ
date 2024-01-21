@@ -56,9 +56,7 @@ func (a *Application) InitializeDatabase() {
 // SetupRoutes to setup routes here
 func (a *Application) SetupRoutes() {
 	router := mux.NewRouter()
-	router.HandleFunc("/", http.HandlerFunc((func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("homepage"))
-	})))
+	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
 
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 
