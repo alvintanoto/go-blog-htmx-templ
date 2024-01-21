@@ -1,21 +1,29 @@
-### Trying fullstack go app with htmx and templ
+# Go BLOG
 
-<hr/>
+Trying fullstack go app with htmx and templ
 
-Build Tailwind CSS
+# How to run app
+
+1. Build Tailwind CSS
 
 ```
 npx tailwindcss -i ./view/css/input.css -o ./assets/css.css
 ```
 
-Generate Templ
+2. Generate Templ
 
 ```
 templ generate
 ```
 
-Run GO
+3. Run GO
 
 ```
 go run ./cmd/main
+```
+
+Or run the executable
+
+```
+./run.sh
 ```
