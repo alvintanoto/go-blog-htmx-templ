@@ -9,6 +9,7 @@ type PostDTO struct {
 	ReplyCounts int       `json:"reply_counts"`
 	Likes       int       `json:"likes"`
 	Impressions int       `json:"impressions"`
+	SavedCounts int       `json:"saved_count"`
 	Poster      UserDTO   `json:"poster"`
 	PostedAt    time.Time `json:"posted_at"`
 }

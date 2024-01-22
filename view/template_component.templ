@@ -1,13 +1,24 @@
 package view
 
-templ headerComponent() {
+import (
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+)
+
+templ headerComponent(user *dto.UserDTO) {
 	<head>
 		<link href="/assets/css.css" rel="stylesheet"/>
 		<title>
 			Goblog
 		</title>
-		<div class="h-[64px] p-2 text-2xl shadow-md flex items-center">
-			<a href="/">Blog</a>
+		<div class="h-[64px] p-2 text-2xl shadow-md flex items-center justify-between">
+			<div><a href="/">Blog</a> </div>
+			if user == nil {
+				<div class="text-base">
+					<a href="/sign-in">
+						<button type="button" class="rounded-md text-white bg-primary px-2 py-1 hover:bg-primary/90">SIGN IN</button>
+					</a>
+				</div>
+			}
 		</div>
 	</head>
 }
