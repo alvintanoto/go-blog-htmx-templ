@@ -29,7 +29,8 @@ module.exports = {
       success: '#52c41a',
       warning: '#faad14',
       error: '#fff2f0',
-      "error-border": '#ffccc7'
+      "error-border": '#ffccc7',
+      "error-text": "#a8071a"
     },
     spacing: {
       '1': '8px',

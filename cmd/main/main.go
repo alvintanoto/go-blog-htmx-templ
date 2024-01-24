@@ -12,15 +12,19 @@ import (
 
 	"alvintanoto.id/blog-htmx-templ/internal/controller"
 	"alvintanoto.id/blog-htmx-templ/internal/db"
+	"alvintanoto.id/blog-htmx-templ/internal/service"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 )
 
 type Application struct {
 	Configurations *Configurations
 	Database       *sql.DB
+	Store          *sessions.CookieStore
 
 	Router     *mux.Router
 	Controller *controller.Controller
+	Service    *service.Service
 }
 
 // InitializeConfigs set up env variable configurations
@@ -36,7 +40,11 @@ func (a *Application) InitializeConfigs() {
 }
 
 func (a *Application) InitializeController() {
-	a.Controller = &controller.Controller{}
+	a.Controller = controller.NewController(a.Store, a.Service)
+}
+
+func (a *Application) InitializeService() {
+	a.Service = service.NewService()
 }
 
 // InitializeDatabase to set up connection to database
@@ -55,6 +63,11 @@ func (a *Application) InitializeDatabase() {
 	a.Database = db
 }
 
+func (a *Application) InitializeSession() {
+	store := sessions.NewCookieStore([]byte(a.Configurations.Server.SecretKey))
+	a.Store = store
+}
+
 // SetupRoutes to setup routes here
 func (a *Application) SetupRoutes() {
 	router := mux.NewRouter()
@@ -70,6 +83,11 @@ func (a *Application) SetupRoutes() {
 		postRoute.HandleFunc("/new_post", a.Controller.ViewController.CreateNewPostHandler())
 	}
 
+	apiRoute := router.PathPrefix("/api/").Subrouter()
+	{
+		apiRoute.HandleFunc("/register", a.Controller.ApiController.Register()).Methods("POST")
+	}
+
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./view/assets/"))))
 
 	router.NotFoundHandler = http.HandlerFunc(a.Controller.ViewController.NotFoundViewHandler())
@@ -82,6 +100,8 @@ func main() {
 	app := &Application{}
 	app.InitializeConfigs()
 	app.InitializeDatabase()
+	app.InitializeSession()
+	app.InitializeService()
 	app.InitializeController()
 	app.SetupRoutes()
 

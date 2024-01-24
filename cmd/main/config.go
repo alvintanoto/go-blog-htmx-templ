@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"strconv"
+
+	"github.com/gorilla/securecookie"
 )
 
 var ErrMissingEnv = errors.New("missing env variable")
@@ -16,7 +18,8 @@ type Configurations struct {
 }
 
 type ServerConfigurations struct {
-	Port int `json:"port"`
+	Port      int    `json:"port"`
+	SecretKey string `json:"secret_key"`
 }
 
 type DatabaseConfigurations struct {
@@ -40,6 +43,12 @@ func (c *Configurations) ReadConfigurations() error {
 		return err
 	}
 
+	var secretKey string
+	secretKey = os.Getenv("BLOG_SECRET_KEY")
+	if secretKey == "" {
+		secretKey = string(securecookie.GenerateRandomKey(32))
+	}
+
 	dbHostEnv := os.Getenv("DB_HOST")
 	dbPortEnv := os.Getenv("DB_PORT")
 	dbUserEnv := os.Getenv("DB_USER")
@@ -47,6 +56,7 @@ func (c *Configurations) ReadConfigurations() error {
 	dbNameEnv := os.Getenv("BLOG_DB_NAME")
 
 	c.Server.Port = port
+	c.Server.SecretKey = secretKey
 	c.Database.Host = dbHostEnv
 	c.Database.Port = dbPortEnv
 	c.Database.User = dbUserEnv

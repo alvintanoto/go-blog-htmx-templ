@@ -8,3 +8,22 @@ type HomepageDTO struct {
 type CreateNewPostDTO struct {
 	User *UserDTO `json:"user"`
 }
+
+type RegisterFieldDTO struct {
+	Username struct {
+		Value  string
+		Errors []string
+	}
+
+	Email struct {
+		Value  string
+		Errors []string
+	}
+
+	PasswordErrors        []string
+	ConfirmPasswordErrors []string
+}
+
+type RegisterPageDTO struct {
+	RegisterFieldDTO *RegisterFieldDTO
+}

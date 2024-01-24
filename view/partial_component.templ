@@ -12,7 +12,7 @@ templ headerComponent(route string, user *dto.UserDTO) {
 		<title>
 			Goblog
 		</title>
-		<div class="h-[64px] p-2 text-2xl shadow-md flex items-center justify-between">
+		<div class="h-[64px] p-2 text-2xl shadow-md flex items-center justify-between bg-grey">
 			<div><a href="/">Blog</a> </div>
 			if user == nil && route != "sign-in" && route != "register" {
 				<div class="text-base">
@@ -31,7 +31,7 @@ templ sideNavigationComponent(user *dto.UserDTO) {
 		if user != nil {
 			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Notification </div>
 			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Bookmark </div>
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Message </div>
+			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Messages </div>
 			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Draft </div>
 		}
 	</div>

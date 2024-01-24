@@ -54,7 +54,7 @@ func headerComponent(route string, user *dto.UserDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><div class=\"h-[64px] p-2 text-2xl shadow-md flex items-center justify-between\"><div><a href=\"/\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><div class=\"h-[64px] p-2 text-2xl shadow-md flex items-center justify-between bg-grey\"><div><a href=\"/\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -142,7 +142,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var11 := `Message `
+			templ_7745c5c3_Var11 := `Messages `
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var11)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
