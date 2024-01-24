@@ -5,18 +5,6 @@ import (
 	"strconv"
 )
 
-templ sideNavigationComponent(user *dto.UserDTO) {
-	<div class="text-xl w-full">
-		<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Home </div>
-		if user != nil {
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Notification </div>
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Read Later </div>
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Private Messages </div>
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Draft </div>
-		}
-	</div>
-}
-
 templ createPostComponent() {
 	<div class="min-h-[72px] p-2 text-center border-y border-grey-darker text-base flex items-center justify-center cursor-pointer">
 		Create a new post 
@@ -60,7 +48,7 @@ templ postsComponent(posts []dto.PostDTO) {
 
 templ Homepage(dto *dto.HomepageDTO) {
 	<html>
-		@headerComponent(dto.User)
+		@headerComponent("homepage", dto.User)
 		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
 			if dto.User != nil {
 				<div class="md:hidden">

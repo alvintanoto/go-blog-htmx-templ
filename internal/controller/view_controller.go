@@ -31,6 +31,12 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 	}
 }
 
+func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		view.RegisterPage().Render(r.Context(), w)
+	}
+}
+
 func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		homeDTO := &dto.HomepageDTO{

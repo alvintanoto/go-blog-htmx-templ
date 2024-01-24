@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-func SignInPage() templ.Component {
+func RegisterPage() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -35,16 +35,16 @@ func SignInPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var2 := `Sign In`
+		templ_7745c5c3_Var2 := `Register`
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><form method=\"post\" action=\"/sign-in\"><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/user.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/password.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"password\" placeholder=\"Password\" name=\"password\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"mt-3 float-right\"><a href=\"/register\"><span class=\"mx-2 cursor-pointer hover:text-primary\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><form method=\"post\" action=\"/register\"><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/user.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/email.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"email\" placeholder=\"Email\" name=\"email\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/password.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"password\" placeholder=\"Password\" name=\"password\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/password.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"confirm\" placeholder=\"Confirm Password\" name=\"confirm_password\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"mt-3 float-right\"><a href=\"/sign-in\"><span class=\"mx-2 cursor-pointer hover:text-primary\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var3 := `Register`
+		templ_7745c5c3_Var3 := `Sign In`
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -53,7 +53,7 @@ func SignInPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var4 := `SIGN IN`
+		templ_7745c5c3_Var4 := `REGISTER`
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

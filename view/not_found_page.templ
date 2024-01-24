@@ -4,7 +4,7 @@ import "alvintanoto.id/blog-htmx-templ/internal/dto"
 
 templ NotFoundPage(user *dto.UserDTO) {
 	<html>
-		@headerComponent(user)
+		@headerComponent("not-found", user)
 		<body class="min-h-[100vh] select-none bg-grey">
 			<div class="min-h-[90vh] text-center flex justify-center items-center text-4xl font-light">404 <br/> Page Not Found </div>
 		</body>

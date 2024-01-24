@@ -63,13 +63,14 @@ func (a *Application) SetupRoutes() {
 
 	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
 	router.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler())
+	router.HandleFunc("/register", a.Controller.ViewController.RegisterHandler())
 
 	postRoute := router.PathPrefix("/post/").Subrouter()
 	{
 		postRoute.HandleFunc("/new_post", a.Controller.ViewController.CreateNewPostHandler())
 	}
 
-	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
+	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./view/assets/"))))
 
 	router.NotFoundHandler = http.HandlerFunc(a.Controller.ViewController.NotFoundViewHandler())
 

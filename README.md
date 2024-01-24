@@ -7,7 +7,7 @@ Trying fullstack go app with htmx and templ
 1. Build Tailwind CSS
 
 ```
-npx tailwindcss -i ./view/css/input.css -o ./assets/css.css
+npx tailwindcss -i ./view/css/input.css -o ./view/assets/css.css
 ```
 
 2. Generate Templ
