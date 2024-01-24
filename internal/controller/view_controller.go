@@ -18,6 +18,19 @@ func NewViewController() *ViewController {
 	return &ViewController{}
 }
 
+func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Println("path:", r.URL.Path, "not found")
+		view.NotFoundPage(nil).Render(r.Context(), w)
+	}
+}
+
+func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		view.SignInPage().Render(r.Context(), w)
+	}
+}
+
 func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		homeDTO := &dto.HomepageDTO{
@@ -39,13 +52,6 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 		}
 
 		view.Homepage(homeDTO).Render(r.Context(), w)
-	}
-}
-
-func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		log.Println("path:", r.URL.Path, "not found")
-		view.NotFoundPage(nil).Render(r.Context(), w)
 	}
 }
 

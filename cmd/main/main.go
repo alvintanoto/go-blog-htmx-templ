@@ -62,6 +62,7 @@ func (a *Application) SetupRoutes() {
 	router.Use(a.Controller.Middlewares.LoggingMiddleware)
 
 	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
+	router.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler())
 
 	postRoute := router.PathPrefix("/post/").Subrouter()
 	{
