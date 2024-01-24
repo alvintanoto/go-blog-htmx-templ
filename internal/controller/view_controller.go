@@ -43,51 +43,50 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 		var payload dto.RegisterUserRequestDTO
 		decoder := schema.NewDecoder()
 
-		err := r.ParseForm()
+		r.ParseForm()
+		err := decoder.Decode(&payload, r.PostForm)
 		if err == nil {
-			err := decoder.Decode(&payload, r.PostForm)
-			if err == nil {
-				fmt.Println(payload.Username)
-				payload := &dto.RegisterPageDTO{
-					RegisterFieldDTO: &dto.RegisterFieldDTO{
-						Username: struct {
-							Value  string
-							Errors []string
-						}{
-							Value: payload.Username,
-						},
-						Email: struct {
-							Value  string
-							Errors []string
-						}{Value: payload.Email},
-						PasswordErrors:        []string{},
-						ConfirmPasswordErrors: []string{},
+			payload := &dto.RegisterPageDTO{
+				RegisterFieldDTO: &dto.RegisterFieldDTO{
+					Username: struct {
+						Value  string
+						Errors []string
+					}{
+						Value: payload.Username,
 					},
-				}
-
-				// redirect result check for flashes
-
-				for _, flash := range store.Flashes("username") {
-					payload.RegisterFieldDTO.Username.Errors = append(payload.RegisterFieldDTO.Username.Errors, flash.(string))
-				}
-
-				for _, flash := range store.Flashes("email") {
-					payload.RegisterFieldDTO.Email.Errors = append(payload.RegisterFieldDTO.Email.Errors, flash.(string))
-				}
-
-				for _, flash := range store.Flashes("password") {
-					payload.RegisterFieldDTO.PasswordErrors = append(payload.RegisterFieldDTO.PasswordErrors, flash.(string))
-				}
-
-				for _, flash := range store.Flashes("confirm_password") {
-					payload.RegisterFieldDTO.ConfirmPasswordErrors = append(payload.RegisterFieldDTO.ConfirmPasswordErrors, flash.(string))
-				}
-
-				sessions.Save(r, w)
-
-				view.RegisterPage(payload).Render(r.Context(), w)
-				return
+					Email: struct {
+						Value  string
+						Errors []string
+					}{Value: payload.Email},
+					PasswordErrors:        []string{},
+					ConfirmPasswordErrors: []string{},
+				},
 			}
+
+			// redirect result check for flashes
+
+			for _, flash := range store.Flashes("username") {
+				payload.RegisterFieldDTO.Username.Errors = append(payload.RegisterFieldDTO.Username.Errors, flash.(string))
+			}
+
+			for _, flash := range store.Flashes("email") {
+				payload.RegisterFieldDTO.Email.Errors = append(payload.RegisterFieldDTO.Email.Errors, flash.(string))
+			}
+
+			for _, flash := range store.Flashes("password") {
+				payload.RegisterFieldDTO.PasswordErrors = append(payload.RegisterFieldDTO.PasswordErrors, flash.(string))
+			}
+
+			for _, flash := range store.Flashes("confirm_password") {
+				payload.RegisterFieldDTO.ConfirmPasswordErrors = append(payload.RegisterFieldDTO.ConfirmPasswordErrors, flash.(string))
+			}
+
+			err := sessions.Save(r, w)
+			if err != nil {
+				log.Println("error saving session :", err.Error())
+			}
+			view.RegisterPage(payload).Render(r.Context(), w)
+			return
 		}
 
 		fmt.Println("fresh page")

@@ -33,12 +33,12 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
 			log.Println("error parsing form: ", err.Error())
+			http.Redirect(w, r, "/register", http.StatusTemporaryRedirect)
+			return
 		}
 		err = decoder.Decode(&payload, r.PostForm)
 		if err != nil {
 			log.Println("error decoding payload: ", err.Error())
-			session.Flashes("400 Bad Request")
-			err := sessions.Save(r, w)
 			if err != nil {
 				log.Println("error saving session: ", err.Error())
 				http.Redirect(w, r, "/register", http.StatusTemporaryRedirect)
@@ -90,7 +90,10 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 		}
 
 		if errCount > 0 {
-			sessions.Save(r, w)
+			err := sessions.Save(r, w)
+			if err != nil {
+				log.Println("err saving session:", err.Error())
+			}
 			http.Redirect(w, r, "/register", http.StatusTemporaryRedirect)
 			return
 		}
