@@ -18,8 +18,9 @@ import (
 type Application struct {
 	Configurations *Configurations
 	Database       *sql.DB
-	Router         *mux.Router
-	Controller     *controller.Controller
+
+	Router     *mux.Router
+	Controller *controller.Controller
 }
 
 // InitializeConfigs set up env variable configurations
@@ -61,6 +62,11 @@ func (a *Application) SetupRoutes() {
 	router.Use(a.Controller.Middlewares.LoggingMiddleware)
 
 	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
+
+	postRoute := router.PathPrefix("/post/").Subrouter()
+	{
+		postRoute.HandleFunc("/new_post", a.Controller.ViewController.CreateNewPostHandler())
+	}
 
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 

@@ -7,6 +7,8 @@ import (
 templ headerComponent(user *dto.UserDTO) {
 	<head>
 		<link href="/assets/css.css" rel="stylesheet"/>
+		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
 		<title>
 			Goblog
 		</title>
@@ -15,7 +17,7 @@ templ headerComponent(user *dto.UserDTO) {
 			if user == nil {
 				<div class="text-base">
 					<a href="/sign-in">
-						<button type="button" class="rounded-md text-white bg-primary px-2 py-1 hover:bg-primary/90">SIGN IN</button>
+						<button type="button" class="rounded-s text-white bg-primary px-2 py-1 hover:bg-primary/90">SIGN IN</button>
 					</a>
 				</div>
 			}

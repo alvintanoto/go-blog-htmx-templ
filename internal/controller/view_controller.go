@@ -48,3 +48,17 @@ func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.
 		view.NotFoundPage(nil).Render(r.Context(), w)
 	}
 }
+
+func (vc *ViewController) CreateNewPostHandler() func(http.ResponseWriter, *http.Request) {
+	// TODO: check session
+	// if not logged in redirect to sign in page
+	// else show create new post page
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		createNewPostDTO := &dto.CreateNewPostDTO{
+			User: nil,
+		}
+
+		view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
+	}
+}

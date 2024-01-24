@@ -1,0 +1,31 @@
+package view
+
+import "alvintanoto.id/blog-htmx-templ/internal/dto"
+
+templ CreateNewPostPage(dto *dto.CreateNewPostDTO) {
+	<html>
+		@headerComponent(dto.User)
+		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
+			<div class="grid-cols-2 md:flex md:min-h-full">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+					@sideNavigationComponent(dto.User)
+				</div>
+				<div class="w-full p-2">
+					<div class="text-2xl font-bold mx-1 font-light">New Post</div>
+					<div class="my-1 flex flex-col md:flex-row text-base">
+						<div class="flex-1 mx-1 my-2">
+							<textarea
+								id="editor"
+								class="h-[480px] max-h-[480px] p-2 w-full resize-none rounded-md"
+							></textarea>
+						</div>
+					</div>
+					<div class="flex justify-between mx-1">
+						<button class="bg-warning py-1 px-2 text-white rounded-sm hover:bg-warning/90">Save as Draft </button>
+						<button class="bg-primary py-1 px-3 text-white rounded-sm hover:bg-primary/90">Post </button>
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>
+}
