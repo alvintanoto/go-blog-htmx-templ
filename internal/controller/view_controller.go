@@ -61,6 +61,7 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 					PasswordErrors:        []string{},
 					ConfirmPasswordErrors: []string{},
 				},
+				Error: "",
 			}
 
 			// redirect result check for flashes
@@ -81,6 +82,10 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 				payload.RegisterFieldDTO.ConfirmPasswordErrors = append(payload.RegisterFieldDTO.ConfirmPasswordErrors, flash.(string))
 			}
 
+			for _, flash := range store.Flashes("error") {
+				payload.Error = flash.(string)
+			}
+
 			err := sessions.Save(r, w)
 			if err != nil {
 				log.Println("error saving session :", err.Error())
@@ -89,7 +94,6 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 			return
 		}
 
-		fmt.Println("fresh page")
 		view.RegisterPage(nil).Render(r.Context(), w)
 	}
 }
@@ -98,6 +102,12 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 	return func(w http.ResponseWriter, r *http.Request) {
 		homeDTO := &dto.HomepageDTO{
 			Posts: []dto.PostDTO{},
+		}
+
+		store, _ := vc.Session.Get(r, "default")
+		userStore := store.Values["user"]
+		if userStore != nil {
+			homeDTO.User = userStore.(*dto.UserDTO)
 		}
 
 		for i := 0; i < 25; i++ {

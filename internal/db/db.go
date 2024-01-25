@@ -11,7 +11,7 @@ import (
 
 // InitializeDB to create connection to DB
 func InitializeDB(dbUsername, dbPassword, dbHost, dbPort, dbName string) (db *sql.DB, err error) {
-	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", dbUsername, dbPassword, dbHost, dbPort, dbName)
+	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable", dbUsername, dbPassword, dbHost, dbPort, dbName)
 	db, err = sql.Open("postgres", dsn)
 	if err != nil {
 		log.Println("failed to create connection to database: ", err)

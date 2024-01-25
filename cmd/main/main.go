@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,6 +13,8 @@ import (
 
 	"alvintanoto.id/blog-htmx-templ/internal/controller"
 	"alvintanoto.id/blog-htmx-templ/internal/db"
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"alvintanoto.id/blog-htmx-templ/internal/repository"
 	"alvintanoto.id/blog-htmx-templ/internal/service"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
@@ -25,6 +28,7 @@ type Application struct {
 	Router     *mux.Router
 	Controller *controller.Controller
 	Service    *service.Service
+	Repository *repository.Repository
 }
 
 // InitializeConfigs set up env variable configurations
@@ -44,7 +48,11 @@ func (a *Application) InitializeController() {
 }
 
 func (a *Application) InitializeService() {
-	a.Service = service.NewService()
+	a.Service = service.NewService(a.Repository)
+}
+
+func (a *Application) InitializeRepository() {
+	a.Repository = repository.NewRepository(a.Database)
 }
 
 // InitializeDatabase to set up connection to database
@@ -66,6 +74,9 @@ func (a *Application) InitializeDatabase() {
 func (a *Application) InitializeSession() {
 	store := sessions.NewCookieStore([]byte(a.Configurations.Server.SecretKey))
 	a.Store = store
+
+	// register structs for sessions
+	gob.Register(&dto.UserDTO{})
 }
 
 // SetupRoutes to setup routes here
@@ -73,6 +84,7 @@ func (a *Application) SetupRoutes() {
 	router := mux.NewRouter()
 
 	router.Use(a.Controller.Middlewares.LoggingMiddleware)
+	router.Use(a.Controller.Middlewares.IsAuthenticated)
 
 	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
 	router.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler())
@@ -101,6 +113,7 @@ func main() {
 	app.InitializeConfigs()
 	app.InitializeDatabase()
 	app.InitializeSession()
+	app.InitializeRepository()
 	app.InitializeService()
 	app.InitializeController()
 	app.SetupRoutes()

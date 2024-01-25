@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -33,7 +32,7 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
 			log.Println("error parsing form: ", err.Error())
-			http.Redirect(w, r, "/register", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
 			return
 		}
 		err = decoder.Decode(&payload, r.PostForm)
@@ -41,49 +40,54 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 			log.Println("error decoding payload: ", err.Error())
 			if err != nil {
 				log.Println("error saving session: ", err.Error())
-				http.Redirect(w, r, "/register", http.StatusTemporaryRedirect)
+				http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
 				return
 			}
 		}
 
 		errCount := 0
 
-		if strings.TrimSpace(payload.Username) == "" {
+		username := strings.TrimSpace(payload.Username)
+		email := strings.TrimSpace(payload.Email)
+		password := payload.Password
+		confirmPassword := payload.ConfirmPassword
+
+		if username == "" {
 			session.AddFlash("Username must not be empty.", "username")
 			errCount += 1
 		}
 
-		if strings.TrimSpace(payload.Email) == "" {
+		if email == "" {
 			session.AddFlash("Email must not be empty.", "email")
 			errCount += 1
 		}
 
-		if strings.TrimSpace(payload.Password) == "" {
+		if password == "" {
 			session.AddFlash("Password must not be empty.", "password")
 			errCount += 1
 		}
 
-		if strings.TrimSpace(payload.ConfirmPassword) == "" {
+		if confirmPassword == "" {
 			session.AddFlash("Confirm password must not be empty.", "confirm_password")
 			errCount += 1
 		}
 
-		if len(strings.TrimSpace(payload.Username)) <= 6 {
+		if len(username) <= 6 {
 			session.AddFlash("Username length must be more than 6 character.", "username")
 			errCount += 1
 		}
 
-		if len(strings.TrimSpace(payload.Email)) <= 10 {
+		if len(email) <= 10 {
 			session.AddFlash("Email length must be more than 10 character.", "email")
 			errCount += 1
 		}
 
-		if len(strings.TrimSpace(payload.Password)) <= 6 {
+		if len(password) <= 6 {
 			session.AddFlash("Password length must be more than 6 character.", "password")
 			errCount += 1
 		}
 
-		if payload.Password != payload.ConfirmPassword {
+		if password != confirmPassword {
 			session.AddFlash("Password and confirm password mismatch.", "password")
 			session.AddFlash("Password and confirm password mismatch.", "confirm_password")
 			errCount += 1
@@ -94,15 +98,25 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 			if err != nil {
 				log.Println("err saving session:", err.Error())
 			}
-			http.Redirect(w, r, "/register", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
 			return
 		}
 
-		fmt.Println("username", payload.Username)
-		fmt.Println("email", payload.Email)
-		fmt.Println("password", payload.Password)
+		user, err := ac.Service.UserService.RegisterUser(username, email, password)
+		if err != nil {
+			log.Println("failed registering new user: ", err.Error())
+			session.AddFlash("Failed registering new user, please try again later.", "error")
+			sessions.Save(r, w)
+			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
+			return
+		}
 
-		fmt.Println("register")
-
+		session.Values["user"] = &dto.UserDTO{
+			ID:       user.ID,
+			Username: user.Username,
+			Email:    user.Email,
+		}
+		sessions.Save(r, w)
+		http.Redirect(w, r, "/", http.StatusPermanentRedirect)
 	}
 }

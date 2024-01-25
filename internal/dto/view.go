@@ -26,4 +26,5 @@ type RegisterFieldDTO struct {
 
 type RegisterPageDTO struct {
 	RegisterFieldDTO *RegisterFieldDTO
+	Error            string
 }

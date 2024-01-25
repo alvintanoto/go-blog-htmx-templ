@@ -11,8 +11,13 @@ templ RegisterPage(dto *dto.RegisterPageDTO) {
 					<div class="text-3xl font-light mb-2">
 						Register
 					</div>
+					if dto.Error != "" {
+						<div class="text-base text-error-text my-1 px-2 py-1 border border-error-border bg-error">
+							{ dto.Error }
+						</div>
+					}
 					<form method="post" action="/api/register">
-						<div class="flex flex-row my-3">
+						<div class="flex flex-row mt-3">
 							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">
 									<image xlink:href="/assets/icons/user.svg" width="24px" height="24px"></image>
@@ -27,11 +32,11 @@ templ RegisterPage(dto *dto.RegisterPageDTO) {
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.Username.Errors {
-							<div class="text-base text-error-text my-1">
+							<div class="text-base text-error-text mb-1">
 								{ errValue }
 							</div>
 						}
-						<div class="flex flex-row my-3">
+						<div class="flex flex-row mt-3">
 							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">
 									<image xlink:href="/assets/icons/email.svg" width="24px" height="24px"></image>
@@ -46,11 +51,11 @@ templ RegisterPage(dto *dto.RegisterPageDTO) {
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.Email.Errors {
-							<div class="text-base text-error-text my-1">
+							<div class="text-base text-error-text myb1">
 								{ errValue }
 							</div>
 						}
-						<div class="flex flex-row my-3">
+						<div class="flex flex-row mt-3">
 							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">
 									<image xlink:href="/assets/icons/password.svg" width="24px" height="24px"></image>
@@ -64,11 +69,11 @@ templ RegisterPage(dto *dto.RegisterPageDTO) {
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.PasswordErrors {
-							<div class="text-base text-error-text my-1">
+							<div class="text-base text-error-text mb-1">
 								{ errValue }
 							</div>
 						}
-						<div class="flex flex-row my-3">
+						<div class="flex flex-row mt-3">
 							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">
 									<image xlink:href="/assets/icons/password.svg" width="24px" height="24px"></image>
@@ -82,7 +87,7 @@ templ RegisterPage(dto *dto.RegisterPageDTO) {
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.ConfirmPasswordErrors {
-							<div class="text-base text-error-text my-1">
+							<div class="text-base text-error-text mb-1">
 								{ errValue }
 							</div>
 						}

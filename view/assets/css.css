@@ -578,6 +578,10 @@ video {
   margin-bottom: 32px;
 }
 
+.mb-1 {
+  margin-bottom: 8px;
+}
+
 .mb-2 {
   margin-bottom: 12px;
 }
@@ -764,9 +768,19 @@ video {
   border-bottom-width: 1px;
 }
 
+.border-error-border {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 204 199 / var(--tw-border-opacity));
+}
+
 .border-grey-darker {
   --tw-border-opacity: 1;
   border-color: rgb(179 179 179 / var(--tw-border-opacity));
+}
+
+.bg-error {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 242 240 / var(--tw-bg-opacity));
 }
 
 .bg-grey {

@@ -9,7 +9,9 @@ require (
 )
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/gorilla/schema v1.2.1 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/gorilla/sessions v1.2.2 // indirect
+	golang.org/x/crypto v0.18.0
 )
