@@ -24,6 +24,10 @@ type RegisterFieldDTO struct {
 	ConfirmPasswordErrors []string
 }
 
+type SignInPageDTO struct {
+	Error string
+}
+
 type RegisterPageDTO struct {
 	RegisterFieldDTO *RegisterFieldDTO
 	Error            string

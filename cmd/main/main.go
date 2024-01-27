@@ -73,6 +73,7 @@ func (a *Application) InitializeDatabase() {
 
 func (a *Application) InitializeSession() {
 	store := sessions.NewCookieStore([]byte(a.Configurations.Server.SecretKey))
+	store.MaxAge(60 * 24 * 3)
 	a.Store = store
 
 	// register structs for sessions
@@ -97,6 +98,7 @@ func (a *Application) SetupRoutes() {
 
 	apiRoute := router.PathPrefix("/api/").Subrouter()
 	{
+		apiRoute.HandleFunc("/sign-in", a.Controller.ApiController.SignIn()).Methods("POST")
 		apiRoute.HandleFunc("/register", a.Controller.ApiController.Register()).Methods("POST")
 	}
 

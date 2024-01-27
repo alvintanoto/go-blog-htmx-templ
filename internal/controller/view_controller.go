@@ -32,7 +32,15 @@ func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.
 
 func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		view.SignInPage().Render(r.Context(), w)
+		store, _ := vc.Session.Get(r, "default")
+		dto := &dto.SignInPageDTO{}
+
+		for _, flash := range store.Flashes("error") {
+			dto.Error = flash.(string)
+		}
+
+		sessions.Save(r, w)
+		view.SignInPage(dto).Render(r.Context(), w)
 	}
 }
 

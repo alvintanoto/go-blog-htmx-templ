@@ -1,6 +1,10 @@
 package view
 
-templ SignInPage() {
+import (
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+)
+
+templ SignInPage(dto *dto.SignInPageDTO) {
 	<html>
 		@headerComponent("sign-in", nil)
 		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden ">
@@ -9,7 +13,12 @@ templ SignInPage() {
 					<div class="text-3xl font-light mb-2">
 						Sign In
 					</div>
-					<form method="post" action="/sign-in">
+					if dto.Error != "" {
+						<div class="text-base text-error-text my-1 px-2 py-1 border border-error-border bg-error">
+							{ dto.Error }
+						</div>
+					}
+					<form method="post" action="/api/sign-in">
 						<div class="flex flex-row my-3">
 							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">

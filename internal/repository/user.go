@@ -1,7 +1,9 @@
 package repository
 
 import (
+	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -19,6 +21,31 @@ type UserRepository struct {
 
 func NewUserRepository(db *sql.DB) *UserRepository {
 	return &UserRepository{db: db}
+}
+
+func (r *UserRepository) GetUserByUsername(ctx context.Context, username string) (user *entity.User, err error) {
+	user = new(entity.User)
+	query := `SELECT id, username, email, password FROM blog_user WHERE username=$1 AND is_deleted=false`
+	args := []interface{}{
+		username,
+	}
+
+	row := r.db.QueryRowContext(ctx, query, args...)
+	if row.Err() != nil {
+		log.Println("error querying user by username: ", row.Err())
+		return nil, err
+	}
+
+	err = row.Scan(&user.ID, &user.Username, &user.Email, &user.Password)
+	if err != nil {
+		log.Println("fail scanning row to struct: ", err.Error())
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrorRecordNotFound
+		}
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func (r *UserRepository) RegisterUser(username, email, password string) (user *entity.User, err error) {

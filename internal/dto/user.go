@@ -12,3 +12,8 @@ type RegisterUserRequestDTO struct {
 	Password        string `schema:"password"`
 	ConfirmPassword string `schema:"confirm_password"`
 }
+
+type UserSignInRequestDTO struct {
+	Username string `schema:"username"`
+	Password string `schema:"password"`
+}

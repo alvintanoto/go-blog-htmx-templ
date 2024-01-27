@@ -26,13 +26,14 @@ templ headerComponent(route string, user *dto.UserDTO) {
 }
 
 templ sideNavigationComponent(user *dto.UserDTO) {
-	<div class="text-xl w-full">
-		<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Home </div>
+	<div class="text-base w-full">
+		<div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Home </div>
 		if user != nil {
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Notification </div>
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Bookmark </div>
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Messages </div>
-			<div class="p-2 p-3 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Draft </div>
+			<div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Notification </div>
+			<div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Bookmark </div>
+			<div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Messages </div>
+			<div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Draft </div>
+			<div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Profile </div>
 		}
 	</div>
 }

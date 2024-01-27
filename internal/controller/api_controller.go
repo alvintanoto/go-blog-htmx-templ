@@ -6,9 +6,11 @@ import (
 	"strings"
 
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"alvintanoto.id/blog-htmx-templ/internal/repository"
 	"alvintanoto.id/blog-htmx-templ/internal/service"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type ApiController struct {
@@ -22,10 +24,67 @@ func NewApiController(service *service.Service, store *sessions.CookieStore) *Ap
 		Store:   store,
 	}
 }
+
+func (ac *ApiController) SignIn() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, _ := ac.Store.Get(r, "default")
+		decoder := schema.NewDecoder()
+
+		var payload dto.UserSignInRequestDTO
+
+		err := r.ParseForm()
+		if err != nil {
+			log.Println("error parsing form:", err.Error())
+			http.Redirect(w, r, "/sign-in", http.StatusPermanentRedirect)
+			return
+		}
+
+		err = decoder.Decode(&payload, r.PostForm)
+		if err != nil {
+			log.Println("error decoding payload: ", err.Error())
+			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
+			return
+		}
+
+		if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
+			session.AddFlash("Username or password invalid, please try again.", "error")
+			sessions.Save(r, w)
+			http.Redirect(w, r, "/sign-in", http.StatusPermanentRedirect)
+			return
+		}
+
+		user, err := ac.Service.AuthenticationService.SignIn(r.Context(), payload.Username, payload.Password)
+		if err != nil {
+			switch err {
+			case repository.ErrorRecordNotFound,
+				bcrypt.ErrMismatchedHashAndPassword:
+				session.AddFlash("Username or password invalid, please try again.", "error")
+				break
+			default:
+				session.AddFlash("Failed to sign in, please try again later.", "error")
+				break
+			}
+			// TODO: redirect to sign in with flash error
+			sessions.Save(r, w)
+			http.Redirect(w, r, "/sign-in", http.StatusPermanentRedirect)
+			return
+		}
+
+		session.Values["user"] = &dto.UserDTO{
+			ID:       user.ID,
+			Username: user.Username,
+			Email:    user.Email,
+		}
+		sessions.Save(r, w)
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+}
+
 func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		decoder := schema.NewDecoder()
 		session, _ := ac.Store.Get(r, "default")
+		decoder := schema.NewDecoder()
 
 		var payload dto.RegisterUserRequestDTO
 
@@ -38,13 +97,11 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 		err = decoder.Decode(&payload, r.PostForm)
 		if err != nil {
 			log.Println("error decoding payload: ", err.Error())
-			if err != nil {
-				log.Println("error saving session: ", err.Error())
-				http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
-				return
-			}
+			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
+			return
 		}
 
+		// TODO: this is temporary solution fix it later
 		errCount := 0
 
 		username := strings.TrimSpace(payload.Username)
@@ -105,7 +162,13 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 		user, err := ac.Service.UserService.RegisterUser(username, email, password)
 		if err != nil {
 			log.Println("failed registering new user: ", err.Error())
-			session.AddFlash("Failed registering new user, please try again later.", "error")
+			switch err {
+			case repository.ErrorConstraintViolation:
+				session.AddFlash("Username already used, please try another username.", "error")
+				break
+			default:
+				session.AddFlash("Failed registering new user, please try again later.", "error")
+			}
 			sessions.Save(r, w)
 			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
 			return
@@ -117,6 +180,7 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 			Email:    user.Email,
 		}
 		sessions.Save(r, w)
-		http.Redirect(w, r, "/", http.StatusPermanentRedirect)
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }

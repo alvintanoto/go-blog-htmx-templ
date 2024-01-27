@@ -8,17 +8,17 @@ import (
 )
 
 type UserService struct {
-	Repository *repository.Repository
+	repository *repository.Repository
 }
 
 func NewUserService(repository *repository.Repository) *UserService {
 	return &UserService{
-		Repository: repository,
+		repository: repository,
 	}
 }
 
 func (s *UserService) RegisterUser(username, email, password string) (user *dto.UserDTO, err error) {
-	entity, err := s.Repository.UserRepository.RegisterUser(username, email, password)
+	entity, err := s.repository.UserRepository.RegisterUser(username, email, password)
 	if err != nil {
 		log.Println("failed to register user: ", err.Error())
 		return nil, err

@@ -9,4 +9,6 @@ CREATE TABLE blog_user(
     updated_at timestamp with time zone not null default NOW(),
     updated_by varchar(25),
     is_deleted boolean not null default false
-)
+);
+
+CREATE UNIQUE INDEX constraint_unique_username ON blog_user (username) WHERE is_deleted=false;
