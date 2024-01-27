@@ -13,7 +13,7 @@ templ headerComponent(route string, user *dto.UserDTO) {
 			Goblog
 		</title>
 		<div class="h-[64px] p-2 text-2xl shadow-md flex items-center justify-between bg-grey">
-			<div><a href="/">Blog</a> </div>
+			<div class="font-light"><a href="/">GOBLOG</a> </div>
 			if user == nil && route != "sign-in" && route != "register" {
 				<div class="text-base">
 					<a href="/sign-in">
