@@ -149,3 +149,14 @@ func (vc *ViewController) CreateNewPostHandler() func(http.ResponseWriter, *http
 		view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
 	}
 }
+
+func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
+		view.ProfilePage(&dto.ProfilePageDTO{
+			User: user,
+		}).Render(r.Context(), w)
+	}
+}

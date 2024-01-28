@@ -27,12 +27,23 @@ func (m *Middlewares) LoggingMiddleware(next http.Handler) http.Handler {
 
 func (m *Middlewares) IsAuthenticated(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("path", r.URL.Path)
 		store, _ := m.Store.Get(r, "default")
 		user := store.Values["user"]
 
-		if user != nil && (r.URL.Path == "/sign-in" || r.URL.Path == "/register") {
-			http.Redirect(w, r, "/", http.StatusPermanentRedirect)
+		fmt.Println(user)
+
+		if user != nil {
+			if r.URL.Path == "/sign-in" || r.URL.Path == "/register" {
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
+
+			next.ServeHTTP(w, r)
+		}
+
+		// user nil
+		if r.URL.Path != "/sign-in" && r.URL.Path != "/register" && r.URL.Path != "/" {
+			http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
 			return
 		}
 

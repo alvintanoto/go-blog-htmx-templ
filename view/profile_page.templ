@@ -1,0 +1,21 @@
+package view
+
+import (
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+)
+
+templ ProfilePage(dto *dto.ProfilePageDTO) {
+   	<html>
+		@headerComponent("homepage", dto.User)
+		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
+			<div class="grid-cols-2 md:flex md:min-h-full">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+					@sideNavigationComponent(dto.User)
+				</div>
+				<div class="w-full">
+
+				</div>
+			</div>
+		</body>
+	</html>
+}

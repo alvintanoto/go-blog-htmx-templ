@@ -32,3 +32,8 @@ type RegisterPageDTO struct {
 	RegisterFieldDTO *RegisterFieldDTO
 	Error            string
 }
+
+type ProfilePageDTO struct {
+	User  *UserDTO `json:"user"`
+	Error string
+}

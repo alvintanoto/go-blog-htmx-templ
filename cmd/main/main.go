@@ -85,13 +85,19 @@ func (a *Application) SetupRoutes() {
 	router := mux.NewRouter()
 
 	router.Use(a.Controller.Middlewares.LoggingMiddleware)
-	router.Use(a.Controller.Middlewares.IsAuthenticated)
 
 	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
 	router.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler())
 	router.HandleFunc("/register", a.Controller.ViewController.RegisterHandler())
 
+	profileRoute := router.PathPrefix("/profile/").Subrouter()
+	profileRoute.Use(a.Controller.Middlewares.IsAuthenticated)
+	{
+		profileRoute.HandleFunc("/", a.Controller.ViewController.ProfileHandler())
+	}
+
 	postRoute := router.PathPrefix("/post/").Subrouter()
+	postRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
 		postRoute.HandleFunc("/new_post", a.Controller.ViewController.CreateNewPostHandler())
 	}
