@@ -13,3 +13,8 @@ type PostDTO struct {
 	Poster      UserDTO   `json:"poster"`
 	PostedAt    time.Time `json:"posted_at"`
 }
+
+type PreviewPostDTO struct {
+	Value   string `json:"value"`
+	Preview bool   `json:"preview"`
+}

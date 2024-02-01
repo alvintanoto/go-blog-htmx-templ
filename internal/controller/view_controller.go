@@ -156,8 +156,11 @@ func (vc *ViewController) CreateNewPostHandler() func(http.ResponseWriter, *http
 	// else show create new post page
 
 	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
 		createNewPostDTO := &dto.CreateNewPostDTO{
-			User: nil,
+			User: user,
 		}
 
 		view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)

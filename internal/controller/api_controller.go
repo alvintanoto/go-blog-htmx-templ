@@ -8,8 +8,11 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 	"alvintanoto.id/blog-htmx-templ/internal/repository"
 	"alvintanoto.id/blog-htmx-templ/internal/service"
+	"alvintanoto.id/blog-htmx-templ/view"
+	"github.com/gomarkdown/markdown"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
+	"github.com/microcosm-cc/bluemonday"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -35,21 +38,21 @@ func (ac *ApiController) SignIn() func(http.ResponseWriter, *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
 			log.Println("error parsing form:", err.Error())
-			http.Redirect(w, r, "/sign-in", http.StatusPermanentRedirect)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusPermanentRedirect)
 			return
 		}
 
 		err = decoder.Decode(&payload, r.PostForm)
 		if err != nil {
 			log.Println("error decoding payload: ", err.Error())
-			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusPermanentRedirect)
 			return
 		}
 
 		if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
 			session.AddFlash("Username or password invalid, please try again.", "error")
 			sessions.Save(r, w)
-			http.Redirect(w, r, "/sign-in", http.StatusPermanentRedirect)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusPermanentRedirect)
 			return
 		}
 
@@ -64,7 +67,7 @@ func (ac *ApiController) SignIn() func(http.ResponseWriter, *http.Request) {
 			}
 			// TODO: redirect to sign in with flash error
 			sessions.Save(r, w)
-			http.Redirect(w, r, "/sign-in", http.StatusPermanentRedirect)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusPermanentRedirect)
 			return
 		}
 
@@ -89,13 +92,13 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
 			log.Println("error parsing form: ", err.Error())
-			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
+			http.Redirect(w, r, "/auth/register", http.StatusPermanentRedirect)
 			return
 		}
 		err = decoder.Decode(&payload, r.PostForm)
 		if err != nil {
 			log.Println("error decoding payload: ", err.Error())
-			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
+			http.Redirect(w, r, "/auth/register", http.StatusPermanentRedirect)
 			return
 		}
 
@@ -153,7 +156,7 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 			if err != nil {
 				log.Println("err saving session:", err.Error())
 			}
-			http.Redirect(w, r, "/register", http.StatusPermanentRedirect)
+			http.Redirect(w, r, "/auth/register", http.StatusPermanentRedirect)
 			return
 		}
 
@@ -179,5 +182,36 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 		sessions.Save(r, w)
 
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+}
+
+func (ac *ApiController) PreviewPost() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		decoder := schema.NewDecoder()
+
+		var payload dto.PreviewPostDTO
+		err := r.ParseForm()
+		if err != nil {
+			log.Println("error parsing form: ", err.Error())
+			http.Redirect(w, r, "/post/new-post", http.StatusPermanentRedirect)
+			return
+		}
+
+		err = decoder.Decode(&payload, r.PostForm)
+		if err != nil {
+			log.Println("error decoding payload: ", err.Error())
+			http.Redirect(w, r, "/post/new-post", http.StatusPermanentRedirect)
+			return
+		}
+
+		if payload.Preview {
+			maybeUnsafeHTML := markdown.ToHTML([]byte(payload.Value), nil, nil)
+			html := bluemonday.UGCPolicy().SanitizeBytes(maybeUnsafeHTML)
+
+			view.PreviewPostContainer(string(html), payload.Value).Render(r.Context(), w)
+			return
+		}
+
+		view.EditorContainer(payload.Value).Render(r.Context(), w)
 	}
 }

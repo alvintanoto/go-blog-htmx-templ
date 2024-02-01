@@ -99,7 +99,7 @@ func (a *Application) SetupRoutes() {
 	postRoute := router.PathPrefix("/post/").Subrouter()
 	postRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
-		postRoute.HandleFunc("/new_post", a.Controller.ViewController.CreateNewPostHandler())
+		postRoute.HandleFunc("/new-post", a.Controller.ViewController.CreateNewPostHandler())
 	}
 
 	profileRoute := router.PathPrefix("/profile/").Subrouter()
@@ -118,6 +118,9 @@ func (a *Application) SetupRoutes() {
 	{
 		apiRoute.HandleFunc("/sign-in", a.Controller.ApiController.SignIn()).Methods("POST")
 		apiRoute.HandleFunc("/register", a.Controller.ApiController.Register()).Methods("POST")
+
+		postApiRoute := router.PathPrefix("/post/").Subrouter()
+		postApiRoute.HandleFunc("/preview-post", a.Controller.ApiController.PreviewPost()).Methods("POST")
 	}
 
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./view/assets/"))))
