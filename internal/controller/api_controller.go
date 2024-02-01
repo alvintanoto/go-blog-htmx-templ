@@ -59,10 +59,8 @@ func (ac *ApiController) SignIn() func(http.ResponseWriter, *http.Request) {
 			case repository.ErrorRecordNotFound,
 				bcrypt.ErrMismatchedHashAndPassword:
 				session.AddFlash("Username or password invalid, please try again.", "error")
-				break
 			default:
 				session.AddFlash("Failed to sign in, please try again later.", "error")
-				break
 			}
 			// TODO: redirect to sign in with flash error
 			sessions.Save(r, w)
@@ -165,7 +163,6 @@ func (ac *ApiController) Register() func(http.ResponseWriter, *http.Request) {
 			switch err {
 			case repository.ErrorConstraintViolation:
 				session.AddFlash("Username already used, please try another username.", "error")
-				break
 			default:
 				session.AddFlash("Failed registering new user, please try again later.", "error")
 			}
