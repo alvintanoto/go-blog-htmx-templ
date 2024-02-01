@@ -103,6 +103,7 @@ func (a *Application) SetupRoutes() {
 	}
 
 	settingsRoute := router.PathPrefix("/settings/").Subrouter()
+	settingsRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
 		settingsRoute.HandleFunc("/", a.Controller.ViewController.SettingsHandler())
 	}

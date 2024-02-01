@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -30,8 +29,6 @@ func (m *Middlewares) IsAuthenticated(next http.Handler) http.Handler {
 		store, _ := m.Store.Get(r, "default")
 		user := store.Values["user"]
 
-		fmt.Println(user)
-
 		if user != nil {
 			if r.URL.Path == "/sign-in" || r.URL.Path == "/register" {
 				http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -39,9 +36,9 @@ func (m *Middlewares) IsAuthenticated(next http.Handler) http.Handler {
 			}
 
 			next.ServeHTTP(w, r)
+			return
 		}
 
-		// user nil
 		if r.URL.Path != "/sign-in" && r.URL.Path != "/register" && r.URL.Path != "/" {
 			http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
 			return
