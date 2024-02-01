@@ -27,13 +27,13 @@ templ headerComponent(route string, user *dto.UserDTO) {
 
 templ sideNavigationComponent(user *dto.UserDTO) {
 	<div class="text-base w-full">
-		<a href="/"> <div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Home </div> </a>
+		<a href="/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Home </div> </a>
 		if user != nil {
-			<a href="/notification/"> <div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Notification </div> </a>
-			<a href="/bookmark/"> <div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Bookmark </div> </a>
-			<a href="/message/"> <div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Message </div> </a>
-			<a href="/draft/"> <div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Draft </div> </a>
-			<a href="/setting/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Settings </div></a>
+			<a href="/notification/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Notification </div> </a>
+			<a href="/bookmark/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Bookmark </div> </a>
+			<a href="/message/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Message </div> </a>
+			<a href="/draft/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Draft </div> </a>
+			<a href="/settings/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Settings </div></a>
 			<a href="/profile/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Profile </div></a>
 		}
 	</div>

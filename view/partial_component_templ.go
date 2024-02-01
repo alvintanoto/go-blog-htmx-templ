@@ -156,7 +156,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/setting/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/settings/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

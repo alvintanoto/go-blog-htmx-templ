@@ -160,3 +160,14 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 		}).Render(r.Context(), w)
 	}
 }
+
+func (vc *ViewController) SettingsHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
+		view.SettingsPage(&dto.SettingsPageDto{
+			User: user,
+		}).Render(r.Context(), w)
+	}
+}

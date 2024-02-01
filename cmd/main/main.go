@@ -90,16 +90,21 @@ func (a *Application) SetupRoutes() {
 	router.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler())
 	router.HandleFunc("/register", a.Controller.ViewController.RegisterHandler())
 
+	postRoute := router.PathPrefix("/post/").Subrouter()
+	postRoute.Use(a.Controller.Middlewares.IsAuthenticated)
+	{
+		postRoute.HandleFunc("/new_post", a.Controller.ViewController.CreateNewPostHandler())
+	}
+
 	profileRoute := router.PathPrefix("/profile/").Subrouter()
 	profileRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
 		profileRoute.HandleFunc("/", a.Controller.ViewController.ProfileHandler())
 	}
 
-	postRoute := router.PathPrefix("/post/").Subrouter()
-	postRoute.Use(a.Controller.Middlewares.IsAuthenticated)
+	settingsRoute := router.PathPrefix("/settings/").Subrouter()
 	{
-		postRoute.HandleFunc("/new_post", a.Controller.ViewController.CreateNewPostHandler())
+		settingsRoute.HandleFunc("/", a.Controller.ViewController.SettingsHandler())
 	}
 
 	apiRoute := router.PathPrefix("/api/").Subrouter()
