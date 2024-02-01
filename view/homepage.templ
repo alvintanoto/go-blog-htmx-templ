@@ -2,7 +2,6 @@ package view
 
 import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
-	"strconv"
 )
 
 templ createPostComponent() {
@@ -11,36 +10,10 @@ templ createPostComponent() {
 	</div>
 }
 
-templ loadMoreComponent() {
-	<div class="min-h-[64px] p-2 border-b border-grey-darker flex items-center justify-center hover:bg-grey-hover cursor-pointer">
-		Load more content...
-	</div>
-}
-
-templ postComponent(post dto.PostDTO) {
-	<div class="min-h-[96px] p-2 border-b border-grey-darker flex flex-col justify-between">
-		<div>{ post.Message } </div>
-		<div class="text-sm flex flex-row">
-			<div class="hover:text-primary cursor-pointer flex flex-row items-center">
-				{ strconv.Itoa(post.Likes) } Likes
-			</div>
-			<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
-				{ strconv.Itoa(post.ReplyCounts) } Replies
-			</div>
-			<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
-				{ strconv.Itoa(post.SavedCounts) } Bookmarks
-			</div>
-			<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
-				{ strconv.Itoa(post.Impressions) } Impressions
-			</div>
-		</div>
-	</div>
-}
-
-templ postsComponent(posts []dto.PostDTO) {
+templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
 	<div class="overflow-y-scroll max-h-[calc(100vh-64px)]">
 		for _, post := range posts {
-			@postComponent(post)
+			@postComponent(user, post)
 		}
 		@loadMoreComponent()
 	</div>
@@ -60,7 +33,7 @@ templ Homepage(dto *dto.HomepageDTO) {
 					@sideNavigationComponent(dto.User)
 				</div>
 				<div class="w-full">
-					@postsComponent(dto.Posts)
+					@postsComponent(dto.User, dto.Posts)
 				</div>
 			</div>
 		</body>

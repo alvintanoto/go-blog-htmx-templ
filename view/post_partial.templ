@@ -1,0 +1,42 @@
+package view
+
+import (
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"strconv"
+)
+
+templ postComponent(user *dto.UserDTO, post dto.PostDTO) {
+	<div class="flex flex-row w-full border-b border-grey-darker">
+		<div class="w-[24px] h-[24px]  border-warning p-2 mr-2 ">
+			<div class="min-h-[24px] min-w-[24px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover">
+				<svg width="16px" height="16px">
+					<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
+				</svg>
+			</div>
+		</div>
+		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
+			<div class="mb-2">&#64;{ user.Username }</div>
+			<div class="mb-3">{ post.Message } </div>
+			<div class="text-sm flex flex-row">
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center">
+					{ strconv.Itoa(post.Likes) } Likes
+				</div>
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
+					{ strconv.Itoa(post.ReplyCounts) } Replies
+				</div>
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
+					{ strconv.Itoa(post.SavedCounts) } Bookmarks
+				</div>
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
+					{ strconv.Itoa(post.Impressions) } Impressions
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ loadMoreComponent() {
+	<div class="min-h-[64px] p-2 border-b border-grey-darker flex items-center justify-center hover:bg-grey-hover cursor-pointer">
+		Load more content...
+	</div>
+}

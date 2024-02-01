@@ -5,7 +5,7 @@ import (
 )
 
 templ ProfilePage(dto *dto.ProfilePageDTO) {
-   	<html>
+	<html>
 		@headerComponent("profile", dto.User)
 		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
 			<div class="grid-cols-2 md:flex md:min-h-full">
@@ -13,7 +13,39 @@ templ ProfilePage(dto *dto.ProfilePageDTO) {
 					@sideNavigationComponent(dto.User)
 				</div>
 				<div class="w-full">
-
+					<div class="overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] p-3">
+						<div class="bg-primary/75 min-h-[168px] h-[168px] max-h-full rounded-md relative mb-[84px]">
+							<div class="flex flex-row absolute h-[144px] top-[96px] w-full">
+								<div class="h-full w-[144px] rounded-full m-auto border-warning border-[4px] bg-grey-hover flex">
+									<div class="min-h-[48px] min-w-[48px] rounded-sm flex items-center justify-center m-auto cursor-pointer">
+										<svg width="48px" height="48px">
+											<image xlink:href="/assets/icons/user_2.svg" width="48px" height="48px"></image>
+										</svg>
+									</div>
+								</div>
+							</div>
+							<div class="flex flex-row absolute top-[172px] px-2 right-[0%] cursor-pointer hover:text-primary hover:underline items-end">
+								Edit Profile
+							</div>
+						</div>
+						<div class="font-light text-center text-4xl cursor-pointer"><span>&#64;{ dto.User.Username }</span></div>
+						<div class="text-center text-base cursor-pointer my-1">Joined at 01/01/2011</div>
+						<div class="text-center text-base cursor-pointer flex flex-row justify-center">
+							<div class="mr-2">0 Following</div>
+							<div>0 Followers </div>
+						</div>
+						<div class="flex flex-row justify-evenly mt-4 text-xl max-w-[640px] m-auto">
+							<div class="w-[calc(75%/3)] pb-2 border-b-2 border-b-primary text-primary text-center cursor-pointer">Posts</div>
+							<div class="w-[calc(75%/3)] pb-2 border-b-2 border-grey-darker text-center cursor-pointer">Bookmarks</div>
+							<div class="w-[calc(75%/3)] pb-2 border-b-2 border-grey-darker text-center cursor-pointer">Likes</div>
+						</div>
+						<div class="my-3 m-auto max-w-[960px]">
+							for _, post := range dto.Posts {
+								@postComponent(dto.User, post)
+							}
+							@loadMoreComponent()
+						</div>
+					</div>
 				</div>
 			</div>
 		</body>

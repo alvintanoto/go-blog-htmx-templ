@@ -155,9 +155,26 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
 
-		view.ProfilePage(&dto.ProfilePageDTO{
-			User: user,
-		}).Render(r.Context(), w)
+		profileDTO := &dto.ProfilePageDTO{
+			User:  user,
+			Posts: []dto.PostDTO{},
+		}
+
+		for i := 0; i < 25; i++ {
+			profileDTO.Posts = append(profileDTO.Posts, dto.PostDTO{
+				ID:          strconv.Itoa(i + 1),
+				Message:     fmt.Sprintf("this is my %d post", i+1),
+				Replies:     []dto.PostDTO{},
+				ReplyCounts: i,
+				Likes:       i,
+				SavedCounts: i,
+				Impressions: i,
+				Poster:      dto.UserDTO{},
+				PostedAt:    time.Now(),
+			})
+		}
+
+		view.ProfilePage(profileDTO).Render(r.Context(), w)
 	}
 }
 
