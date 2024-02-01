@@ -173,7 +173,7 @@ func RegisterPage(dto *dto.RegisterPageDTO) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-3 float-right\"><a href=\"/sign-in\"><span class=\"mx-2 cursor-pointer hover:text-primary\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-3 float-right\"><a href=\"/auth/sign-in\"><span class=\"mx-2 cursor-pointer hover:text-primary\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

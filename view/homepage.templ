@@ -10,10 +10,10 @@ templ createPostComponent() {
 	</div>
 }
 
-templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
+templ postsComponent(posts []dto.PostDTO) {
 	<div class="overflow-y-scroll max-h-[calc(100vh-64px)]">
 		for _, post := range posts {
-			@postComponent(user, post)
+			@postComponent(post)
 		}
 		@loadMoreComponent()
 	</div>
@@ -33,7 +33,7 @@ templ Homepage(dto *dto.HomepageDTO) {
 					@sideNavigationComponent(dto.User)
 				</div>
 				<div class="w-full">
-					@postsComponent(dto.User, dto.Posts)
+					@postsComponent(dto.Posts)
 				</div>
 			</div>
 		</body>

@@ -30,7 +30,7 @@ func (m *Middlewares) IsAuthenticated(next http.Handler) http.Handler {
 		user := store.Values["user"]
 
 		if user != nil {
-			if r.URL.Path == "/sign-in" || r.URL.Path == "/register" {
+			if r.URL.Path == "/auth/sign-in" || r.URL.Path == "/auth/register" {
 				http.Redirect(w, r, "/", http.StatusSeeOther)
 				return
 			}
@@ -39,8 +39,9 @@ func (m *Middlewares) IsAuthenticated(next http.Handler) http.Handler {
 			return
 		}
 
-		if r.URL.Path != "/sign-in" && r.URL.Path != "/register" && r.URL.Path != "/" {
-			http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
+		// user exist
+		if r.URL.Path != "/auth/sign-in" && r.URL.Path != "/auth/register" && r.URL.Path != "/" {
+			http.Redirect(w, r, "/auth/sign-in", http.StatusSeeOther)
 			return
 		}
 

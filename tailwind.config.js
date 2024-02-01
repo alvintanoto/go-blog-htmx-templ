@@ -30,7 +30,8 @@ module.exports = {
       warning: '#faad14',
       error: '#fff2f0',
       "error-border": '#ffccc7',
-      "error-text": "#a8071a"
+      "error-text": "#a8071a",
+      "post-hover": "#e7e9ec"
     },
     spacing: {
       '1': '8px',

@@ -47,7 +47,7 @@ func createPostComponent() templ.Component {
 	})
 }
 
-func postsComponent(user *dto.UserDTO, posts []dto.PostDTO) templ.Component {
+func postsComponent(posts []dto.PostDTO) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -65,7 +65,7 @@ func postsComponent(user *dto.UserDTO, posts []dto.PostDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, post := range posts {
-			templ_7745c5c3_Err = postComponent(user, post).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = postComponent(post).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -136,7 +136,7 @@ func Homepage(dto *dto.HomepageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = postsComponent(dto.User, dto.Posts).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = postsComponent(dto.Posts).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

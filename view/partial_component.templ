@@ -16,7 +16,7 @@ templ headerComponent(route string, user *dto.UserDTO) {
 			<div class="font-light"><a href="/">GOBLOG</a> </div>
 			if user == nil && route != "sign-in" && route != "register" {
 				<div class="text-base">
-					<a href="/sign-in">
+					<a href="/auth/sign-in">
 						<button type="button" class="rounded-s text-white bg-primary px-2 py-1 hover:bg-primary/90">SIGN IN</button>
 					</a>
 				</div>

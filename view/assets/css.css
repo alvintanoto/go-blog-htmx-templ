@@ -698,10 +698,6 @@ video {
   max-height: 100%;
 }
 
-.min-h-\[100vh\] {
-  min-height: 100vh;
-}
-
 .min-h-\[168px\] {
   min-height: 168px;
 }
@@ -938,10 +934,6 @@ video {
   padding: 12px;
 }
 
-.p-3 {
-  padding: 20px;
-}
-
 .p-4 {
   padding: 32px;
 }
@@ -963,6 +955,10 @@ video {
 
 .pb-2 {
   padding-bottom: 12px;
+}
+
+.pt-3 {
+  padding-top: 20px;
 }
 
 .text-center {
@@ -1032,6 +1028,11 @@ video {
 .hover\:bg-grey-hover:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(217 217 217 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-post-hover:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(231 233 236 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-primary\/90:hover {

@@ -5,8 +5,15 @@ import "alvintanoto.id/blog-htmx-templ/internal/dto"
 templ NotFoundPage(user *dto.UserDTO) {
 	<html>
 		@headerComponent("not-found", user)
-		<body class="min-h-[100vh] select-none bg-grey">
-			<div class="min-h-[90vh] text-center flex justify-center items-center text-4xl font-light">404 <br/> Page Not Found </div>
+		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
+			<div class="grid-cols-2 md:flex md:min-h-full">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+					@sideNavigationComponent(user)
+				</div>
+				<div class="w-full">
+					<div class="min-h-[90vh] text-center flex justify-center items-center text-4xl font-light">404 <br/> Page Not Found </div>
+				</div>
+			</div>
 		</body>
 	</html>
 }

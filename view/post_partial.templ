@@ -5,8 +5,8 @@ import (
 	"strconv"
 )
 
-templ postComponent(user *dto.UserDTO, post dto.PostDTO) {
-	<div class="flex flex-row w-full border-b border-grey-darker">
+templ postComponent(post dto.PostDTO) {
+	<div class="flex flex-row w-full border-b border-grey-darker hover:bg-post-hover cursor-pointer">
 		<div class="w-[24px] h-[24px]  border-warning p-2 mr-2 ">
 			<div class="min-h-[24px] min-w-[24px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover">
 				<svg width="16px" height="16px">
@@ -15,8 +15,8 @@ templ postComponent(user *dto.UserDTO, post dto.PostDTO) {
 			</div>
 		</div>
 		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
-			<div class="mb-2">&#64;{ user.Username }</div>
-			<div class="mb-3">{ post.Message } </div>
+			<div class="mb-2">&#64;{ post.Poster.Username }</div>
+			<div class="mb-3 max-w-[960px]">{ post.Message } </div>
 			<div class="text-sm flex flex-row">
 				<div class="hover:text-primary cursor-pointer flex flex-row items-center">
 					{ strconv.Itoa(post.Likes) } Likes
