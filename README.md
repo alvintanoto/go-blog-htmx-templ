@@ -1,4 +1,4 @@
-# Go BLOG
+# goblog
 
 Trying fullstack go app with htmx and templ
 
