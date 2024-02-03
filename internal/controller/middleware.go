@@ -1,9 +1,11 @@
 package controller
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
 	"github.com/gorilla/sessions"
 )
 
@@ -19,7 +21,16 @@ func NewMiddleware(store *sessions.CookieStore) *Middlewares {
 
 func (m *Middlewares) LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Println(r.Method, r.RequestURI)
+		store, _ := m.Store.Get(r, "default")
+		user := store.Values["user"]
+
+		if user != nil {
+			userDTO := user.(*dto.UserDTO)
+			log.Println(fmt.Sprintf("[%s - %s]", userDTO.ID, r.RemoteAddr), r.Method, r.RequestURI)
+		} else {
+			log.Println(fmt.Sprintf("[%s]", r.RemoteAddr), r.Method, r.RequestURI)
+		}
+
 		next.ServeHTTP(w, r)
 	})
 }

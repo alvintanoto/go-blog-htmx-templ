@@ -22,7 +22,7 @@ templ postsComponent(posts []dto.PostDTO) {
 templ Homepage(dto *dto.HomepageDTO) {
 	<html>
 		@headerComponent("homepage", dto.User)
-		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
+		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
 			if dto.User != nil {
 				<div class="md:hidden">
 					@createPostComponent()
