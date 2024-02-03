@@ -19,7 +19,7 @@ templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
 	}
 }
 
-templ emptyHomepageState() {
+templ emptyHomepageState(user *dto.UserDTO) {
 	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)] flex items-center justify-center flex-col">
 		<div class="text-3xl font-light my-1">
 			<svg width="72px" height="72px">
@@ -29,15 +29,17 @@ templ emptyHomepageState() {
 		<div class="text-3xl font-light my-1">
 			Its Empty
 		</div>
-		<div class="font-light text-2xl my-1">
-			find someone to follow <a href="/search/" class="underline hover:text-primary">here</a>.
-		</div>
-		<div class="text-2xl font-light my-1">
-			or ...  
-		</div>
-		<div class="my-1">
-			@newPostButton("Create a new post")
-		</div>
+		if user != nil {
+			<div class="font-light text-2xl my-1">
+				find someone to follow <a href="/search/" class="underline hover:text-primary">here</a>.
+			</div>
+			<div class="text-2xl font-light my-1">
+				or ...  
+			</div>
+			<div class="my-1">
+				@newPostButton("Create a new post")
+			</div>
+		}
 	</div>
 }
 
@@ -53,7 +55,7 @@ templ Homepage(dto *dto.HomepageDTO) {
 					if len(dto.Posts) > 0 {
 						@postsComponent(dto.User, dto.Posts)
 					} else {
-						@emptyHomepageState()
+						@emptyHomepageState(dto.User)
 					}
 				</div>
 			</div>
