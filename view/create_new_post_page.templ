@@ -12,7 +12,7 @@ templ CreateNewPostButtons() {
 templ PreviewPostContainer(html string, value string) {
 	<div id="editor-container">
 		<div class="my-2 text-base">
-			<div class="max-w-[720px] min-w-[720px] min-h-[480px] max-h-[480px]  overflow-y-scroll">
+			<div class="max-w-[720px] min-w-[720px] min-h-[480px] max-h-[480px]  overflow-y-scroll bg-post-hover rounded-sm p-2">
 				@templ.Raw(html)
 			</div>
 			<textarea

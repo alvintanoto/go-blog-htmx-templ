@@ -34,6 +34,11 @@ templ Homepage(dto *dto.HomepageDTO) {
 				</div>
 				<div class="w-full">
 					@postsComponent(dto.Posts)
+					<div class="max-w-[720px] mx-auto relative">
+						<div class="absolute bottom-[24px] right-[24px]">
+							@newPostButton()
+						</div>
+					</div>
 				</div>
 			</div>
 		</body>

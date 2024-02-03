@@ -5,10 +5,23 @@ import (
 	"strconv"
 )
 
+templ newPostButton() {
+	<div class="bg-primary text-white text-center px-3 py-2 rounded-3xl cursor-pointer hover:bg-primary/90">
+		<a href="/post/new-post" class="flex flex-row items-center">
+			<div class="min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white">
+				<svg width="16px" height="16px" class="stroke-white">
+					<image xlink:href="/assets/icons/new_post.svg" width="16px" height="16px"></image>
+				</svg>
+			</div>
+			New Post
+		</a>
+	</div>
+}
+
 templ postComponent(post dto.PostDTO) {
-	<div class="flex flex-row w-full border-b border-grey-darker hover:bg-post-hover cursor-pointer">
-		<div class="w-[24px] h-[24px]  border-warning p-2 mr-2 ">
-			<div class="min-h-[24px] min-w-[24px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover">
+	<div class="flex flex-row w-full border-b border-grey-darker hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto">
+		<div class="w-[36px] h-[36px]  border-warning p-2 mr-2 ">
+			<div class="min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover">
 				<svg width="16px" height="16px">
 					<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
 				</svg>

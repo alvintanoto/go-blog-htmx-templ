@@ -67,7 +67,7 @@ func PreviewPostContainer(html string, value string) templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"editor-container\"><div class=\"my-2 text-base\"><div class=\"max-w-[720px] min-w-[720px] min-h-[480px] max-h-[480px]  overflow-y-scroll\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"editor-container\"><div class=\"my-2 text-base\"><div class=\"max-w-[720px] min-w-[720px] min-h-[480px] max-h-[480px]  overflow-y-scroll bg-post-hover rounded-sm p-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
