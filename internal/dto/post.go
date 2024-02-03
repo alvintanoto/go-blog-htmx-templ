@@ -4,7 +4,7 @@ import "time"
 
 type PostDTO struct {
 	ID          string    `json:"id"`
-	Message     string    `json:"post"`
+	Content     string    `json:"content"`
 	Replies     []PostDTO `json:"replies"`
 	ReplyCounts int       `json:"reply_counts"`
 	Likes       int       `json:"likes"`
@@ -16,6 +16,6 @@ type PostDTO struct {
 }
 
 type PreviewPostDTO struct {
-	Value   string `json:"value"`
+	Content string `json:"content"`
 	Preview bool   `json:"preview"`
 }

@@ -75,7 +75,7 @@ func emptyHomepageState(user *dto.UserDTO) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"overflow-y-scroll overscroll-contain h-[calc(100vh-64px)] flex items-center justify-center flex-col\"><div class=\"text-3xl font-light my-1\"><svg width=\"72px\" height=\"72px\"><image xlink:href=\"/assets/icons/empty.svg\" width=\"72px\" height=\"72px\"></image></svg></div><div class=\"text-3xl font-light my-1\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"overflow-y-scroll h-[calc(100vh-64px)] flex items-center justify-center flex-col\"><div class=\"text-3xl font-light my-1\"><svg width=\"72px\" height=\"72px\"><image xlink:href=\"/assets/icons/empty.svg\" width=\"72px\" height=\"72px\"></image></svg></div><div class=\"text-3xl font-light my-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

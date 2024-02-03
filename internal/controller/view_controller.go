@@ -128,11 +128,7 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 	}
 }
 
-func (vc *ViewController) CreateNewPostHandler() func(http.ResponseWriter, *http.Request) {
-	// TODO: check session
-	// if not logged in redirect to sign in page
-	// else show create new post page
-
+func (vc *ViewController) CreateNewPostViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
@@ -142,6 +138,12 @@ func (vc *ViewController) CreateNewPostHandler() func(http.ResponseWriter, *http
 		}
 
 		view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
+	}
+}
+
+func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+
 	}
 }
 
@@ -158,7 +160,7 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 		for i := 0; i < 25; i++ {
 			profileDTO.Posts = append(profileDTO.Posts, dto.PostDTO{
 				ID:          strconv.Itoa(i + 1),
-				Message:     fmt.Sprintf("this is my %d post", i+1),
+				Content:     fmt.Sprintf("this is my %d post", i+1),
 				Replies:     []dto.PostDTO{},
 				ReplyCounts: i,
 				Likes:       i,

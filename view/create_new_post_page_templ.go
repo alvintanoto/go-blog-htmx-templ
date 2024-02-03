@@ -25,7 +25,7 @@ func CreateNewPostButtons() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-end\"><button class=\"bg-warning py-1 px-2 text-white rounded-sm hover:bg-warning/90\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-end\"><button type=\"submit\" name=\"draft\" value=\"draft\" class=\"bg-warning py-1 px-2 text-white rounded-sm hover:bg-warning/90\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -34,7 +34,7 @@ func CreateNewPostButtons() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button> <button class=\"bg-primary ml-2 py-1 px-3 text-white rounded-sm hover:bg-primary/90\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button> <button type=\"submit\" name=\"post\" value=\"post\" class=\"bg-primary ml-2 py-1 px-3 text-white rounded-sm hover:bg-primary/90\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -75,20 +75,20 @@ func PreviewPostContainer(html string, value string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><textarea id=\"editor\" class=\"h-[480px] max-w-[720px] min-w-[720px] p-2 w-full resize-none rounded-md m-auto\" hidden>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><textarea id=\"editor\" name=\"content\" class=\"h-[480px] max-w-[720px] min-w-[720px] p-2 w-full resize-none rounded-md m-auto\" hidden>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/create_new_post_page.templ`, Line: 21, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/create_new_post_page.templ`, Line: 22, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div><div class=\"flex justify-between mt-2\"><button class=\"bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90\" hx-post=\"/post/preview-post\" hx-target=\"#editor-container\" hx-swap=\"innerHTML\" hx-vals=\"js:{value: document.getElementById(&#39;editor&#39;).value, preview: false}\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div><div class=\"flex justify-between mt-2\"><button type=\"button\" class=\"bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90\" hx-post=\"/post/preview-post\" hx-target=\"#editor-container\" hx-swap=\"innerHTML\" hx-vals=\"js:{content: document.getElementById(&#39;editor&#39;).value, preview: false}\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -129,20 +129,20 @@ func EditorContainer(value string) templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"editor-container\"><div class=\"my-2 text-base max-w-[720px] min-w-[720px]\"><textarea id=\"editor\" class=\"h-[480px] max-w-[720px] min-w-[720px] p-2 w-full resize-none rounded-md m-auto\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"editor-container\"><div class=\"my-2 text-base max-w-[720px] min-w-[720px]\"><textarea id=\"editor\" name=\"content\" placeholder=\"enter your thoughts...\" class=\"h-[480px] max-w-[720px] min-w-[720px] p-2 w-full resize-none rounded-md m-auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/create_new_post_page.templ`, Line: 42, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/create_new_post_page.templ`, Line: 46, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div><div class=\"flex justify-between mt-2\"><button class=\"bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90\" hx-post=\"/post/preview-post\" hx-target=\"#editor-container\" hx-swap=\"innerHTML\" hx-vals=\"js:{value: document.getElementById(&#39;editor&#39;).value, preview: true}\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div><div class=\"flex justify-between mt-2\"><button type=\"button\" class=\"bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90\" hx-post=\"/post/preview-post\" hx-target=\"#editor-container\" hx-swap=\"innerHTML\" hx-vals=\"js:{content: document.getElementById(&#39;editor&#39;).value, preview: true}\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -199,7 +199,7 @@ func CreateNewPostPage(dto *dto.CreateNewPostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full  max-w-[720px] min-w-[720px] mx-auto mt-4\"><div class=\"text-2xl font-bold mb-3 font-light\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full overflow-y-scroll h-[calc(100vh-64px)]  py-4\"><div class=\"text-2xl font-bold mb-3 font-light max-w-[720px] mx-auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -208,7 +208,7 @@ func CreateNewPostPage(dto *dto.CreateNewPostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"max-w-[720px] mx-auto\"><form method=\"post\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -216,7 +216,7 @@ func CreateNewPostPage(dto *dto.CreateNewPostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</form></div></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

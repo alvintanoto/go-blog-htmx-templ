@@ -205,13 +205,13 @@ func (ac *ApiController) PreviewPost() func(http.ResponseWriter, *http.Request) 
 		}
 
 		if payload.Preview {
-			maybeUnsafeHTML := markdown.ToHTML([]byte(payload.Value), nil, nil)
+			maybeUnsafeHTML := markdown.ToHTML([]byte(payload.Content), nil, nil)
 			html := bluemonday.UGCPolicy().SanitizeBytes(maybeUnsafeHTML)
 
-			view.PreviewPostContainer(string(html), payload.Value).Render(r.Context(), w)
+			view.PreviewPostContainer(string(html), payload.Content).Render(r.Context(), w)
 			return
 		}
 
-		view.EditorContainer(payload.Value).Render(r.Context(), w)
+		view.EditorContainer(payload.Content).Render(r.Context(), w)
 	}
 }
