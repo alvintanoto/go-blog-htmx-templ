@@ -8,6 +8,7 @@ type PostDTO struct {
 	Replies     []PostDTO `json:"replies"`
 	ReplyCounts int       `json:"reply_counts"`
 	Likes       int       `json:"likes"`
+	Dislikes    int       `json:"dislikes"`
 	Impressions int       `json:"impressions"`
 	SavedCounts int       `json:"saved_count"`
 	Poster      UserDTO   `json:"poster"`

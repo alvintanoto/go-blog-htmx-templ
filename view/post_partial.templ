@@ -35,6 +35,9 @@ templ postComponent(post dto.PostDTO) {
 					{ strconv.Itoa(post.Likes) } Likes
 				</div>
 				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
+					{ strconv.Itoa(post.Dislikes) } Dislikes
+				</div>
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
 					{ strconv.Itoa(post.ReplyCounts) } Replies
 				</div>
 				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">

@@ -29,6 +29,7 @@ templ sideNavigationComponent(user *dto.UserDTO) {
 	<div class="text-base w-full">
 		<a href="/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Home </div> </a>
 		if user != nil {
+			<a href="/search/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Search </div> </a>
 			<a href="/notification/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Notification </div> </a>
 			<a href="/bookmark/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Bookmark </div> </a>
 			<a href="/message/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover">Message </div> </a>
