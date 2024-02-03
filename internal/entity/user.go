@@ -1,13 +1,8 @@
 package entity
 
 import (
-	"fmt"
 	"time"
 )
-
-func hello() {
-	fmt.Print("hehe")
-}
 
 type User struct {
 	ID           string
