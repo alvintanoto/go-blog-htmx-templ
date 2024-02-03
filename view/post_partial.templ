@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-templ newPostButton() {
+templ newPostButton(text string) {
 	<div class="bg-primary text-white text-center px-3 py-2 rounded-3xl cursor-pointer hover:bg-primary/90">
 		<a href="/post/new-post" class="flex flex-row items-center">
 			<div class="min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white">
@@ -13,7 +13,11 @@ templ newPostButton() {
 					<image xlink:href="/assets/icons/new_post.svg" width="16px" height="16px"></image>
 				</svg>
 			</div>
-			New Post
+			if text != "" {
+				{ text }
+			} else {
+				New Post
+			}
 		</a>
 	</div>
 }

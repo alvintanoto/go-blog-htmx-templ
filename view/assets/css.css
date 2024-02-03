@@ -749,10 +749,6 @@ h3 {
   min-height: 64px;
 }
 
-.min-h-\[72px\] {
-  min-height: 72px;
-}
-
 .min-h-\[90vh\] {
   min-height: 90vh;
 }
@@ -875,6 +871,10 @@ h3 {
   overflow-y: scroll;
 }
 
+.overscroll-contain {
+  overscroll-behavior: contain;
+}
+
 .rounded-3xl {
   border-radius: 1.5rem;
 }
@@ -912,11 +912,6 @@ h3 {
 
 .border-\[4px\] {
   border-width: 4px;
-}
-
-.border-y {
-  border-top-width: 1px;
-  border-bottom-width: 1px;
 }
 
 .border-b {
@@ -1089,6 +1084,10 @@ h3 {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.underline {
+  text-decoration-line: underline;
+}
+
 .shadow-md {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
@@ -1134,10 +1133,6 @@ h3 {
 @media (min-width: 768px) {
   .md\:flex {
     display: flex;
-  }
-
-  .md\:hidden {
-    display: none;
   }
 
   .md\:min-h-full {

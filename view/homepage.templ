@@ -4,18 +4,40 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 )
 
-templ createPostComponent() {
-	<div class="min-h-[72px] p-2 text-center border-y border-grey-darker text-base flex items-center justify-center cursor-pointer">
-		Create a new post 
-	</div>
-}
-
-templ postsComponent(posts []dto.PostDTO) {
-	<div class="overflow-y-scroll max-h-[calc(100vh-64px)]">
+templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
+	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]">
 		for _, post := range posts {
 			@postComponent(post)
 		}
-		@loadMoreComponent()
+	</div>
+	if user != nil {
+		<div class="max-w-[720px] mx-auto relative">
+			<div class="absolute bottom-[24px] right-[24px]">
+				@newPostButton("")
+			</div>
+		</div>
+	}
+}
+
+templ emptyHomepageState() {
+	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)] flex items-center justify-center flex-col">
+		<div class="text-3xl font-light my-1">
+			<svg width="72px" height="72px">
+				<image xlink:href="/assets/icons/empty.svg" width="72px" height="72px"></image>
+			</svg>
+		</div>
+		<div class="text-3xl font-light my-1">
+			Its Empty
+		</div>
+		<div class="font-light text-2xl my-1">
+			find someone to follow <a href="/search/" class="underline hover:text-primary">here</a>.
+		</div>
+		<div class="text-2xl font-light my-1">
+			or ...  
+		</div>
+		<div class="my-1">
+			@newPostButton("Create a new post")
+		</div>
 	</div>
 }
 
@@ -23,23 +45,15 @@ templ Homepage(dto *dto.HomepageDTO) {
 	<html>
 		@headerComponent("homepage", dto.User)
 		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
-			if dto.User != nil {
-				<div class="md:hidden">
-					@createPostComponent()
-				</div>
-			}
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
 					@sideNavigationComponent(dto.User)
 				</div>
 				<div class="w-full">
-					@postsComponent(dto.Posts)
-					if dto.User != nil {
-						<div class="max-w-[720px] mx-auto relative">
-							<div class="absolute bottom-[24px] right-[24px]">
-								@newPostButton()
-							</div>
-						</div>
+					if len(dto.Posts) > 0 {
+						@postsComponent(dto.User, dto.Posts)
+					} else {
+						@emptyHomepageState()
 					}
 				</div>
 			</div>

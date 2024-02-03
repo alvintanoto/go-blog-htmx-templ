@@ -120,20 +120,20 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if user != nil {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/notification/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/search/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var9 := `Notification `
+			templ_7745c5c3_Var9 := `Search `
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var9)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/search/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/notification/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var10 := `Search `
+			templ_7745c5c3_Var10 := `Notification `
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var10)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
