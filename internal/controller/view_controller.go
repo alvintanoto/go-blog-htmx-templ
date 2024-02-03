@@ -26,9 +26,13 @@ func NewViewController(session *sessions.CookieStore) *ViewController {
 func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
-		user := store.Values["user"].(*dto.UserDTO)
+		user := store.Values["user"]
+		if user != nil {
+			view.NotFoundPage(user.(*dto.UserDTO)).Render(r.Context(), w)
+			return
+		}
 
-		view.NotFoundPage(user).Render(r.Context(), w)
+		view.NotFoundPage(nil).Render(r.Context(), w)
 	}
 }
 

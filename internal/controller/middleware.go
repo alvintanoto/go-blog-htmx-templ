@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 	"github.com/gorilla/sessions"
@@ -21,14 +21,35 @@ func NewMiddleware(store *sessions.CookieStore) *Middlewares {
 
 func (m *Middlewares) LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		store, _ := m.Store.Get(r, "default")
-		user := store.Values["user"]
+		if strings.Contains(r.RequestURI, "/assets/") {
+			next.ServeHTTP(w, r)
+			return
+		}
 
-		if user != nil {
-			userDTO := user.(*dto.UserDTO)
-			log.Println(fmt.Sprintf("[%s - %s]", userDTO.ID, r.RemoteAddr), r.Method, r.RequestURI)
+		store, _ := m.Store.Get(r, "default")
+		userStore := store.Values["user"]
+
+		if userStore != nil {
+			user := userStore.(*dto.UserDTO)
+
+			go func() {
+				log.Println("===============================")
+				log.Println("[user_id]\t:", user.ID)
+				log.Println("[addr]\t:", r.RemoteAddr)
+				log.Println("[agent]\t:", r.UserAgent())
+				log.Println("[uri]\t:", r.RequestURI)
+				log.Println("===============================")
+			}()
+
 		} else {
-			log.Println(fmt.Sprintf("[%s]", r.RemoteAddr), r.Method, r.RequestURI)
+			go func() {
+				log.Println("===============================")
+				log.Println("[user_id]\t:", "non-registered user")
+				log.Println("[addr]\t:", r.RemoteAddr)
+				log.Println("[agent]\t:", r.UserAgent())
+				log.Println("[uri]\t:", r.RequestURI)
+				log.Println("===============================")
+			}()
 		}
 
 		next.ServeHTTP(w, r)
