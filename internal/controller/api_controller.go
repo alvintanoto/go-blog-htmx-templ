@@ -13,7 +13,6 @@ import (
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
 	"github.com/microcosm-cc/bluemonday"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type ApiController struct {
@@ -25,60 +24,6 @@ func NewApiController(service *service.Service, store *sessions.CookieStore) *Ap
 	return &ApiController{
 		Service: service,
 		Store:   store,
-	}
-}
-
-func (ac *ApiController) SignIn() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		session, _ := ac.Store.Get(r, "default")
-		decoder := schema.NewDecoder()
-
-		var payload dto.UserSignInRequestDTO
-
-		err := r.ParseForm()
-		if err != nil {
-			log.Println("error parsing form:", err.Error())
-			http.Redirect(w, r, "/auth/sign-in", http.StatusPermanentRedirect)
-			return
-		}
-
-		err = decoder.Decode(&payload, r.PostForm)
-		if err != nil {
-			log.Println("error decoding payload: ", err.Error())
-			http.Redirect(w, r, "/auth/sign-in", http.StatusPermanentRedirect)
-			return
-		}
-
-		if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
-			session.AddFlash("Username or password invalid, please try again.", "error")
-			sessions.Save(r, w)
-			http.Redirect(w, r, "/auth/sign-in", http.StatusPermanentRedirect)
-			return
-		}
-
-		user, err := ac.Service.AuthenticationService.SignIn(r.Context(), payload.Username, payload.Password)
-		if err != nil {
-			switch err {
-			case repository.ErrorRecordNotFound,
-				bcrypt.ErrMismatchedHashAndPassword:
-				session.AddFlash("Username or password invalid, please try again.", "error")
-			default:
-				session.AddFlash("Failed to sign in, please try again later.", "error")
-			}
-			// TODO: redirect to sign in with flash error
-			sessions.Save(r, w)
-			http.Redirect(w, r, "/auth/sign-in", http.StatusPermanentRedirect)
-			return
-		}
-
-		session.Values["user"] = &dto.UserDTO{
-			ID:       user.ID,
-			Username: user.Username,
-			Email:    user.Email,
-		}
-		sessions.Save(r, w)
-
-		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 

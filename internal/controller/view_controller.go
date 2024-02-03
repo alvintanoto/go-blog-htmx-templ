@@ -5,21 +5,27 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"alvintanoto.id/blog-htmx-templ/internal/repository"
+	"alvintanoto.id/blog-htmx-templ/internal/service"
 	"alvintanoto.id/blog-htmx-templ/view"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type ViewController struct {
 	Session *sessions.CookieStore
+	Service *service.Service
 }
 
-func NewViewController(session *sessions.CookieStore) *ViewController {
+func NewViewController(service *service.Service, session *sessions.CookieStore) *ViewController {
 	return &ViewController{
 		Session: session,
+		Service: service,
 	}
 }
 
@@ -47,6 +53,60 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 
 		sessions.Save(r, w)
 		view.SignInPage(dto).Render(r.Context(), w)
+	}
+}
+
+func (vc *ViewController) SignInPostHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, _ := vc.Session.Get(r, "default")
+		decoder := schema.NewDecoder()
+
+		var payload dto.UserSignInRequestDTO
+
+		err := r.ParseForm()
+		if err != nil {
+			log.Println("error parsing form:", err.Error())
+			http.Redirect(w, r, "/auth/sign-in", http.StatusMovedPermanently)
+			return
+		}
+
+		err = decoder.Decode(&payload, r.PostForm)
+		if err != nil {
+			log.Println("error decoding payload: ", err.Error())
+			http.Redirect(w, r, "/auth/sign-in", http.StatusMovedPermanently)
+			return
+		}
+
+		if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
+			session.AddFlash("Username or password invalid, please try again.", "error")
+			sessions.Save(r, w)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusMovedPermanently)
+			return
+		}
+
+		user, err := vc.Service.AuthenticationService.SignIn(r.Context(), payload.Username, payload.Password)
+		if err != nil {
+			switch err {
+			case repository.ErrorRecordNotFound,
+				bcrypt.ErrMismatchedHashAndPassword:
+				session.AddFlash("Username or password invalid, please try again.", "error")
+			default:
+				session.AddFlash("Failed to sign in, please try again later.", "error")
+			}
+			// TODO: redirect to sign in with flash error
+			sessions.Save(r, w)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusMovedPermanently)
+			return
+		}
+
+		session.Values["user"] = &dto.UserDTO{
+			ID:       user.ID,
+			Username: user.Username,
+			Email:    user.Email,
+		}
+		sessions.Save(r, w)
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 

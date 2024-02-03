@@ -15,7 +15,7 @@ type Controller struct {
 func NewController(store *sessions.CookieStore, service *service.Service) *Controller {
 	return &Controller{
 		Middlewares:    NewMiddleware(store),
-		ViewController: NewViewController(store),
+		ViewController: NewViewController(service, store),
 		ApiController:  NewApiController(service, store),
 	}
 }
