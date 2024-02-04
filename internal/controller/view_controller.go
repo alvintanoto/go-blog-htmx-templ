@@ -172,6 +172,109 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 	}
 }
 
+func (vc *ViewController) RegisterPostHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, _ := vc.Session.Get(r, "default")
+		decoder := schema.NewDecoder()
+
+		var payload dto.RegisterUserRequestDTO
+
+		err := r.ParseForm()
+		if err != nil {
+			log.Println("error parsing form: ", err.Error())
+			http.Redirect(w, r, "/auth/register", http.StatusMovedPermanently)
+			return
+		}
+		err = decoder.Decode(&payload, r.PostForm)
+		if err != nil {
+			log.Println("error decoding payload: ", err.Error())
+			http.Redirect(w, r, "/auth/register", http.StatusMovedPermanently)
+			return
+		}
+
+		// TODO: this is temporary solution fix it later
+		errCount := 0
+
+		username := strings.TrimSpace(payload.Username)
+		email := strings.TrimSpace(payload.Email)
+		password := payload.Password
+		confirmPassword := payload.ConfirmPassword
+
+		if username == "" {
+			session.AddFlash("Username must not be empty.", "username")
+			errCount += 1
+		}
+
+		if email == "" {
+			session.AddFlash("Email must not be empty.", "email")
+			errCount += 1
+		}
+
+		if password == "" {
+			session.AddFlash("Password must not be empty.", "password")
+			errCount += 1
+		}
+
+		if confirmPassword == "" {
+			session.AddFlash("Confirm password must not be empty.", "confirm_password")
+			errCount += 1
+		}
+
+		if len(username) <= 6 {
+			session.AddFlash("Username length must be more than 6 character.", "username")
+			errCount += 1
+		}
+
+		if len(email) <= 10 {
+			session.AddFlash("Email length must be more than 10 character.", "email")
+			errCount += 1
+		}
+
+		if len(password) <= 6 {
+			session.AddFlash("Password length must be more than 6 character.", "password")
+			errCount += 1
+		}
+
+		if password != confirmPassword {
+			session.AddFlash("Password and confirm password mismatch.", "password")
+			session.AddFlash("Password and confirm password mismatch.", "confirm_password")
+			errCount += 1
+		}
+
+		if errCount > 0 {
+			err := sessions.Save(r, w)
+			if err != nil {
+				log.Println("err saving session:", err.Error())
+			}
+			http.Redirect(w, r, "/auth/register", http.StatusMovedPermanently)
+			return
+		}
+
+		user, err := vc.Service.UserService.RegisterUser(username, email, password)
+		if err != nil {
+			log.Println("failed registering new user: ", err.Error())
+			switch err {
+			case repository.ErrorConstraintViolation:
+				session.AddFlash("Username already used, please try another username.", "error")
+			default:
+				session.AddFlash("Failed registering new user, please try again later.", "error")
+			}
+			sessions.Save(r, w)
+			http.Redirect(w, r, "/register", http.StatusMovedPermanently)
+			return
+		}
+
+		session.Values["user"] = &dto.UserDTO{
+			ID:       user.ID,
+			Username: user.Username,
+			Email:    user.Email,
+		}
+		sessions.Save(r, w)
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+}
+
 func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		homeDTO := &dto.HomepageDTO{

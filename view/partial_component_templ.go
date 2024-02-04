@@ -106,7 +106,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base w-full\"><a href=\"/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base w-full\"><a href=\"/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -120,7 +120,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if user != nil {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/search/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/search/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -129,7 +129,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/notification/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/notification/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -138,7 +138,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/bookmark/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/bookmark/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -147,7 +147,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/message/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/message/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -156,7 +156,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/draft/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/draft/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -165,7 +165,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/settings/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/settings/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -174,7 +174,7 @@ func sideNavigationComponent(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/profile/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-grey-hover\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a> <a href=\"/profile/\"><div class=\"p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -19,6 +19,7 @@ func (a *Application) SetupRoutes() {
 	{
 		authRoute.HandleFunc("/sign-in", a.Controller.ViewController.SignInPostHandler()).Methods(http.MethodPost)
 		authRoute.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler()).Methods(http.MethodGet)
+		authRoute.HandleFunc("/register", a.Controller.ViewController.RegisterPostHandler()).Methods(http.MethodPost)
 		authRoute.HandleFunc("/register", a.Controller.ViewController.RegisterHandler()).Methods(http.MethodGet)
 	}
 
@@ -43,9 +44,7 @@ func (a *Application) SetupRoutes() {
 
 	apiRoute := router.PathPrefix("/api/").Subrouter()
 	{
-		apiRoute.HandleFunc("/register", a.Controller.ApiController.Register()).Methods(http.MethodPost)
-
-		postApiRoute := router.PathPrefix("/post/").Subrouter()
+		postApiRoute := apiRoute.PathPrefix("/post/").Subrouter()
 		postApiRoute.HandleFunc("/preview-post", a.Controller.ApiController.PreviewPost()).Methods(http.MethodPost)
 	}
 

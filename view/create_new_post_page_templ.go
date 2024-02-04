@@ -88,7 +88,7 @@ func PreviewPostContainer(html string, value string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div><div class=\"flex justify-between mt-2\"><button type=\"button\" class=\"bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90\" hx-post=\"/post/preview-post\" hx-target=\"#editor-container\" hx-swap=\"innerHTML\" hx-vals=\"js:{content: document.getElementById(&#39;editor&#39;).value, preview: false}\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div><div class=\"flex justify-between mt-2\"><button type=\"button\" class=\"bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90\" hx-post=\"/api/post/preview-post\" hx-target=\"#editor-container\" hx-swap=\"innerHTML\" hx-vals=\"js:{content: document.getElementById(&#39;editor&#39;).value, preview: false}\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -142,7 +142,7 @@ func EditorContainer(value string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div><div class=\"flex justify-between mt-2\"><button type=\"button\" class=\"bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90\" hx-post=\"/post/preview-post\" hx-target=\"#editor-container\" hx-swap=\"innerHTML\" hx-vals=\"js:{content: document.getElementById(&#39;editor&#39;).value, preview: true}\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div><div class=\"flex justify-between mt-2\"><button type=\"button\" class=\"bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90\" hx-post=\"/api/post/preview-post\" hx-target=\"#editor-container\" hx-swap=\"innerHTML\" hx-vals=\"js:{content: document.getElementById(&#39;editor&#39;).value, preview: true}\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

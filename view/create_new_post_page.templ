@@ -26,7 +26,7 @@ templ PreviewPostContainer(html string, value string) {
 			<button
 				type="button"
 				class="bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90"
-				hx-post="/post/preview-post"
+				hx-post="/api/post/preview-post"
 				hx-target="#editor-container"
 				hx-swap="innerHTML"
 				hx-vals="js:{content: document.getElementById('editor').value, preview: false}"
@@ -50,7 +50,7 @@ templ EditorContainer(value string) {
 			<button
 				type="button"
 				class="bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90"
-				hx-post="/post/preview-post"
+				hx-post="/api/post/preview-post"
 				hx-target="#editor-container"
 				hx-swap="innerHTML"
 				hx-vals="js:{content: document.getElementById('editor').value, preview: true}"

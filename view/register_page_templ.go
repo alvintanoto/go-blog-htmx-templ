@@ -65,7 +65,7 @@ func RegisterPage(dto *dto.RegisterPageDTO) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\" action=\"/api/register\"><div class=\"flex flex-row mt-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/user.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\"><div class=\"flex flex-row mt-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/user.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
