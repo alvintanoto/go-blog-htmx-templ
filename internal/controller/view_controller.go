@@ -46,77 +46,69 @@ func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.
 func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
-		dto := &dto.SignInPageDTO{}
+		data := &dto.SignInPageDTO{}
 
-		for _, flash := range store.Flashes("error") {
-			dto.Error = flash.(string)
-		}
+		switch r.Method {
+		case http.MethodGet:
+			view.SignInPage(data).Render(r.Context(), w)
+		case http.MethodPost:
+			if flashes := store.Flashes("error"); len(flashes) > 0 {
+				data.Error = flashes[len(flashes)-1].(string)
 
-		sessions.Save(r, w)
-		view.SignInPage(dto).Render(r.Context(), w)
-	}
-}
-
-func (vc *ViewController) SignInPostHandler() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		session, _ := vc.Session.Get(r, "default")
-
-		if flashes := session.Flashes("error"); len(flashes) > 0 {
-			view.SignInPage(&dto.SignInPageDTO{
-				Error: flashes[len(flashes)-1].(string),
-			}).Render(r.Context(), w)
-			session.Save(r, w)
-			return
-		}
-
-		decoder := schema.NewDecoder()
-
-		var payload dto.UserSignInRequestDTO
-
-		err := r.ParseForm()
-		if err != nil {
-			log.Println("error parsing form:", err.Error())
-			http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
-			return
-		}
-
-		err = decoder.Decode(&payload, r.PostForm)
-		if err != nil {
-			log.Println("error decoding payload: ", err.Error())
-			http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
-			return
-		}
-
-		if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
-			session.AddFlash("Username or password invalid, please try again.", "error")
-			sessions.Save(r, w)
-			http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
-			return
-		}
-
-		user, err := vc.Service.AuthenticationService.SignIn(r.Context(), payload.Username, payload.Password)
-		if err != nil {
-			switch err {
-			case repository.ErrorRecordNotFound,
-				bcrypt.ErrMismatchedHashAndPassword:
-				session.AddFlash("Username or password invalid, please try again.", "error")
-			default:
-				session.AddFlash("Failed to sign in, please try again later.", "error")
+				sessions.Save(r, w)
+				view.SignInPage(data).Render(r.Context(), w)
+				return
 			}
-			// TODO: redirect to sign in with flash error
+
+			decoder := schema.NewDecoder()
+
+			var payload dto.UserSignInRequestDTO
+
+			err := r.ParseForm()
+			if err != nil {
+				log.Println("error parsing form:", err.Error())
+				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
+				return
+			}
+
+			err = decoder.Decode(&payload, r.PostForm)
+			if err != nil {
+				log.Println("error decoding payload: ", err.Error())
+				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
+				return
+			}
+
+			if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
+				store.AddFlash("Username or password invalid, please try again.", "error")
+				sessions.Save(r, w)
+				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
+				return
+			}
+
+			user, err := vc.Service.AuthenticationService.SignIn(r.Context(), payload.Username, payload.Password)
+			if err != nil {
+				switch err {
+				case repository.ErrorRecordNotFound,
+					bcrypt.ErrMismatchedHashAndPassword:
+					store.AddFlash("Username or password invalid, please try again.", "error")
+				default:
+					store.AddFlash("Failed to sign in, please try again later.", "error")
+				}
+				// TODO: redirect to sign in with flash error
+				sessions.Save(r, w)
+				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
+				return
+			}
+
+			store.Values["user"] = &dto.UserDTO{
+				ID:       user.ID,
+				Username: user.Username,
+				Email:    user.Email,
+			}
 			sessions.Save(r, w)
-			http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
-			return
-		}
 
-		session.Values["user"] = &dto.UserDTO{
-			ID:       user.ID,
-			Username: user.Username,
-			Email:    user.Email,
+			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
-		sessions.Save(r, w)
-
-		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 

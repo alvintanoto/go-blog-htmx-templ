@@ -17,8 +17,7 @@ func (a *Application) SetupRoutes() {
 	authRoute := router.PathPrefix("/auth/").Subrouter()
 	authRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
-		authRoute.HandleFunc("/sign-in", a.Controller.ViewController.SignInPostHandler()).Methods(http.MethodPost)
-		authRoute.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler()).Methods(http.MethodGet)
+		authRoute.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler())
 		authRoute.HandleFunc("/register", a.Controller.ViewController.RegisterHandler())
 	}
 
