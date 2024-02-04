@@ -65,15 +65,25 @@ func RegisterPage(dto *dto.RegisterPageDTO) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\"><div class=\"flex flex-row mt-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/user.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\"><div class=\"flex flex-row mt-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/user.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(dto.RegisterFieldDTO.Username.Value))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		if dto.RegisterFieldDTO != nil {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(dto.RegisterFieldDTO.Username.Value))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -85,7 +95,7 @@ func RegisterPage(dto *dto.RegisterPageDTO) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(errValue)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/register_page.templ`, Line: 35, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/register_page.templ`, Line: 37, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -96,15 +106,25 @@ func RegisterPage(dto *dto.RegisterPageDTO) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row mt-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/email.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"email\" placeholder=\"Email\" name=\"email\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row mt-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/email.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"email\" placeholder=\"Email\" name=\"email\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(dto.RegisterFieldDTO.Email.Value))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		if dto.RegisterFieldDTO != nil {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(dto.RegisterFieldDTO.Email.Value))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -116,7 +136,7 @@ func RegisterPage(dto *dto.RegisterPageDTO) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(errValue)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/register_page.templ`, Line: 54, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/register_page.templ`, Line: 58, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -139,7 +159,7 @@ func RegisterPage(dto *dto.RegisterPageDTO) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(errValue)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/register_page.templ`, Line: 72, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/register_page.templ`, Line: 76, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -162,7 +182,7 @@ func RegisterPage(dto *dto.RegisterPageDTO) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(errValue)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/register_page.templ`, Line: 90, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/register_page.templ`, Line: 94, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {

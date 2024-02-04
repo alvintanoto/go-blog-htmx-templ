@@ -1,6 +1,7 @@
 CREATE TABLE posts(
     id varchar(40) NOT NULL PRIMARY KEY,
-    content varchar(25) NOT NULL,
+    user_id varchar(40) NOT NULL, 
+    content varchar(150) NOT NULL,
     reply_count int NOT NULL DEFAULT 0,
     like_count int NOT NULL DEFAULT 0,
     dislike_count int NOT NULL default 0,
@@ -10,8 +11,11 @@ CREATE TABLE posts(
     reply_to varchar(40) DEFAULT NULL, 
     previous_version_id varchar(40) DEFAULT NULL, 
     created_at timestamp with time zone not null default NOW(),
-    created_by varchar(25),
+    created_by varchar(40),
     updated_at timestamp with time zone not null default NOW(),
-    updated_by varchar(25),
-    is_deleted boolean not null default false
+    updated_by varchar(40),
+    is_deleted boolean not null default false,
+    CONSTRAINT fk_post_user
+        FOREIGN KEY(user_id)
+            REFERENCES blog_user(id)
 );

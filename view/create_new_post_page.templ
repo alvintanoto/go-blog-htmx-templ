@@ -4,35 +4,8 @@ import "alvintanoto.id/blog-htmx-templ/internal/dto"
 
 templ CreateNewPostButtons() {
 	<div class="flex justify-end">
-		<button type="submit" name="draft" value="draft" class="bg-warning py-1 px-2 text-white rounded-sm hover:bg-warning/90">Save as Draft </button>
-		<button type="submit" name="post" value="post" class="bg-primary ml-2 py-1 px-3 text-white rounded-sm hover:bg-primary/90">Post </button>
-	</div>
-}
-
-templ PreviewPostContainer(html string, value string) {
-	<div id="editor-container">
-		<div class="my-2 text-base">
-			<div class="max-w-[720px] min-w-[720px] min-h-[480px] max-h-[480px]  overflow-y-scroll bg-post-hover rounded-sm p-2">
-				@templ.Raw(html)
-			</div>
-			<textarea
-				id="editor"
-				name="content"
-				class="h-[480px] max-w-[720px] min-w-[720px] p-2 w-full resize-none rounded-md m-auto"
-				hidden
-			>{ value }</textarea>
-		</div>
-		<div class="flex justify-between mt-2">
-			<button
-				type="button"
-				class="bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90"
-				hx-post="/api/post/preview-post"
-				hx-target="#editor-container"
-				hx-swap="innerHTML"
-				hx-vals="js:{content: document.getElementById('editor').value, preview: false}"
-			>Toggle Preview </button>
-			@CreateNewPostButtons()
-		</div>
+		<button type="submit" name="submit_type" value="draft" class="bg-warning py-1 px-2 text-white rounded-sm hover:bg-warning/90">Save as Draft </button>
+		<button type="submit" name="submit_type" value="post" class="bg-primary ml-2 py-1 px-3 text-white rounded-sm hover:bg-primary/90">Post </button>
 	</div>
 }
 
@@ -43,18 +16,10 @@ templ EditorContainer(value string) {
 				id="editor"
 				name="content"
 				placeholder="enter your thoughts..."
-				class="h-[480px] max-w-[720px] min-w-[720px] p-2 w-full resize-none rounded-md m-auto"
+				class="h-[240px] max-w-[720px] min-w-[720px] p-2 w-full resize-none rounded-md m-auto"
 			>{ value }</textarea>
 		</div>
-		<div class="flex justify-between mt-2">
-			<button
-				type="button"
-				class="bg-success py-1 px-4 text-white rounded-sm hover:bg-success/90"
-				hx-post="/api/post/preview-post"
-				hx-target="#editor-container"
-				hx-swap="innerHTML"
-				hx-vals="js:{content: document.getElementById('editor').value, preview: true}"
-			>Toggle Preview </button>
+		<div class="flex float-right mt-1">
 			@CreateNewPostButtons()
 		</div>
 	</div>
@@ -72,7 +37,7 @@ templ CreateNewPostPage(dto *dto.CreateNewPostDTO) {
 					<div class="text-2xl font-bold mb-3 font-light max-w-[720px] mx-auto">Create New Post</div>
 					<div class="max-w-[720px] mx-auto">
 						<form method="post">
-							@EditorContainer(dto.Value)
+							@EditorContainer(dto.Content)
 						</form>
 					</div>
 				</div>

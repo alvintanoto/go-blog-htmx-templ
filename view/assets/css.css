@@ -653,8 +653,8 @@ h3 {
   margin-right: 12px;
 }
 
-.mt-2 {
-  margin-top: 12px;
+.mt-1 {
+  margin-top: 8px;
 }
 
 .mt-3 {
@@ -681,12 +681,12 @@ h3 {
   height: 168px;
 }
 
-.h-\[36px\] {
-  height: 36px;
+.h-\[240px\] {
+  height: 240px;
 }
 
-.h-\[480px\] {
-  height: 480px;
+.h-\[36px\] {
+  height: 36px;
 }
 
 .h-\[48px\] {
@@ -713,10 +713,6 @@ h3 {
   max-height: 100vh;
 }
 
-.max-h-\[480px\] {
-  max-height: 480px;
-}
-
 .max-h-\[calc\(100vh-64px\)\] {
   max-height: calc(100vh - 64px);
 }
@@ -735,10 +731,6 @@ h3 {
 
 .min-h-\[36px\] {
   min-height: 36px;
-}
-
-.min-h-\[480px\] {
-  min-height: 480px;
 }
 
 .min-h-\[48px\] {
@@ -962,11 +954,6 @@ h3 {
   background-color: rgb(217 217 217 / var(--tw-bg-opacity));
 }
 
-.bg-post-hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(231 233 236 / var(--tw-bg-opacity));
-}
-
 .bg-primary {
   --tw-bg-opacity: 1;
   background-color: rgb(22 119 255 / var(--tw-bg-opacity));
@@ -974,11 +961,6 @@ h3 {
 
 .bg-primary\/75 {
   background-color: rgb(22 119 255 / 0.75);
-}
-
-.bg-success {
-  --tw-bg-opacity: 1;
-  background-color: rgb(82 196 26 / var(--tw-bg-opacity));
 }
 
 .bg-warning {
@@ -1006,11 +988,6 @@ h3 {
 .px-3 {
   padding-left: 20px;
   padding-right: 20px;
-}
-
-.px-4 {
-  padding-left: 32px;
-  padding-right: 32px;
 }
 
 .py-1 {
@@ -1116,10 +1093,6 @@ h3 {
 
 .hover\:bg-primary\/90:hover {
   background-color: rgb(22 119 255 / 0.9);
-}
-
-.hover\:bg-success\/90:hover {
-  background-color: rgb(82 196 26 / 0.9);
 }
 
 .hover\:bg-warning\/90:hover {

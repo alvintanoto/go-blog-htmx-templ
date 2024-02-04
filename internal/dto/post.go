@@ -15,7 +15,7 @@ type PostDTO struct {
 	PostedAt    time.Time `json:"posted_at"`
 }
 
-type PreviewPostDTO struct {
-	Content string `json:"content"`
-	Preview bool   `json:"preview"`
+type SubmitPostDTO struct {
+	Content    string `schema:"content"`
+	SubmitType string `schema:"submit_type"`
 }

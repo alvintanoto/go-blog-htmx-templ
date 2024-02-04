@@ -2,8 +2,15 @@ package entity
 
 import "time"
 
+const (
+	PostVisibilityPrivate   int = 0
+	PostVisibilityFollowers int = 1
+	PostVisibilityPublic    int = 2
+)
+
 type Post struct {
 	ID                string
+	UserID            string
 	Content           string
 	ReplyCount        int
 	LikeCount         int
@@ -12,7 +19,7 @@ type Post struct {
 	SaveCount         int
 	Visibility        int
 	ReplyTo           string
-	PreviousVersionID string
+	OriginalVersionID string
 	CreatedAt         time.Time
 	CreatedBy         string
 	UpdatedAt         time.Time

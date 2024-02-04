@@ -14,15 +14,16 @@ import (
 	"alvintanoto.id/blog-htmx-templ/view"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
+	"github.com/rbcervilla/redisstore/v9"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type ViewController struct {
-	Session *sessions.CookieStore
+	Session *redisstore.RedisStore
 	Service *service.Service
 }
 
-func NewViewController(service *service.Service, session *sessions.CookieStore) *ViewController {
+func NewViewController(service *service.Service, session *redisstore.RedisStore) *ViewController {
 	return &ViewController{
 		Session: session,
 		Service: service,
@@ -59,6 +60,15 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 func (vc *ViewController) SignInPostHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		session, _ := vc.Session.Get(r, "default")
+
+		if flashes := session.Flashes("error"); len(flashes) > 0 {
+			view.SignInPage(&dto.SignInPageDTO{
+				Error: flashes[len(flashes)-1].(string),
+			}).Render(r.Context(), w)
+			session.Save(r, w)
+			return
+		}
+
 		decoder := schema.NewDecoder()
 
 		var payload dto.UserSignInRequestDTO
@@ -66,21 +76,21 @@ func (vc *ViewController) SignInPostHandler() func(http.ResponseWriter, *http.Re
 		err := r.ParseForm()
 		if err != nil {
 			log.Println("error parsing form:", err.Error())
-			http.Redirect(w, r, "/auth/sign-in", http.StatusMovedPermanently)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
 			return
 		}
 
 		err = decoder.Decode(&payload, r.PostForm)
 		if err != nil {
 			log.Println("error decoding payload: ", err.Error())
-			http.Redirect(w, r, "/auth/sign-in", http.StatusMovedPermanently)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
 			return
 		}
 
 		if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
 			session.AddFlash("Username or password invalid, please try again.", "error")
 			sessions.Save(r, w)
-			http.Redirect(w, r, "/auth/sign-in", http.StatusMovedPermanently)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
 			return
 		}
 
@@ -95,7 +105,7 @@ func (vc *ViewController) SignInPostHandler() func(http.ResponseWriter, *http.Re
 			}
 			// TODO: redirect to sign in with flash error
 			sessions.Save(r, w)
-			http.Redirect(w, r, "/auth/sign-in", http.StatusMovedPermanently)
+			http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
 			return
 		}
 
@@ -112,166 +122,159 @@ func (vc *ViewController) SignInPostHandler() func(http.ResponseWriter, *http.Re
 
 func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		store, _ := vc.Session.Get(r, "default")
-
-		var payload dto.RegisterUserRequestDTO
-		decoder := schema.NewDecoder()
-
-		r.ParseForm()
-		err := decoder.Decode(&payload, r.PostForm)
-		if err == nil {
-			payload := &dto.RegisterPageDTO{
-				RegisterFieldDTO: &dto.RegisterFieldDTO{
-					Username: struct {
-						Value  string
-						Errors []string
-					}{
-						Value: payload.Username,
-					},
-					Email: struct {
-						Value  string
-						Errors []string
-					}{Value: payload.Email},
-					PasswordErrors:        []string{},
-					ConfirmPasswordErrors: []string{},
-				},
-				Error: "",
-			}
-
-			// redirect result check for flashes
-
-			for _, flash := range store.Flashes("username") {
-				payload.RegisterFieldDTO.Username.Errors = append(payload.RegisterFieldDTO.Username.Errors, flash.(string))
-			}
-
-			for _, flash := range store.Flashes("email") {
-				payload.RegisterFieldDTO.Email.Errors = append(payload.RegisterFieldDTO.Email.Errors, flash.(string))
-			}
-
-			for _, flash := range store.Flashes("password") {
-				payload.RegisterFieldDTO.PasswordErrors = append(payload.RegisterFieldDTO.PasswordErrors, flash.(string))
-			}
-
-			for _, flash := range store.Flashes("confirm_password") {
-				payload.RegisterFieldDTO.ConfirmPasswordErrors = append(payload.RegisterFieldDTO.ConfirmPasswordErrors, flash.(string))
-			}
-
-			for _, flash := range store.Flashes("error") {
-				payload.Error = flash.(string)
-			}
-
-			err := sessions.Save(r, w)
-			if err != nil {
-				log.Println("error saving session :", err.Error())
-			}
-			view.RegisterPage(payload).Render(r.Context(), w)
-			return
-		}
-
-		view.RegisterPage(nil).Render(r.Context(), w)
-	}
-}
-
-func (vc *ViewController) RegisterPostHandler() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
 		session, _ := vc.Session.Get(r, "default")
-		decoder := schema.NewDecoder()
+		registerPageDataDTO := &dto.RegisterPageDTO{
+			RegisterFieldDTO: &dto.RegisterFieldDTO{
+				Username: struct {
+					Value  string
+					Errors []string
+				}{
+					Value: "",
+				},
+				Email: struct {
+					Value  string
+					Errors []string
+				}{Value: ""},
+				PasswordErrors:        []string{},
+				ConfirmPasswordErrors: []string{},
+			},
+			Error: "",
+		}
 
-		var payload dto.RegisterUserRequestDTO
-
-		err := r.ParseForm()
-		if err != nil {
-			log.Println("error parsing form: ", err.Error())
-			http.Redirect(w, r, "/auth/register", http.StatusMovedPermanently)
+		switch r.Method {
+		case http.MethodGet:
+			view.RegisterPage(registerPageDataDTO).Render(r.Context(), w)
 			return
-		}
-		err = decoder.Decode(&payload, r.PostForm)
-		if err != nil {
-			log.Println("error decoding payload: ", err.Error())
-			http.Redirect(w, r, "/auth/register", http.StatusMovedPermanently)
-			return
-		}
+		case http.MethodPost:
+			var payload dto.RegisterUserRequestDTO
+			decoder := schema.NewDecoder()
 
-		// TODO: this is temporary solution fix it later
-		errCount := 0
-
-		username := strings.TrimSpace(payload.Username)
-		email := strings.TrimSpace(payload.Email)
-		password := payload.Password
-		confirmPassword := payload.ConfirmPassword
-
-		if username == "" {
-			session.AddFlash("Username must not be empty.", "username")
-			errCount += 1
-		}
-
-		if email == "" {
-			session.AddFlash("Email must not be empty.", "email")
-			errCount += 1
-		}
-
-		if password == "" {
-			session.AddFlash("Password must not be empty.", "password")
-			errCount += 1
-		}
-
-		if confirmPassword == "" {
-			session.AddFlash("Confirm password must not be empty.", "confirm_password")
-			errCount += 1
-		}
-
-		if len(username) <= 6 {
-			session.AddFlash("Username length must be more than 6 character.", "username")
-			errCount += 1
-		}
-
-		if len(email) <= 10 {
-			session.AddFlash("Email length must be more than 10 character.", "email")
-			errCount += 1
-		}
-
-		if len(password) <= 6 {
-			session.AddFlash("Password length must be more than 6 character.", "password")
-			errCount += 1
-		}
-
-		if password != confirmPassword {
-			session.AddFlash("Password and confirm password mismatch.", "password")
-			session.AddFlash("Password and confirm password mismatch.", "confirm_password")
-			errCount += 1
-		}
-
-		if errCount > 0 {
-			err := sessions.Save(r, w)
+			err := r.ParseForm()
 			if err != nil {
-				log.Println("err saving session:", err.Error())
+				log.Println("error parsing form: ", err.Error())
+				http.Redirect(w, r, "/auth/register", http.StatusTemporaryRedirect)
+				return
 			}
-			http.Redirect(w, r, "/auth/register", http.StatusMovedPermanently)
-			return
-		}
+			err = decoder.Decode(&payload, r.PostForm)
+			if err != nil {
+				log.Println("error decoding payload: ", err.Error())
+				http.Redirect(w, r, "/auth/register", http.StatusTemporaryRedirect)
+				return
+			}
 
-		user, err := vc.Service.UserService.RegisterUser(username, email, password)
-		if err != nil {
-			log.Println("failed registering new user: ", err.Error())
-			switch err {
-			case repository.ErrorConstraintViolation:
-				session.AddFlash("Username already used, please try another username.", "error")
-			default:
-				session.AddFlash("Failed registering new user, please try again later.", "error")
+			if flashes := session.Flashes("validation_error"); len(flashes) > 0 {
+				registerPageDataDTO.RegisterFieldDTO.Username.Value = payload.Username
+				registerPageDataDTO.RegisterFieldDTO.Email.Value = payload.Email
+
+				// redirect result check for flashes
+				for _, flash := range session.Flashes("username") {
+					registerPageDataDTO.RegisterFieldDTO.Username.Errors = append(registerPageDataDTO.RegisterFieldDTO.Username.Errors, flash.(string))
+				}
+
+				for _, flash := range session.Flashes("email") {
+					registerPageDataDTO.RegisterFieldDTO.Email.Errors = append(registerPageDataDTO.RegisterFieldDTO.Email.Errors, flash.(string))
+				}
+
+				for _, flash := range session.Flashes("password") {
+					registerPageDataDTO.RegisterFieldDTO.PasswordErrors = append(registerPageDataDTO.RegisterFieldDTO.PasswordErrors, flash.(string))
+				}
+
+				for _, flash := range session.Flashes("confirm_password") {
+					registerPageDataDTO.RegisterFieldDTO.ConfirmPasswordErrors = append(registerPageDataDTO.RegisterFieldDTO.ConfirmPasswordErrors, flash.(string))
+				}
+
+				for _, flash := range session.Flashes("error") {
+					registerPageDataDTO.Error = flash.(string)
+				}
+
+				sessions.Save(r, w)
+				view.RegisterPage(registerPageDataDTO).Render(r.Context(), w)
+				return
+			}
+
+			errCount := 0
+
+			username := strings.TrimSpace(payload.Username)
+			email := strings.TrimSpace(payload.Email)
+			password := payload.Password
+			confirmPassword := payload.ConfirmPassword
+
+			if username == "" {
+				session.AddFlash("Username must not be empty.", "username")
+				errCount += 1
+			}
+
+			if email == "" {
+				session.AddFlash("Email must not be empty.", "email")
+				errCount += 1
+			}
+
+			if password == "" {
+				session.AddFlash("Password must not be empty.", "password")
+				errCount += 1
+			}
+
+			if confirmPassword == "" {
+				session.AddFlash("Confirm password must not be empty.", "confirm_password")
+				errCount += 1
+			}
+
+			if len(username) <= 6 || len(username) > 25 {
+				session.AddFlash("Username length must be more than 6 character and less than 25 character.", "username")
+				errCount += 1
+			}
+
+			if len(email) <= 10 {
+				session.AddFlash("Email length must be more than 10 character.", "email")
+				errCount += 1
+			}
+
+			if len(password) <= 6 {
+				session.AddFlash("Password length must be more than 6 character.", "password")
+				errCount += 1
+			}
+
+			if password != confirmPassword {
+				session.AddFlash("Password and confirm password mismatch.", "password")
+				session.AddFlash("Password and confirm password mismatch.", "confirm_password")
+				errCount += 1
+			}
+
+			if errCount > 0 {
+				session.AddFlash("1", "validation_error")
+				err := sessions.Save(r, w)
+				if err != nil {
+					log.Println("err saving session:", err.Error())
+					http.Redirect(w, r, "/auth/register", http.StatusSeeOther)
+					return
+				}
+				http.Redirect(w, r, "/auth/register", http.StatusTemporaryRedirect)
+				return
+			}
+
+			user, err := vc.Service.UserService.RegisterUser(username, email, password)
+			if err != nil {
+				log.Println("failed registering new user: ", err.Error())
+				switch err {
+				case repository.ErrorConstraintViolation:
+					session.AddFlash("Username already used, please try another username.", "error")
+				default:
+					session.AddFlash("Failed registering new user, please try again later.", "error")
+				}
+				sessions.Save(r, w)
+				http.Redirect(w, r, "/register", http.StatusTemporaryRedirect)
+				return
+			}
+
+			session.Values["user"] = &dto.UserDTO{
+				ID:       user.ID,
+				Username: user.Username,
+				Email:    user.Email,
 			}
 			sessions.Save(r, w)
-			http.Redirect(w, r, "/register", http.StatusMovedPermanently)
-			return
-		}
 
-		session.Values["user"] = &dto.UserDTO{
-			ID:       user.ID,
-			Username: user.Username,
-			Email:    user.Email,
+			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
-		sessions.Save(r, w)
-
-		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 
@@ -300,13 +303,59 @@ func (vc *ViewController) CreateNewPostViewHandler() func(http.ResponseWriter, *
 			User: user,
 		}
 
+		for _, flash := range store.Flashes("error") {
+			createNewPostDTO.Error = flash.(string)
+		}
+
 		view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
 	}
 }
 
 func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		session, _ := vc.Session.Get(r, "default")
+		user := session.Values["user"].(*dto.UserDTO)
 
+		decoder := schema.NewDecoder()
+
+		var payload dto.SubmitPostDTO
+
+		err := r.ParseForm()
+		if err != nil {
+			log.Println("error parsing form: ", err.Error())
+			http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+			return
+		}
+		err = decoder.Decode(&payload, r.PostForm)
+		if err != nil {
+			log.Println("error decoding payload: ", err.Error())
+			http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+			return
+		}
+
+		content := strings.TrimSpace(payload.Content)
+		if len(content) <= 0 {
+			log.Println("create post handler error: empty content value")
+
+			session.AddFlash("Username already used, please try another username.", "error")
+			sessions.Save(r, w)
+
+			http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+			return
+		}
+
+		err = vc.Service.PostService.CreateNewPost(user.ID, content)
+		if err != nil {
+			log.Println("error creating new post: ", err.Error())
+
+			session.AddFlash("failed to create a new post, please try again later.", "error")
+			sessions.Save(r, w)
+
+			http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+			return
+		}
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 

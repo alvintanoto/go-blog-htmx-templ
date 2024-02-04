@@ -19,8 +19,7 @@ func (a *Application) SetupRoutes() {
 	{
 		authRoute.HandleFunc("/sign-in", a.Controller.ViewController.SignInPostHandler()).Methods(http.MethodPost)
 		authRoute.HandleFunc("/sign-in", a.Controller.ViewController.SignInHandler()).Methods(http.MethodGet)
-		authRoute.HandleFunc("/register", a.Controller.ViewController.RegisterPostHandler()).Methods(http.MethodPost)
-		authRoute.HandleFunc("/register", a.Controller.ViewController.RegisterHandler()).Methods(http.MethodGet)
+		authRoute.HandleFunc("/register", a.Controller.ViewController.RegisterHandler())
 	}
 
 	postRoute := router.PathPrefix("/post/").Subrouter()
@@ -42,11 +41,10 @@ func (a *Application) SetupRoutes() {
 		settingsRoute.HandleFunc("/", a.Controller.ViewController.SettingsHandler()).Methods(http.MethodGet)
 	}
 
-	apiRoute := router.PathPrefix("/api/").Subrouter()
-	{
-		postApiRoute := apiRoute.PathPrefix("/post/").Subrouter()
-		postApiRoute.HandleFunc("/preview-post", a.Controller.ApiController.PreviewPost()).Methods(http.MethodPost)
-	}
+	// apiRoute := router.PathPrefix("/api/").Subrouter()
+	// {
+	// 	postApiRoute := apiRoute.PathPrefix("/post/").Subrouter()
+	// }
 
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./view/assets/"))))
 

@@ -13,10 +13,12 @@ var (
 
 type Repository struct {
 	UserRepository *UserRepository
+	PostRepository *PostRepository
 }
 
 func NewRepository(db *sql.DB) *Repository {
 	return &Repository{
 		UserRepository: NewUserRepository(db),
+		PostRepository: NewPostRepository(db),
 	}
 }

@@ -18,12 +18,14 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/service"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"github.com/rbcervilla/redisstore/v9"
+	"github.com/redis/go-redis/v9"
 )
 
 type Application struct {
 	Configurations *Configurations
 	Database       *sql.DB
-	Store          *sessions.CookieStore
+	Store          *redisstore.RedisStore
 
 	Router     *mux.Router
 	Controller *controller.Controller
@@ -72,8 +74,21 @@ func (a *Application) InitializeDatabase() {
 }
 
 func (a *Application) InitializeSession() {
-	store := sessions.NewCookieStore([]byte(a.Configurations.Server.SecretKey))
-	store.MaxAge(60 * 24 * 3)
+	client := redis.NewClient(&redis.Options{
+		Addr: "localhost:6379",
+	})
+
+	// New default RedisStore
+	store, err := redisstore.NewRedisStore(context.Background(), client)
+	if err != nil {
+		log.Fatal("failed to create redis store: ", err)
+	}
+
+	store.KeyPrefix("session_")
+	store.Options(sessions.Options{
+		MaxAge: 60 * 60 * 3,
+	})
+
 	a.Store = store
 
 	// register structs for sessions

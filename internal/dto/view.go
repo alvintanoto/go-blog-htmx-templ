@@ -6,8 +6,9 @@ type HomepageDTO struct {
 }
 
 type CreateNewPostDTO struct {
-	User  *UserDTO `json:"user"`
-	Value string   `json:"value"`
+	User    *UserDTO `json:"user"`
+	Content string   `json:"content"`
+	Error   string
 }
 
 type RegisterFieldDTO struct {

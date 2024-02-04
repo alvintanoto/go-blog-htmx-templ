@@ -5,9 +5,9 @@ CREATE TABLE blog_user(
     password varchar(100) NOT NULL,
     last_logged_in timestamp with time zone default NULL,
     created_at timestamp with time zone not null default NOW(),
-    created_by varchar(25),
+    created_by varchar(40),
     updated_at timestamp with time zone not null default NOW(),
-    updated_by varchar(25),
+    updated_by varchar(40),
     is_deleted boolean not null default false
 );
 

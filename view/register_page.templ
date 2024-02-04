@@ -28,7 +28,9 @@ templ RegisterPage(dto *dto.RegisterPageDTO) {
 								placeholder="Username"
 								name="username"
 								class="h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none"
-								value={ dto.RegisterFieldDTO.Username.Value }
+								if dto.RegisterFieldDTO != nil {
+									value={ dto.RegisterFieldDTO.Username.Value }
+								}
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.Username.Errors {
@@ -47,7 +49,9 @@ templ RegisterPage(dto *dto.RegisterPageDTO) {
 								placeholder="Email"
 								name="email"
 								class="h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none"
-								value={ dto.RegisterFieldDTO.Email.Value }
+								if dto.RegisterFieldDTO != nil {
+									value={ dto.RegisterFieldDTO.Email.Value }
+								}
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.Email.Errors {

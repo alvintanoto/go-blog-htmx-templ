@@ -6,14 +6,14 @@ import (
 	"strings"
 
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
-	"github.com/gorilla/sessions"
+	"github.com/rbcervilla/redisstore/v9"
 )
 
 type Middlewares struct {
-	Store *sessions.CookieStore
+	Store *redisstore.RedisStore
 }
 
-func NewMiddleware(store *sessions.CookieStore) *Middlewares {
+func NewMiddleware(store *redisstore.RedisStore) *Middlewares {
 	return &Middlewares{
 		Store: store,
 	}

@@ -2,7 +2,7 @@ package controller
 
 import (
 	"alvintanoto.id/blog-htmx-templ/internal/service"
-	"github.com/gorilla/sessions"
+	"github.com/rbcervilla/redisstore/v9"
 )
 
 type Controller struct {
@@ -12,7 +12,7 @@ type Controller struct {
 	ApiController  *ApiController
 }
 
-func NewController(store *sessions.CookieStore, service *service.Service) *Controller {
+func NewController(store *redisstore.RedisStore, service *service.Service) *Controller {
 	return &Controller{
 		Middlewares:    NewMiddleware(store),
 		ViewController: NewViewController(service, store),
