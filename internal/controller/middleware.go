@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -63,7 +62,6 @@ func (m *Middlewares) IsAuthenticated(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		store, _ := m.Store.Get(r, "default")
 		user := store.Values["user"]
-		fmt.Println("isauth", user)
 
 		if user != nil {
 			if r.URL.Path == "/auth/sign-in" || r.URL.Path == "/auth/register" {

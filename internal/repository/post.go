@@ -18,7 +18,7 @@ func NewPostRepository(db *sql.DB) *PostRepository {
 	return &PostRepository{db: db}
 }
 
-func (r *PostRepository) CreateNewPost(userID, content string) (err error) {
+func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (err error) {
 	uuid, err := uuid.NewRandom()
 	if err != nil {
 		log.Println("failed to create new uuid: ", err.Error())
@@ -31,6 +31,7 @@ func (r *PostRepository) CreateNewPost(userID, content string) (err error) {
 		Content:    content,
 		Visibility: entity.PostVisibilityPublic,
 		CreatedBy:  userID,
+		IsDraft:    isDraft,
 		IsDeleted:  false,
 	}
 
@@ -39,13 +40,15 @@ func (r *PostRepository) CreateNewPost(userID, content string) (err error) {
 		user_id,
 		content,
 		visibility,
+		is_draft,
 		created_by
 	) VALUES (
 		$1,
 		$2,
 		$3,
 		$4,
-		$5
+		$5,
+		$6
 	)`
 
 	args := []interface{}{
@@ -53,6 +56,7 @@ func (r *PostRepository) CreateNewPost(userID, content string) (err error) {
 		post.UserID,
 		post.Content,
 		post.Visibility,
+		post.IsDraft,
 		post.CreatedBy,
 	}
 

@@ -336,7 +336,9 @@ func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Re
 				return
 			}
 
-			err = vc.Service.PostService.CreateNewPost(user.ID, content)
+			isDraft := payload.SubmitType == "draft"
+
+			err = vc.Service.PostService.CreateNewPost(user.ID, content, isDraft)
 			if err != nil {
 				log.Println("error creating new post: ", err.Error())
 

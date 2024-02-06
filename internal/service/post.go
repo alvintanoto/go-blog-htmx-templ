@@ -12,8 +12,8 @@ func NewPostService(repository *repository.Repository) *PostService {
 	}
 }
 
-func (s *PostService) CreateNewPost(userID, content string) (err error) {
-	err = s.repository.PostRepository.CreateNewPost(userID, content)
+func (s *PostService) CreateNewPost(userID, content string, isDraft bool) (err error) {
+	err = s.repository.PostRepository.CreateNewPost(userID, content, isDraft)
 	if err != nil {
 		return err
 	}

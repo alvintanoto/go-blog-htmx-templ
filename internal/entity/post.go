@@ -20,6 +20,7 @@ type Post struct {
 	Visibility        int
 	ReplyTo           string
 	OriginalVersionID string
+	IsDraft           bool
 	CreatedAt         time.Time
 	CreatedBy         string
 	UpdatedAt         time.Time

@@ -10,6 +10,7 @@ CREATE TABLE posts(
     visibility int NOT NULL default 1,
     reply_to varchar(40) DEFAULT NULL, 
     previous_version_id varchar(40) DEFAULT NULL, 
+    is_draft bool not null default false,
     created_at timestamp with time zone not null default NOW(),
     created_by varchar(40),
     updated_at timestamp with time zone not null default NOW(),
