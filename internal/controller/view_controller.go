@@ -55,7 +55,7 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 			if flashes := store.Flashes("error"); len(flashes) > 0 {
 				data.Error = flashes[len(flashes)-1].(string)
 
-				sessions.Save(r, w)
+				store.Save(r, w)
 				view.SignInPage(data).Render(r.Context(), w)
 				return
 			}
@@ -80,7 +80,7 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 
 			if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
 				store.AddFlash("Username or password invalid, please try again.", "error")
-				sessions.Save(r, w)
+				store.Save(r, w)
 				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
 				return
 			}
@@ -95,7 +95,7 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 					store.AddFlash("Failed to sign in, please try again later.", "error")
 				}
 				// TODO: redirect to sign in with flash error
-				sessions.Save(r, w)
+				store.Save(r, w)
 				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
 				return
 			}
@@ -105,8 +105,7 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 				Username: user.Username,
 				Email:    user.Email,
 			}
-			sessions.Save(r, w)
-
+			store.Save(r, w)
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 	}
@@ -272,12 +271,14 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 
 func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+
 		homeDTO := &dto.HomepageDTO{
 			Posts: []dto.PostDTO{},
 		}
 
-		store, _ := vc.Session.Get(r, "default")
 		userStore := store.Values["user"]
+
 		if userStore != nil {
 			homeDTO.User = userStore.(*dto.UserDTO)
 		}
@@ -286,68 +287,68 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 	}
 }
 
-func (vc *ViewController) CreateNewPostViewHandler() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		store, _ := vc.Session.Get(r, "default")
-		user := store.Values["user"].(*dto.UserDTO)
-
-		createNewPostDTO := &dto.CreateNewPostDTO{
-			User: user,
-		}
-
-		for _, flash := range store.Flashes("error") {
-			createNewPostDTO.Error = flash.(string)
-		}
-
-		view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
-	}
-}
-
 func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		session, _ := vc.Session.Get(r, "default")
 		user := session.Values["user"].(*dto.UserDTO)
 
-		decoder := schema.NewDecoder()
-
-		var payload dto.SubmitPostDTO
-
-		err := r.ParseForm()
-		if err != nil {
-			log.Println("error parsing form: ", err.Error())
-			http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
-			return
+		createNewPostDTO := &dto.CreateNewPostDTO{
+			User: user,
 		}
-		err = decoder.Decode(&payload, r.PostForm)
-		if err != nil {
-			log.Println("error decoding payload: ", err.Error())
-			http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+
+		if flashes := session.Flashes("error"); len(flashes) > 0 {
+			createNewPostDTO.Error = flashes[len(flashes)-1].(string)
+
+			session.Save(r, w)
+			view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
 			return
 		}
 
-		content := strings.TrimSpace(payload.Content)
-		if len(content) <= 0 {
-			log.Println("create post handler error: empty content value")
+		switch r.Method {
+		case http.MethodGet:
+			view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
+		case http.MethodPost:
+			decoder := schema.NewDecoder()
 
-			session.AddFlash("Username already used, please try another username.", "error")
-			sessions.Save(r, w)
+			var payload dto.SubmitPostDTO
 
-			http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
-			return
+			err := r.ParseForm()
+			if err != nil {
+				log.Println("error parsing form: ", err.Error())
+				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+				return
+			}
+			err = decoder.Decode(&payload, r.PostForm)
+			if err != nil {
+				log.Println("error decoding payload: ", err.Error())
+				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+				return
+			}
+
+			content := strings.TrimSpace(payload.Content)
+			if len(content) <= 0 {
+				log.Println("create post handler error: empty content value")
+
+				session.AddFlash("Content cannot be empty.", "error")
+				sessions.Save(r, w)
+
+				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+				return
+			}
+
+			err = vc.Service.PostService.CreateNewPost(user.ID, content)
+			if err != nil {
+				log.Println("error creating new post: ", err.Error())
+
+				session.AddFlash("failed to create a new post, please try again later.", "error")
+				sessions.Save(r, w)
+
+				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
+				return
+			}
+
+			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
-
-		err = vc.Service.PostService.CreateNewPost(user.ID, content)
-		if err != nil {
-			log.Println("error creating new post: ", err.Error())
-
-			session.AddFlash("failed to create a new post, please try again later.", "error")
-			sessions.Save(r, w)
-
-			http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
-			return
-		}
-
-		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 

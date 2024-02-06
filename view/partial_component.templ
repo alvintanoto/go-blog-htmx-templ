@@ -39,3 +39,9 @@ templ sideNavigationComponent(user *dto.UserDTO) {
 		}
 	</div>
 }
+
+templ alertErrorComponent(message string) {
+	<div class="text-base my-1 px-2 py-1 border border-error-border bg-error">
+		{ message }
+	</div>
+}

@@ -24,8 +24,7 @@ func (a *Application) SetupRoutes() {
 	postRoute := router.PathPrefix("/post/").Subrouter()
 	postRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
-		postRoute.HandleFunc("/new-post", a.Controller.ViewController.CreatePostHandler()).Methods(http.MethodPost)
-		postRoute.HandleFunc("/new-post", a.Controller.ViewController.CreateNewPostViewHandler()).Methods(http.MethodGet)
+		postRoute.HandleFunc("/new-post", a.Controller.ViewController.CreatePostHandler())
 	}
 
 	profileRoute := router.PathPrefix("/profile/").Subrouter()

@@ -14,9 +14,7 @@ templ SignInPage(dto *dto.SignInPageDTO) {
 						Sign In
 					</div>
 					if dto.Error != "" {
-						<div class="text-base text-error-text my-1 px-2 py-1 border border-error-border bg-error">
-							{ dto.Error }
-						</div>
+						@alertErrorComponent(dto.Error)
 					}
 					<form method="post">
 						<div class="flex flex-row my-3">

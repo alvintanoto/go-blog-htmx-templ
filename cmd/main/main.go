@@ -84,8 +84,8 @@ func (a *Application) InitializeSession() {
 		log.Fatal("failed to create redis store: ", err)
 	}
 
-	store.KeyPrefix("session_")
 	store.Options(sessions.Options{
+		Path:   "/",
 		MaxAge: 60 * 60 * 3,
 	})
 

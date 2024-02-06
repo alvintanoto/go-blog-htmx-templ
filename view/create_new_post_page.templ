@@ -36,6 +36,9 @@ templ CreateNewPostPage(dto *dto.CreateNewPostDTO) {
 				<div class="w-full overflow-y-scroll h-[calc(100vh-64px)]  py-4">
 					<div class="text-2xl font-bold mb-3 font-light max-w-[720px] mx-auto">Create New Post</div>
 					<div class="max-w-[720px] mx-auto">
+						if dto.Error != "" {
+							@alertErrorComponent(dto.Error)
+						}
 						<form method="post">
 							@EditorContainer(dto.Content)
 						</form>
