@@ -1,12 +1,9 @@
 package controller
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	"strings"
-	"time"
 
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 	"alvintanoto.id/blog-htmx-templ/internal/repository"
@@ -362,22 +359,6 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 		profileDTO := &dto.ProfilePageDTO{
 			User:  user,
 			Posts: []dto.PostDTO{},
-		}
-
-		for i := 0; i < 25; i++ {
-			profileDTO.Posts = append(profileDTO.Posts, dto.PostDTO{
-				ID:          strconv.Itoa(i + 1),
-				Content:     fmt.Sprintf("this is my %d post", i+1),
-				Replies:     []dto.PostDTO{},
-				ReplyCounts: i,
-				Likes:       i,
-				SavedCounts: i,
-				Impressions: i,
-				Poster: dto.UserDTO{
-					Username: user.Username,
-				},
-				PostedAt: time.Now(),
-			})
 		}
 
 		view.ProfilePage(profileDTO).Render(r.Context(), w)

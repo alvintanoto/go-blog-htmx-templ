@@ -4,6 +4,19 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 )
 
+templ emptyProfilePageState() {
+	<div class="overflow-y-scroll mt-[144px] flex items-center justify-center flex-col">
+		<div class="text-3xl font-light my-1">
+			<svg width="72px" height="72px">
+				<image xlink:href="/assets/icons/empty.svg" width="72px" height="72px"></image>
+			</svg>
+		</div>
+		<div class="text-3xl font-light my-1">
+			So Empty ...
+		</div>
+	</div>
+}
+
 templ ProfilePage(dto *dto.ProfilePageDTO) {
 	<html>
 		@headerComponent("profile", dto.User)
@@ -39,12 +52,16 @@ templ ProfilePage(dto *dto.ProfilePageDTO) {
 							<div class="w-[calc(75%/3)] pb-2 border-b-2 border-grey-darker text-center cursor-pointer">Bookmarks</div>
 							<div class="w-[calc(75%/3)] pb-2 border-b-2 border-grey-darker text-center cursor-pointer">Likes</div>
 						</div>
-						<div class="mt-3 m-auto max-w-[960px]">
-							for _, post := range dto.Posts {
-								@postComponent(post)
-							}
-							@loadMoreComponent()
-						</div>
+						if len(dto.Posts) <= 0 {
+							@emptyProfilePageState()
+						} else {
+							<div class="mt-3 m-auto max-w-[960px]">
+								for _, post := range dto.Posts {
+									@postComponent(post)
+								}
+								@loadMoreComponent()
+							</div>
+						}
 					</div>
 				</div>
 			</div>
