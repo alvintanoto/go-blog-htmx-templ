@@ -13,6 +13,7 @@ func (a *Application) SetupRoutes() {
 	router.Use(a.Controller.Middlewares.LoggingMiddleware)
 
 	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
+	router.HandleFunc("/load-more-posts", a.Controller.ViewController.HomepageInfiniteScrollHandler())
 
 	authRoute := router.PathPrefix("/auth/").Subrouter()
 	authRoute.Use(a.Controller.Middlewares.IsAuthenticated)
@@ -31,7 +32,7 @@ func (a *Application) SetupRoutes() {
 	profileRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
 		profileRoute.HandleFunc("/", a.Controller.ViewController.ProfileHandler())
-		profileRoute.HandleFunc("/load-more-posts", a.Controller.ViewController.ProfileLoadMorePostHandler())
+		profileRoute.HandleFunc("/load-more-posts", a.Controller.ViewController.ProfilePostInfiniteScrollHandler())
 	}
 
 	settingsRoute := router.PathPrefix("/settings/").Subrouter()

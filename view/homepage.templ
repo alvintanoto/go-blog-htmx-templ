@@ -5,18 +5,16 @@ import (
 )
 
 templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
-	// <div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]">
-	// 	for _, post := range posts {
-	// 		@postComponent(post, 1)
-	// 	}
-	// </div>
-	// if user != nil {
-	// 	<div class="max-w-[720px] mx-auto relative">
-	// 		<div class="absolute bottom-[24px] right-[24px]">
-	// 			@newPostButton("")
-	// 		</div>
-	// 	</div>
-	// }
+	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]">
+		@Posts(posts, "/load-more-posts?page=1")
+	</div>
+	if user != nil {
+		<div class="max-w-[720px] mx-auto relative">
+			<div class="absolute bottom-[24px] right-[24px]">
+				@newPostButton("")
+			</div>
+		</div>
+	}
 }
 
 templ emptyHomepageState(user *dto.UserDTO) {
