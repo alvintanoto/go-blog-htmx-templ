@@ -21,6 +21,7 @@ type Post struct {
 	ReplyTo           string
 	OriginalVersionID string
 	IsDraft           bool
+	PostedAt          time.Time
 	CreatedAt         time.Time
 	CreatedBy         string
 	UpdatedAt         time.Time

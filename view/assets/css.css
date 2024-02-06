@@ -1051,6 +1051,11 @@ h3 {
   font-weight: 200;
 }
 
+.text-black-grey {
+  --tw-text-opacity: 1;
+  color: rgb(31 31 31 / var(--tw-text-opacity));
+}
+
 .text-error-text {
   --tw-text-opacity: 1;
   color: rgb(168 7 26 / var(--tw-text-opacity));

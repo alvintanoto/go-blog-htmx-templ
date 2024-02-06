@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 
 	"alvintanoto.id/blog-htmx-templ/internal/entity"
 	"github.com/google/uuid"
@@ -35,22 +36,6 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 		IsDeleted:  false,
 	}
 
-	query := `INSERT INTO posts(
-		id,
-		user_id,
-		content,
-		visibility,
-		is_draft,
-		created_by
-	) VALUES (
-		$1,
-		$2,
-		$3,
-		$4,
-		$5,
-		$6
-	)`
-
 	args := []interface{}{
 		post.ID,
 		post.UserID,
@@ -58,6 +43,45 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 		post.Visibility,
 		post.IsDraft,
 		post.CreatedBy,
+	}
+
+	var query string
+	if isDraft {
+		query = `INSERT INTO posts(
+			id,
+			user_id,
+			content,
+			visibility,
+			is_draft,
+			created_by
+		) VALUES (
+			$1,
+			$2,
+			$3,
+			$4,
+			$5,
+			$6
+		)`
+	} else {
+		post.PostedAt = time.Now()
+		args = append(args, post.PostedAt)
+		query = `INSERT INTO posts(
+			id,
+			user_id,
+			content,
+			visibility,
+			is_draft,
+			created_by,
+			posted_at
+		) VALUES (
+			$1,
+			$2,
+			$3,
+			$4,
+			$5,
+			$6,
+			$7
+		)`
 	}
 
 	row := r.db.QueryRow(query, args...)
