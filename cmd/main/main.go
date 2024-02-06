@@ -75,7 +75,7 @@ func (a *Application) InitializeDatabase() {
 
 func (a *Application) InitializeSession() {
 	client := redis.NewClient(&redis.Options{
-		Addr: "localhost:6379",
+		Addr: a.Configurations.Redis.Url,
 	})
 
 	// New default RedisStore

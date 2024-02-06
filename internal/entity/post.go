@@ -9,22 +9,21 @@ const (
 )
 
 type Post struct {
-	ID                string
-	UserID            string
-	Content           string
-	ReplyCount        int
-	LikeCount         int
-	DislikeCount      int
-	ImpressionCount   int
-	SaveCount         int
-	Visibility        int
-	ReplyTo           string
-	OriginalVersionID string
-	IsDraft           bool
-	PostedAt          time.Time
-	CreatedAt         time.Time
-	CreatedBy         string
-	UpdatedAt         time.Time
-	UpdatedBy         string
-	IsDeleted         bool
+	ID              string
+	UserID          string
+	Content         string
+	ReplyCount      int
+	LikeCount       int
+	DislikeCount    int
+	ImpressionCount int
+	SaveCount       int
+	Visibility      int
+	ReplyTo         string
+	IsDraft         bool
+	PostedAt        time.Time
+	CreatedAt       time.Time
+	CreatedBy       string
+	UpdatedAt       time.Time
+	UpdatedBy       string
+	IsDeleted       bool
 }

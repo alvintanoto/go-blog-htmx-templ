@@ -56,10 +56,7 @@ templ ProfilePage(dto *dto.ProfilePageDTO) {
 							@emptyProfilePageState()
 						} else {
 							<div class="mt-3 m-auto max-w-[960px]">
-								for _, post := range dto.Posts {
-									@postComponent(post)
-								}
-								@loadMoreComponent()
+								@Posts(dto.Posts, "/profile/load-more-posts?page=1")
 							</div>
 						}
 					</div>

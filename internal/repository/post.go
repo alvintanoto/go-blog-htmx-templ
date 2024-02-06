@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
@@ -103,4 +104,53 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 	}
 
 	return nil
+}
+
+func (r *PostRepository) GetUserPostByUserID(userID string, page int) (posts []*entity.Post, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var limit int = 15
+	var offset = page * limit
+
+	query := `SELECT 
+				id, user_id, content, reply_count, like_count, dislike_count, impressions, save_count, posted_at
+			FROM 
+				posts
+			WHERE
+				user_id=$1 AND
+				reply_to is null AND
+				is_draft=false AND
+				is_deleted=false
+			ORDER BY
+				posted_at DESC
+			LIMIT 
+				$2
+			OFFSET
+				$3`
+
+	args := []interface{}{
+		userID,
+		limit,
+		offset,
+	}
+
+	rows, err := r.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		log.Println("failed to query user profile post: ", err.Error())
+		return nil, err
+	}
+
+	for rows.Next() {
+		var entity = new(entity.Post)
+		err = rows.Scan(&entity.ID, &entity.UserID, &entity.Content, &entity.ReplyCount, &entity.LikeCount, &entity.DislikeCount, &entity.ImpressionCount, &entity.SaveCount, &entity.PostedAt)
+		if err != nil {
+			log.Println("failed to scan user profile post: ", err.Error())
+			return nil, err
+		}
+
+		posts = append(posts, entity)
+	}
+
+	return posts, nil
 }

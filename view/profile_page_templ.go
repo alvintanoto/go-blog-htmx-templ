@@ -171,13 +171,7 @@ func ProfilePage(dto *dto.ProfilePageDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			for _, post := range dto.Posts {
-				templ_7745c5c3_Err = postComponent(post).Render(ctx, templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-			}
-			templ_7745c5c3_Err = loadMoreComponent().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Posts(dto.Posts, "/profile/load-more-posts?page=1").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

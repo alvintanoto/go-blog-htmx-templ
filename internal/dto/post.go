@@ -1,7 +1,5 @@
 package dto
 
-import "time"
-
 type PostDTO struct {
 	ID          string    `json:"id"`
 	Content     string    `json:"content"`
@@ -12,7 +10,7 @@ type PostDTO struct {
 	Impressions int       `json:"impressions"`
 	SavedCounts int       `json:"saved_count"`
 	Poster      UserDTO   `json:"poster"`
-	PostedAt    time.Time `json:"posted_at"`
+	PostedAt    string    `json:"posted_at"`
 }
 
 type SubmitPostDTO struct {

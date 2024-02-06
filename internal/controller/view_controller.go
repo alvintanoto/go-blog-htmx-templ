@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
@@ -361,7 +363,32 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 			Posts: []dto.PostDTO{},
 		}
 
+		posts, err := vc.Service.PostService.GetUserPostByUserID(user, 0)
+		if err != nil {
+			profileDTO.Error = "Failed to get user profile post, please try again later"
+			view.ProfilePage(profileDTO).Render(r.Context(), w)
+			return
+		}
+
+		profileDTO.Posts = posts
 		view.ProfilePage(profileDTO).Render(r.Context(), w)
+	}
+}
+
+func (vc *ViewController) ProfileLoadMorePostHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
+		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+
+		posts, err := vc.Service.PostService.GetUserPostByUserID(user, page)
+		if err != nil {
+			return
+		}
+
+		nPage := page + 1
+		view.Posts(posts, fmt.Sprintf("/profile/load-more-posts?page=%d", nPage)).Render(r.Context(), w)
 	}
 }
 

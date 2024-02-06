@@ -30,7 +30,8 @@ func (a *Application) SetupRoutes() {
 	profileRoute := router.PathPrefix("/profile/").Subrouter()
 	profileRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
-		profileRoute.HandleFunc("/", a.Controller.ViewController.ProfileHandler()).Methods(http.MethodGet)
+		profileRoute.HandleFunc("/", a.Controller.ViewController.ProfileHandler())
+		profileRoute.HandleFunc("/load-more-posts", a.Controller.ViewController.ProfileLoadMorePostHandler())
 	}
 
 	settingsRoute := router.PathPrefix("/settings/").Subrouter()

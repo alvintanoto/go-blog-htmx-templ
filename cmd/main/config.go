@@ -15,6 +15,11 @@ var ErrMissingEnv = errors.New("missing env variable")
 type Configurations struct {
 	Server   ServerConfigurations   `json:"server"`
 	Database DatabaseConfigurations `json:"database"`
+	Redis    RedisConfigurations    `json:"redis"`
+}
+
+type RedisConfigurations struct {
+	Url string `json:"redis_url"`
 }
 
 type ServerConfigurations struct {
@@ -55,6 +60,8 @@ func (c *Configurations) ReadConfigurations() error {
 	dbPasswordEnv := os.Getenv("DB_PASSWORD")
 	dbNameEnv := os.Getenv("BLOG_DB_NAME")
 
+	redisEnv := os.Getenv("DB_REDIS")
+
 	c.Server.Port = port
 	c.Server.SecretKey = secretKey
 	c.Database.Host = dbHostEnv
@@ -62,6 +69,7 @@ func (c *Configurations) ReadConfigurations() error {
 	c.Database.User = dbUserEnv
 	c.Database.Password = dbPasswordEnv
 	c.Database.Name = dbNameEnv
+	c.Redis.Url = redisEnv
 
 	return nil
 }
