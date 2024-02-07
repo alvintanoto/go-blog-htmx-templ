@@ -25,7 +25,7 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 
 func (r *UserRepository) GetUserByUsername(ctx context.Context, username string) (user *entity.User, err error) {
 	user = new(entity.User)
-	query := `SELECT id, username, email, password FROM blog_user WHERE username=$1 AND is_deleted=false`
+	query := `SELECT id, username, email, password, created_at FROM blog_user WHERE username=$1 AND is_deleted=false`
 	args := []interface{}{
 		username,
 	}
@@ -36,7 +36,7 @@ func (r *UserRepository) GetUserByUsername(ctx context.Context, username string)
 		return nil, err
 	}
 
-	err = row.Scan(&user.ID, &user.Username, &user.Email, &user.Password)
+	err = row.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
 	if err != nil {
 		log.Println("fail scanning row to struct: ", err.Error())
 		if errors.Is(err, sql.ErrNoRows) {

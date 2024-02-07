@@ -42,7 +42,7 @@ templ ProfilePage(dto *dto.ProfilePageDTO) {
 							</div>
 						</div>
 						<div class="font-light text-center text-4xl cursor-pointer"><span>&#64;{ dto.User.Username }</span></div>
-						<div class="text-center text-base cursor-pointer my-1">Joined at 01/01/2011</div>
+						<div class="text-center text-base cursor-pointer my-1">Member since <span class="text-primary">{ dto.User.CreatedAt } </span></div>
 						<div class="text-center text-base cursor-pointer flex flex-row justify-center">
 							<div class="mr-2">0 Following</div>
 							<div>0 Followers </div>

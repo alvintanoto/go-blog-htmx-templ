@@ -100,9 +100,10 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 			}
 
 			store.Values["user"] = &dto.UserDTO{
-				ID:       user.ID,
-				Username: user.Username,
-				Email:    user.Email,
+				ID:        user.ID,
+				Username:  user.Username,
+				Email:     user.Email,
+				CreatedAt: user.CreatedAt,
 			}
 			store.Save(r, w)
 			http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -257,9 +258,10 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 			}
 
 			session.Values["user"] = &dto.UserDTO{
-				ID:       user.ID,
-				Username: user.Username,
-				Email:    user.Email,
+				ID:        user.ID,
+				Username:  user.Username,
+				Email:     user.Email,
+				CreatedAt: user.CreatedAt,
 			}
 			sessions.Save(r, w)
 

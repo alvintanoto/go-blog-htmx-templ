@@ -1,9 +1,10 @@
 package dto
 
 type UserDTO struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
+	ID        string `json:"id"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+	CreatedAt string `json:"created_at"`
 }
 
 type RegisterUserRequestDTO struct {

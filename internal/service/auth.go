@@ -30,8 +30,9 @@ func (s *AuthenticationService) SignIn(ctx context.Context, username, password s
 	}
 
 	return &dto.UserDTO{
-		ID:       entity.ID,
-		Username: entity.Username,
-		Email:    entity.Email,
+		ID:        entity.ID,
+		Username:  entity.Username,
+		Email:     entity.Email,
+		CreatedAt: entity.CreatedAt.Format("02 January 2006"),
 	}, nil
 }
