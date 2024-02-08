@@ -1,29 +1,43 @@
-# goblog
+# Gociall
 
-Trying fullstack go app with htmx and templ
+A social application created with golang, templ and htmx
 
-# How to run app
+# Getting started
 
-1. Build Tailwind CSS
+Instruction for running development app and deployment
 
-```
-npx tailwindcss -i ./view/css/input.css -o ./view/assets/css.css
-```
+## Prerequisite
 
-2. Generate Templ
+- Golang
+- Tailwindcss
+- PostgreSQL
+- Redis
 
-```
-templ generate
-```
+## Running the apps
 
-3. Run GO
+This command will build the css output, templ generation, and run the server
 
-```
-go run ./cmd/main
-```
+`./run.sh`
 
-Or run the executable
+## Deployment
 
-```
-./run.sh
-```
+TBD
+
+# Build With
+
+- Go
+- Postgres
+- Redis
+- HTMX
+
+# Features
+
+TBD
+
+# Showcase
+
+TBD
+
+# Demo
+
+TBD
