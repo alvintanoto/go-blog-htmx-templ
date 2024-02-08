@@ -74,7 +74,7 @@ func EditorContainer(value string) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/create_new_post_page.templ`, Line: 19, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/create_post_page.templ`, Line: 19, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -99,7 +99,7 @@ func EditorContainer(value string) templ.Component {
 	})
 }
 
-func CreateNewPostPage(dto *dto.CreateNewPostDTO) templ.Component {
+func CreatePostPage(dto *dto.CreateNewPostDTO) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {

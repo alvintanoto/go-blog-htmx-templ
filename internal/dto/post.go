@@ -11,6 +11,7 @@ type PostDTO struct {
 	SavedCounts int       `json:"saved_count"`
 	Poster      UserDTO   `json:"poster"`
 	PostedAt    string    `json:"posted_at"`
+	CreatedAt   string    `json:"created_at"`
 }
 
 type SubmitPostDTO struct {

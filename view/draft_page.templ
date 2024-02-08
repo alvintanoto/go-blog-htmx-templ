@@ -1,0 +1,70 @@
+package view
+
+import (
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"fmt"
+)
+
+templ emptyDraftPageState() {
+	<div class="overflow-y-scroll h-[calc(100vh-64px)] flex items-center justify-center flex-col">
+		<div class="text-3xl font-light my-1">
+			<svg width="72px" height="72px">
+				<image xlink:href="/assets/icons/empty.svg" width="72px" height="72px"></image>
+			</svg>
+		</div>
+		<div class="text-3xl font-light my-1">
+			Its Empty
+		</div>
+	</div>
+}
+
+templ draftComponent(user *dto.UserDTO, posts []dto.PostDTO) {
+	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]">
+		@Drafts(posts, "/load-more-posts?page=1")
+	</div>
+	if user != nil {
+		<div class="max-w-[720px] mx-auto relative">
+			<div class="absolute bottom-[24px] right-[24px]">
+				@newPostButton("")
+			</div>
+		</div>
+	}
+}
+
+templ Drafts (posts []dto.PostDTO, url string) {
+	for idx, post := range posts {
+		<a href={ templ.URL(fmt.Sprintf("/post/new-post?id=%s", post.ID)) }>
+			<div
+				class="flex flex-col w-full border-b p-2 border-grey-darker hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto"
+				if len(posts)-1 == idx && len(posts)>= 15 {
+					hx-get={ url }
+					hx-trigger="intersect once"
+					hx-swap="afterend"
+				}
+			>
+				<div class="my-1"><span class="text-sm text-black-grey">{ post.CreatedAt }</span></div>
+				<div class="mb-2 max-w-[960px]">{ post.Content } </div>
+			</div>
+		</a>
+	}
+}
+
+templ DraftPage(dto *dto.DraftPageDTO) {
+	<html>
+		@headerComponent("draft", dto.User)
+		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
+			<div class="grid-cols-2 md:flex md:min-h-full">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+					@sideNavigationComponent(dto.User)
+				</div>
+				<div class="w-full">
+					if len(dto.Posts) > 0 {
+						@draftComponent(dto.User, dto.Posts)
+					} else {
+						@emptyDraftPageState()
+					}
+				</div>
+			</div>
+		</body>
+	</html>
+}

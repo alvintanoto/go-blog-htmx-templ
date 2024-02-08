@@ -284,7 +284,7 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 			homeDTO.User = userStore.(*dto.UserDTO)
 
 			// TODO: get user timeline posts
-			posts, err := vc.Service.PostService.GetHomeTimelineByUserID(homeDTO.User, 0)
+			posts, err := vc.Service.PostService.GetHomeTimeline(homeDTO.User, 0)
 			if err != nil {
 				homeDTO.Error = "Failed to get timeline, please try again later"
 			}
@@ -304,7 +304,7 @@ func (vc *ViewController) HomepageInfiniteScrollHandler() func(http.ResponseWrit
 		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 
 		// TODO: get user timeline posts
-		posts, err := vc.Service.PostService.GetUserPostByUserID(user, page)
+		posts, err := vc.Service.PostService.GetUserPosts(user, page)
 		if err != nil {
 			return
 		}
@@ -319,21 +319,33 @@ func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Re
 		session, _ := vc.Session.Get(r, "default")
 		user := session.Values["user"].(*dto.UserDTO)
 
-		createNewPostDTO := &dto.CreateNewPostDTO{
+		id := r.URL.Query().Get("id")
+
+		createPostDTO := &dto.CreateNewPostDTO{
 			User: user,
 		}
 
 		if flashes := session.Flashes("error"); len(flashes) > 0 {
-			createNewPostDTO.Error = flashes[len(flashes)-1].(string)
+			createPostDTO.Error = flashes[len(flashes)-1].(string)
 
 			session.Save(r, w)
-			view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
+			view.CreatePostPage(createPostDTO).Render(r.Context(), w)
 			return
 		}
 
 		switch r.Method {
 		case http.MethodGet:
-			view.CreateNewPostPage(createNewPostDTO).Render(r.Context(), w)
+			if id != "" {
+				post, err := vc.Service.PostService.GetUserPost(user, id)
+				if err != nil {
+					// failed just redirect to drafts
+					http.Redirect(w, r, "/draft/", http.StatusSeeOther)
+					return
+				}
+
+				createPostDTO.Content = post.Content
+			}
+			view.CreatePostPage(createPostDTO).Render(r.Context(), w)
 		case http.MethodPost:
 			decoder := schema.NewDecoder()
 
@@ -363,21 +375,47 @@ func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Re
 				return
 			}
 
-			isDraft := payload.SubmitType == "draft"
-
-			err = vc.Service.PostService.CreateNewPost(user.ID, content, isDraft)
+			// data not exist in the database
+			err = vc.Service.PostService.CreatePost(user.ID, id, content, payload.SubmitType)
 			if err != nil {
-				log.Println("error creating new post: ", err.Error())
+				log.Println("error posting / drafting post: ", err.Error())
 
-				session.AddFlash("failed to create a new post, please try again later.", "error")
+				session.AddFlash("failed to create / draft a new post, please try again later.", "error")
 				sessions.Save(r, w)
 
 				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
 				return
 			}
 
+			if payload.SubmitType == "draft" {
+				http.Redirect(w, r, "/draft/", http.StatusSeeOther)
+				return
+			}
+
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
+	}
+}
+
+func (vc *ViewController) DraftHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
+		draftDTO := &dto.DraftPageDTO{
+			User:  user,
+			Posts: []dto.PostDTO{},
+		}
+
+		posts, err := vc.Service.PostService.GetUserDraft(user, 0)
+		if err != nil {
+			draftDTO.Error = "Failed to get user drafts, please try again later"
+			view.DraftPage(draftDTO).Render(r.Context(), w)
+			return
+		}
+
+		draftDTO.Posts = posts
+		view.DraftPage(draftDTO).Render(r.Context(), w)
 	}
 }
 
@@ -391,7 +429,7 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 			Posts: []dto.PostDTO{},
 		}
 
-		posts, err := vc.Service.PostService.GetUserPostByUserID(user, 0)
+		posts, err := vc.Service.PostService.GetUserPosts(user, 0)
 		if err != nil {
 			profileDTO.Error = "Failed to get user profile post, please try again later"
 			view.ProfilePage(profileDTO).Render(r.Context(), w)
@@ -410,7 +448,7 @@ func (vc *ViewController) ProfilePostInfiniteScrollHandler() func(http.ResponseW
 
 		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 
-		posts, err := vc.Service.PostService.GetUserPostByUserID(user, page)
+		posts, err := vc.Service.PostService.GetUserPosts(user, page)
 		if err != nil {
 			return
 		}

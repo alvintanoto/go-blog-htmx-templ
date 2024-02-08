@@ -36,7 +36,7 @@ type RegisterPageDTO struct {
 	Error            string
 }
 
-type ProfilePageDTO struct {
+type DraftPageDTO struct {
 	User  *UserDTO  `json:"user"`
 	Posts []PostDTO `json:"posts"`
 	Error string
@@ -44,5 +44,11 @@ type ProfilePageDTO struct {
 
 type SettingsPageDto struct {
 	User  *UserDTO `json:"user"`
+	Error string
+}
+
+type ProfilePageDTO struct {
+	User  *UserDTO  `json:"user"`
+	Posts []PostDTO `json:"posts"`
 	Error string
 }

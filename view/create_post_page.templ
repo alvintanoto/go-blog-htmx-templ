@@ -25,7 +25,7 @@ templ EditorContainer(value string) {
 	</div>
 }
 
-templ CreateNewPostPage(dto *dto.CreateNewPostDTO) {
+templ CreatePostPage(dto *dto.CreateNewPostDTO) {
 	<html>
 		@headerComponent("new-post", dto.User)
 		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">

@@ -1,6 +1,9 @@
 package entity
 
-import "time"
+import (
+	"database/sql"
+	"time"
+)
 
 const (
 	PostVisibilityPrivate   int = 0
@@ -18,12 +21,60 @@ type Post struct {
 	ImpressionCount int
 	SaveCount       int
 	Visibility      int
-	ReplyTo         string
+	ReplyTo         *string
 	IsDraft         bool
-	PostedAt        time.Time
+	PostedAt        *time.Time
 	CreatedAt       time.Time
-	CreatedBy       string
+	CreatedBy       *string
 	UpdatedAt       time.Time
-	UpdatedBy       string
+	UpdatedBy       *string
 	IsDeleted       bool
+}
+
+func (p *Post) Scan(row *sql.Row) (err error) {
+	err = row.Scan(
+		&p.ID,
+		&p.UserID,
+		&p.Content,
+		&p.ReplyCount,
+		&p.LikeCount,
+		&p.DislikeCount,
+		&p.ImpressionCount,
+		&p.SaveCount,
+		&p.Visibility,
+		&p.ReplyTo,
+		&p.IsDraft,
+		&p.PostedAt,
+		&p.CreatedAt,
+		&p.CreatedBy,
+		&p.UpdatedAt,
+		&p.UpdatedBy,
+		&p.IsDeleted,
+	)
+
+	return err
+}
+
+func (p *Post) ScanRows(rows *sql.Rows) (err error) {
+	err = rows.Scan(
+		&p.ID,
+		&p.UserID,
+		&p.Content,
+		&p.ReplyCount,
+		&p.LikeCount,
+		&p.DislikeCount,
+		&p.ImpressionCount,
+		&p.SaveCount,
+		&p.Visibility,
+		&p.ReplyTo,
+		&p.IsDraft,
+		&p.PostedAt,
+		&p.CreatedAt,
+		&p.CreatedBy,
+		&p.UpdatedAt,
+		&p.UpdatedBy,
+		&p.IsDeleted,
+	)
+
+	return err
 }
