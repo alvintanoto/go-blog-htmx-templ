@@ -6,13 +6,26 @@ import (
 
 templ SettingsPage(dto *dto.SettingsPageDto) {
 	<html>
-		@headerComponent("settings", dto.User)
+		@titleComponent()
 		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
+			<div id="modalContainer"></div>
+			@headerComponent("settings", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
 					@sideNavigationComponent(dto.User)
 				</div>
-				<div class="w-full"></div>
+				<div class="w-full">
+					<div class="flex flex-col max-w-[720px] mx-auto">
+						<div class="flex flex-row py-2 justify-end">
+							<div
+								hx-get="/settings/sign-out-confirmation"
+								hx-target="#modalContainer"
+								hx-swap="innerHTML"
+								class="bg-danger hover:bg-danger/80 min-w-[96px] text-white text-center content-end px-2 py-1 rounded-md cursor-pointer"
+							>Logout</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</body>
 	</html>

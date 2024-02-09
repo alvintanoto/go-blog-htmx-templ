@@ -27,8 +27,9 @@ templ EditorContainer(value string) {
 
 templ CreatePostPage(dto *dto.CreateNewPostDTO) {
 	<html>
-		@headerComponent("new-post", dto.User)
+		@titleComponent()
 		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
+			@headerComponent("new-post", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
 					@sideNavigationComponent(dto.User)

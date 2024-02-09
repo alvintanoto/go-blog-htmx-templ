@@ -31,11 +31,19 @@ func SignInPage(dto *dto.SignInPageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = headerComponent("sign-in", nil).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = titleComponent().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"max-h-[100vh] select-none bg-grey text-base overflow-hidden \"><div class=\"h-[calc(100vh-64px)] flex items-center justify-center overflow-y-auto\"><div class=\"w-[480px] h-auto  flex-col  border border-grey-darker rounded-md p-4\"><div class=\"text-3xl font-light mb-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"max-h-[100vh] select-none bg-grey text-base overflow-hidden \">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = headerComponent("sign_in", nil).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-[calc(100vh-64px)] flex items-center justify-center overflow-y-auto\"><div class=\"w-[480px] h-auto  flex-col  border border-grey-darker rounded-md p-4\"><div class=\"text-3xl font-light mb-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

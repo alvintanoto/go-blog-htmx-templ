@@ -468,3 +468,29 @@ func (vc *ViewController) SettingsHandler() func(http.ResponseWriter, *http.Requ
 		}).Render(r.Context(), w)
 	}
 }
+
+func (vc *ViewController) SignOutHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			store, _ := vc.Session.Get(r, "default")
+			store.Values["user"] = nil
+			store.Save(r, w)
+
+			w.Header().Set("Hx-redirect", "/")
+			w.Write([]byte(""))
+		}
+	}
+}
+
+func (vc *ViewController) HideModal() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(""))
+	}
+}
+
+func (vc *ViewController) ShowSignOutConfirmation() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		view.SignOutModal().Render(r.Context(), w)
+	}
+}

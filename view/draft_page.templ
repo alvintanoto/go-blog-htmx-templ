@@ -51,8 +51,9 @@ templ Drafts (posts []dto.PostDTO, url string) {
 
 templ DraftPage(dto *dto.DraftPageDTO) {
 	<html>
-		@headerComponent("draft", dto.User)
+		@titleComponent()
 		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
+			@headerComponent("draft", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
 					@sideNavigationComponent(dto.User)

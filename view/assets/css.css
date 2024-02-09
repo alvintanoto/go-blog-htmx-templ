@@ -559,6 +559,10 @@ h3 {
   --tw-backdrop-sepia:  ;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .absolute {
   position: absolute;
 }
@@ -585,6 +589,14 @@ h3 {
 
 .top-\[96px\] {
   top: 96px;
+}
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-10 {
+  z-index: 10;
 }
 
 .float-right {
@@ -649,12 +661,20 @@ h3 {
   margin-left: 12px;
 }
 
+.mr-1 {
+  margin-right: 8px;
+}
+
 .mr-2 {
   margin-right: 12px;
 }
 
 .mt-1 {
   margin-top: 8px;
+}
+
+.mt-2 {
+  margin-top: 12px;
 }
 
 .mt-3 {
@@ -725,6 +745,14 @@ h3 {
   max-height: 100%;
 }
 
+.min-h-\[100vh\] {
+  min-height: 100vh;
+}
+
+.min-h-\[120px\] {
+  min-height: 120px;
+}
+
 .min-h-\[168px\] {
   min-height: 168px;
 }
@@ -777,8 +805,16 @@ h3 {
   width: 100%;
 }
 
+.min-w-\[100vw\] {
+  min-width: 100vw;
+}
+
 .min-w-\[24px\] {
   min-width: 24px;
+}
+
+.min-w-\[360px\] {
+  min-width: 360px;
 }
 
 .min-w-\[36px\] {
@@ -793,6 +829,14 @@ h3 {
   min-width: 720px;
 }
 
+.min-w-\[96px\] {
+  min-width: 96px;
+}
+
+.max-w-\[480px\] {
+  max-width: 480px;
+}
+
 .max-w-\[640px\] {
   max-width: 640px;
 }
@@ -803,6 +847,10 @@ h3 {
 
 .max-w-\[960px\] {
   max-width: 960px;
+}
+
+.animate-fade {
+  animation: fadein 5s ease-in-out;
 }
 
 .cursor-pointer {
@@ -829,6 +877,10 @@ h3 {
 
 .flex-col {
   flex-direction: column;
+}
+
+.content-end {
+  align-content: flex-end;
 }
 
 .items-end {
@@ -918,6 +970,11 @@ h3 {
   border-bottom-width: 2px;
 }
 
+.border-danger {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 77 79 / var(--tw-border-opacity));
+}
+
 .border-error-border {
   --tw-border-opacity: 1;
   border-color: rgb(255 204 199 / var(--tw-border-opacity));
@@ -936,6 +993,15 @@ h3 {
 .border-b-primary {
   --tw-border-opacity: 1;
   border-bottom-color: rgb(22 119 255 / var(--tw-border-opacity));
+}
+
+.bg-black\/40 {
+  background-color: rgb(0 0 0 / 0.4);
+}
+
+.bg-danger {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 77 79 / var(--tw-bg-opacity));
 }
 
 .bg-error {
@@ -1055,9 +1121,18 @@ h3 {
   font-weight: 200;
 }
 
+.font-semibold {
+  font-weight: 600;
+}
+
 .text-black-grey {
   --tw-text-opacity: 1;
   color: rgb(31 31 31 / var(--tw-text-opacity));
+}
+
+.text-danger {
+  --tw-text-opacity: 1;
+  color: rgb(255 77 79 / var(--tw-text-opacity));
 }
 
 .text-error-text {
@@ -1088,6 +1163,14 @@ h3 {
 .outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.hover\:bg-danger\/10:hover {
+  background-color: rgb(255 77 79 / 0.1);
+}
+
+.hover\:bg-danger\/80:hover {
+  background-color: rgb(255 77 79 / 0.8);
 }
 
 .hover\:bg-grey-hover:hover {

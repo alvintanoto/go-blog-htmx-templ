@@ -2,6 +2,9 @@
 module.exports = {
   content: ["./view/*.{templ,html,js}"],
   theme: {
+    animation: {
+      fade: 'fadein 5s ease-in-out',
+    },
     fontSize: {
       sm: ['12px', '20px'],
       base: ['14px', '22px'],
@@ -21,6 +24,7 @@ module.exports = {
       semibold: '600'
     },
     colors: {
+      black: '#000000',
       white: '#FFFFFF',
       grey: '#F2F3F5',
       "grey-darker": '#b3b3b3',
@@ -32,7 +36,8 @@ module.exports = {
       error: '#fff2f0',
       "error-border": '#ffccc7',
       "error-text": "#a8071a",
-      "post-hover": "#e7e9ec"
+      "post-hover": "#e7e9ec",
+      "danger": "#ff4d4f"
     },
     spacing: {
       '1': '8px',

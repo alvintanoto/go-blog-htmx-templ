@@ -38,6 +38,8 @@ func (a *Application) SetupRoutes() {
 	settingsRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
 		settingsRoute.HandleFunc("/", a.Controller.ViewController.SettingsHandler())
+		settingsRoute.HandleFunc("/sign-out-confirmation", a.Controller.ViewController.ShowSignOutConfirmation())
+		settingsRoute.HandleFunc("/sign-out", a.Controller.ViewController.SignOutHandler())
 	}
 
 	profileRoute := router.PathPrefix("/profile/").Subrouter()
@@ -45,6 +47,12 @@ func (a *Application) SetupRoutes() {
 	{
 		profileRoute.HandleFunc("/", a.Controller.ViewController.ProfileHandler())
 		profileRoute.HandleFunc("/load-more-posts", a.Controller.ViewController.ProfilePostInfiniteScrollHandler())
+	}
+
+	viewRoute := router.PathPrefix("/views/").Subrouter()
+	viewRoute.Use(a.Controller.Middlewares.IsAuthenticated)
+	{
+		viewRoute.HandleFunc("/hide-modal", a.Controller.ViewController.HideModal())
 	}
 
 	// apiRoute := router.PathPrefix("/api/").Subrouter()

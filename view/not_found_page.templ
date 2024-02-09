@@ -4,8 +4,9 @@ import "alvintanoto.id/blog-htmx-templ/internal/dto"
 
 templ NotFoundPage(user *dto.UserDTO) {
 	<html>
-		@headerComponent("not-found", user)
+		@titleComponent()
 		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
+			@headerComponent("not-found", user)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
 					@sideNavigationComponent(user)

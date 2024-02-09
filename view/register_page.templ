@@ -4,8 +4,9 @@ import "alvintanoto.id/blog-htmx-templ/internal/dto"
 
 templ RegisterPage(dto *dto.RegisterPageDTO) {
 	<html>
-		@headerComponent("sign-in", nil)
+		@titleComponent()
 		<body class="max-h-[100vh] select-none bg-grey text-base">
+			@headerComponent("register", nil)
 			<div class="min-h-[calc(100vh-64px)] my-4 flex items-center justify-center">
 				<div class="w-[480px] h-auto  flex-col  border border-grey-darker rounded-md p-4 mb-4">
 					<div class="text-3xl font-light mb-2">

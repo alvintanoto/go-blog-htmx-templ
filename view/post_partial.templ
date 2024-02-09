@@ -53,9 +53,6 @@ templ Posts (posts []dto.PostDTO, url string) {
 						{ strconv.Itoa(post.ReplyCounts) } Replies
 					</div>
 					<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
-						{ strconv.Itoa(post.SavedCounts) } Bookmarks
-					</div>
-					<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
 						{ strconv.Itoa(post.Impressions) } Impressions
 					</div>
 				</div>
