@@ -11,6 +11,7 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/repository"
 	"alvintanoto.id/blog-htmx-templ/internal/service"
 	"alvintanoto.id/blog-htmx-templ/view"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
 	"github.com/rbcervilla/redisstore/v9"
@@ -394,6 +395,31 @@ func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Re
 
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
+	}
+}
+
+func (vc *ViewController) PostDetailHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
+		pathParam := mux.Vars(r)
+		postID := pathParam["id"]
+		if postID == "" {
+			view.NotFoundPage(user).Render(r.Context(), w)
+			return
+		}
+
+		fmt.Println(postID)
+		// post, err := vc.Service.PostService.GetPostDetail(user, postID)
+		// if err != nil {
+
+		// }
+
+		view.PostDetailPage(dto.PostDetailDTO{
+			User: user,
+		}).Render(r.Context(), w)
+		return
 	}
 }
 

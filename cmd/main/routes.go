@@ -26,6 +26,7 @@ func (a *Application) SetupRoutes() {
 	postRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
 		postRoute.HandleFunc("/new-post", a.Controller.ViewController.CreatePostHandler())
+		postRoute.HandleFunc("/{id}", a.Controller.ViewController.PostDetailHandler())
 	}
 
 	draftRoute := router.PathPrefix("/draft/").Subrouter()
