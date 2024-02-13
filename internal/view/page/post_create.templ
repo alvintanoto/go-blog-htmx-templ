@@ -1,6 +1,7 @@
-package view
+package vpages
 
 import "alvintanoto.id/blog-htmx-templ/internal/dto"
+import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
 templ CreateNewPostButtons() {
 	<div class="flex justify-end">
@@ -25,20 +26,20 @@ templ EditorContainer(value string) {
 	</div>
 }
 
-templ CreatePostPage(dto *dto.CreateNewPostDTO) {
+templ CreatePost(dto *dto.CreateNewPostDTO) {
 	<html>
-		@titleComponent()
+		@vcomponent.Title()
 		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
-			@headerComponent("new-post", dto.User)
+			@vcomponent.Header("new-post", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
-					@sideNavigationComponent(dto.User)
+					@vcomponent.SideNavigation(dto.User)
 				</div>
 				<div class="w-full overflow-y-scroll h-[calc(100vh-64px)]  py-4">
 					<div class="text-2xl font-bold mb-3 font-light max-w-[720px] mx-auto">Create New Post</div>
 					<div class="max-w-[720px] mx-auto">
 						if dto.Error != "" {
-							@alertErrorComponent(dto.Error)
+							@vcomponent.AlertError(dto.Error)
 						}
 						<form method="post">
 							@EditorContainer(dto.Content)

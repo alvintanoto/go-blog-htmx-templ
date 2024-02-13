@@ -54,7 +54,7 @@ type ProfilePageDTO struct {
 }
 
 type PostDetailDTO struct {
-	User  *UserDTO  `json:"user"`
-	Posts []PostDTO `json:"posts"`
+	User  *UserDTO `json:"user"`
+	Post  PostDTO  `json:"posts`
 	Error string
 }

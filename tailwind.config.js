@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./view/*.{templ,html,js}"],
+  content: ["./internal/view/**/*.{templ,html,js}"],
   theme: {
     animation: {
       fade: 'fadein 5s ease-in-out',

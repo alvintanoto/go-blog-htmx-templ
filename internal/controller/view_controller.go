@@ -10,7 +10,9 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 	"alvintanoto.id/blog-htmx-templ/internal/repository"
 	"alvintanoto.id/blog-htmx-templ/internal/service"
-	"alvintanoto.id/blog-htmx-templ/view"
+	vcomponent "alvintanoto.id/blog-htmx-templ/internal/view/component"
+	verror "alvintanoto.id/blog-htmx-templ/internal/view/error"
+	vpages "alvintanoto.id/blog-htmx-templ/internal/view/page"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
@@ -35,11 +37,11 @@ func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"]
 		if user != nil {
-			view.NotFoundPage(user.(*dto.UserDTO)).Render(r.Context(), w)
+			verror.NotFound(user.(*dto.UserDTO)).Render(r.Context(), w)
 			return
 		}
 
-		view.NotFoundPage(nil).Render(r.Context(), w)
+		verror.NotFound(nil).Render(r.Context(), w)
 	}
 }
 
@@ -50,13 +52,13 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 
 		switch r.Method {
 		case http.MethodGet:
-			view.SignInPage(data).Render(r.Context(), w)
+			vpages.SignIn(data).Render(r.Context(), w)
 		case http.MethodPost:
 			if flashes := store.Flashes("error"); len(flashes) > 0 {
 				data.Error = flashes[len(flashes)-1].(string)
 
 				store.Save(r, w)
-				view.SignInPage(data).Render(r.Context(), w)
+				vpages.SignIn(data).Render(r.Context(), w)
 				return
 			}
 
@@ -135,7 +137,7 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 
 		switch r.Method {
 		case http.MethodGet:
-			view.RegisterPage(registerPageDataDTO).Render(r.Context(), w)
+			vpages.Register(registerPageDataDTO).Render(r.Context(), w)
 			return
 		case http.MethodPost:
 			var payload dto.RegisterUserRequestDTO
@@ -180,7 +182,7 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 				}
 
 				sessions.Save(r, w)
-				view.RegisterPage(registerPageDataDTO).Render(r.Context(), w)
+				vpages.Register(registerPageDataDTO).Render(r.Context(), w)
 				return
 			}
 
@@ -293,7 +295,7 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 			homeDTO.Posts = posts
 		}
 
-		view.Homepage(homeDTO).Render(r.Context(), w)
+		vpages.Home(homeDTO).Render(r.Context(), w)
 	}
 }
 
@@ -311,7 +313,7 @@ func (vc *ViewController) HomepageInfiniteScrollHandler() func(http.ResponseWrit
 		}
 
 		nPage := page + 1
-		view.Posts(posts, fmt.Sprintf("/profile/load-more-posts?page=%d", nPage)).Render(r.Context(), w)
+		vcomponent.Posts(posts, fmt.Sprintf("/profile/load-more-posts?page=%d", nPage)).Render(r.Context(), w)
 	}
 }
 
@@ -330,7 +332,7 @@ func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Re
 			createPostDTO.Error = flashes[len(flashes)-1].(string)
 
 			session.Save(r, w)
-			view.CreatePostPage(createPostDTO).Render(r.Context(), w)
+			vpages.CreatePost(createPostDTO).Render(r.Context(), w)
 			return
 		}
 
@@ -346,7 +348,7 @@ func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Re
 
 				createPostDTO.Content = post.Content
 			}
-			view.CreatePostPage(createPostDTO).Render(r.Context(), w)
+			vpages.CreatePost(createPostDTO).Render(r.Context(), w)
 		case http.MethodPost:
 			decoder := schema.NewDecoder()
 
@@ -406,7 +408,7 @@ func (vc *ViewController) PostDetailHandler() func(http.ResponseWriter, *http.Re
 		pathParam := mux.Vars(r)
 		postID := pathParam["id"]
 		if postID == "" {
-			view.NotFoundPage(user).Render(r.Context(), w)
+			verror.NotFound(user).Render(r.Context(), w)
 			return
 		}
 
@@ -416,7 +418,7 @@ func (vc *ViewController) PostDetailHandler() func(http.ResponseWriter, *http.Re
 
 		// }
 
-		view.PostDetailPage(dto.PostDetailDTO{
+		vpages.PostDetail(dto.PostDetailDTO{
 			User: user,
 		}).Render(r.Context(), w)
 		return
@@ -436,12 +438,12 @@ func (vc *ViewController) DraftHandler() func(http.ResponseWriter, *http.Request
 		posts, err := vc.Service.PostService.GetUserDraft(user, 0)
 		if err != nil {
 			draftDTO.Error = "Failed to get user drafts, please try again later"
-			view.DraftPage(draftDTO).Render(r.Context(), w)
+			vpages.Draft(draftDTO).Render(r.Context(), w)
 			return
 		}
 
 		draftDTO.Posts = posts
-		view.DraftPage(draftDTO).Render(r.Context(), w)
+		vpages.Draft(draftDTO).Render(r.Context(), w)
 	}
 }
 
@@ -458,12 +460,12 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 		posts, err := vc.Service.PostService.GetUserPosts(user, 0)
 		if err != nil {
 			profileDTO.Error = "Failed to get user profile post, please try again later"
-			view.ProfilePage(profileDTO).Render(r.Context(), w)
+			vpages.Profile(profileDTO).Render(r.Context(), w)
 			return
 		}
 
 		profileDTO.Posts = posts
-		view.ProfilePage(profileDTO).Render(r.Context(), w)
+		vpages.Profile(profileDTO).Render(r.Context(), w)
 	}
 }
 
@@ -480,7 +482,7 @@ func (vc *ViewController) ProfilePostInfiniteScrollHandler() func(http.ResponseW
 		}
 
 		nPage := page + 1
-		view.Posts(posts, fmt.Sprintf("/profile/load-more-posts?page=%d", nPage)).Render(r.Context(), w)
+		vcomponent.Posts(posts, fmt.Sprintf("/profile/load-more-posts?page=%d", nPage)).Render(r.Context(), w)
 	}
 }
 
@@ -489,7 +491,7 @@ func (vc *ViewController) SettingsHandler() func(http.ResponseWriter, *http.Requ
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
 
-		view.SettingsPage(&dto.SettingsPageDto{
+		vpages.Settings(&dto.SettingsPageDto{
 			User: user,
 		}).Render(r.Context(), w)
 	}
@@ -517,6 +519,6 @@ func (vc *ViewController) HideModal() func(http.ResponseWriter, *http.Request) {
 
 func (vc *ViewController) ShowSignOutConfirmation() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		view.SignOutModal().Render(r.Context(), w)
+		vcomponent.SignOutModal().Render(r.Context(), w)
 	}
 }

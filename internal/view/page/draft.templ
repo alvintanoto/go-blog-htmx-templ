@@ -1,7 +1,8 @@
-package view
+package vpages
 
 import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"alvintanoto.id/blog-htmx-templ/internal/view/component"
 	"fmt"
 )
 
@@ -18,19 +19,21 @@ templ emptyDraftPageState() {
 	</div>
 }
 
-templ draftComponent(user *dto.UserDTO, posts []dto.PostDTO) {
+// TODO: fix this later
+templ draftList(user *dto.UserDTO, posts []dto.PostDTO) {
 	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]">
 		@Drafts(posts, "/load-more-posts?page=1")
 	</div>
 	if user != nil {
 		<div class="max-w-[720px] mx-auto relative">
 			<div class="absolute bottom-[24px] right-[24px]">
-				@newPostButton("")
+				@vcomponent.NewPostButton("")
 			</div>
 		</div>
 	}
 }
 
+// TODO: fix this later
 templ Drafts (posts []dto.PostDTO, url string) {
 	for idx, post := range posts {
 		<a href={ templ.URL(fmt.Sprintf("/post/new-post?id=%s", post.ID)) }>
@@ -49,18 +52,18 @@ templ Drafts (posts []dto.PostDTO, url string) {
 	}
 }
 
-templ DraftPage(dto *dto.DraftPageDTO) {
+templ Draft(dto *dto.DraftPageDTO) {
 	<html>
-		@titleComponent()
+		@vcomponent.Title()
 		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
-			@headerComponent("draft", dto.User)
+			@vcomponent.Header("draft", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
-					@sideNavigationComponent(dto.User)
+					@vcomponent.SideNavigation(dto.User)
 				</div>
 				<div class="w-full">
 					if len(dto.Posts) > 0 {
-						@draftComponent(dto.User, dto.Posts)
+						@draftList(dto.User, dto.Posts)
 					} else {
 						@emptyDraftPageState()
 					}

@@ -1,15 +1,16 @@
-package view
+package verror
 
 import "alvintanoto.id/blog-htmx-templ/internal/dto"
+import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
-templ NotFoundPage(user *dto.UserDTO) {
+templ NotFound(user *dto.UserDTO) {
 	<html>
-		@titleComponent()
+		@vcomponent.Title()
 		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
-			@headerComponent("not-found", user)
+			@vcomponent.Header("not-found", user)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
-					@sideNavigationComponent(user)
+					@vcomponent.SideNavigation(user)
 				</div>
 				<div class="w-full">
 					<div class="min-h-[90vh] text-center flex justify-center items-center text-4xl font-light">404 <br/> Page Not Found </div>

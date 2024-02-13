@@ -1,0 +1,20 @@
+package vcomponent
+
+import (
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+)
+
+templ SideNavigation(user *dto.UserDTO) {
+	<div class="text-base w-full">
+		<a href="/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover">Home </div> </a>
+		if user != nil {
+			<a href="/search/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover">Search </div> </a>
+			<a href="/notification/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover">Notification </div> </a>
+			<a href="/bookmark/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover">Bookmark </div> </a>
+			<a href="/message/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover">Message </div> </a>
+			<a href="/draft/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover">Draft </div> </a>
+			<a href="/settings/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover">Settings </div></a>
+			<a href="/profile/"><div class="p-2 border-b border-grey-darker cursor-pointer hover:bg-post-hover">Profile </div></a>
+		}
+	</div>
+}

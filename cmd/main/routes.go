@@ -61,7 +61,7 @@ func (a *Application) SetupRoutes() {
 	// 	postApiRoute := apiRoute.PathPrefix("/post/").Subrouter()
 	// }
 
-	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./view/assets/"))))
+	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./public/assets/"))))
 
 	router.NotFoundHandler = http.HandlerFunc(a.Controller.ViewController.NotFoundViewHandler())
 

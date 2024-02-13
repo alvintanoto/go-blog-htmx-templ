@@ -1,0 +1,101 @@
+package vcomponent
+
+import (
+	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"strconv"
+	"fmt"
+)
+
+templ NewPostButton(text string) {
+	<div class="bg-primary text-white text-center px-3 py-2 rounded-3xl cursor-pointer hover:bg-primary/90">
+		<a href="/post/new-post" class="flex flex-row items-center">
+			<div class="min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white">
+				<svg width="16px" height="16px" class="stroke-white">
+					<image xlink:href="/assets/icons/new_post.svg" width="16px" height="16px"></image>
+				</svg>
+			</div>
+			if text != "" {
+				{ text }
+			} else {
+				New Post
+			}
+		</a>
+	</div>
+}
+
+templ PostDetail (post dto.PostDTO) {
+	<div class="flex flex-row w-full border-grey-darker cursor-pointer max-w-[960px] mx-auto">
+		<div class="w-[36px] h-[36px]  border-warning p-2 mr-2 ">
+			<div class="min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover">
+				<svg width="16px" height="16px">
+					<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
+				</svg>
+			</div>
+		</div>
+		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
+			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm text-black-grey">{ post.PostedAt }</span></div>
+			<div class="mb-3 max-w-[960px]">{ post.Content } </div>
+		</div>
+	</div>
+	<div class="max-w-[960px] mx-auto text-sm flex flex-row justify-evenly bg-grey-hover ">
+		<div class="hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center">
+			{ strconv.Itoa(post.Likes) } Likes
+		</div>
+		<div class="hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center">
+			{ strconv.Itoa(post.Dislikes) } Dislikes
+		</div>
+		<div class="hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center">
+			{ strconv.Itoa(post.ReplyCounts) } Replies
+		</div>
+		<div class="hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center">
+			{ strconv.Itoa(post.Impressions) } Impressions
+		</div>
+	</div>
+}
+
+templ Post (post dto.PostDTO) {
+	<div class="flex flex-row w-full border-b border-grey-darker hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto">
+		<div class="w-[36px] h-[36px]  border-warning p-2 mr-2 ">
+			<div class="min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover">
+				<svg width="16px" height="16px">
+					<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
+				</svg>
+			</div>
+		</div>
+		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
+			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm text-black-grey">{ post.PostedAt }</span></div>
+			<div class="mb-3 max-w-[960px]">{ post.Content } </div>
+			<div class="text-sm flex flex-row" onclick="return false;">
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center">
+					{ strconv.Itoa(post.Likes) } Likes
+				</div>
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
+					{ strconv.Itoa(post.Dislikes) } Dislikes
+				</div>
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
+					{ strconv.Itoa(post.ReplyCounts) } Replies
+				</div>
+				<div class="hover:text-primary cursor-pointer flex flex-row items-center ml-2">
+					{ strconv.Itoa(post.Impressions) } Impressions
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Posts (posts []dto.PostDTO, url string) {
+	for idx, post := range posts {
+		<a href={ templ.URL(fmt.Sprintf("/post/%s", post.ID)) }>
+			<div
+				class=""
+				if len(posts)-1 == idx && len(posts)>= 15 {
+					hx-get={ url }
+					hx-trigger="intersect once"
+					hx-swap="afterend"
+				}
+			>
+				@Post(post)
+			</div>
+		</a>
+	}
+}

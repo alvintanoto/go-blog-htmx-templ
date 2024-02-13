@@ -1,21 +1,22 @@
-package view
+package vpages
 
 import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"alvintanoto.id/blog-htmx-templ/internal/view/component"
 )
 
-templ SignInPage(dto *dto.SignInPageDTO) {
+templ SignIn(dto *dto.SignInPageDTO) {
 	<html>
-		@titleComponent()
+		@vcomponent.Title()
 		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden ">
-			@headerComponent("sign_in", nil)
+			@vcomponent.Header("sign_in", nil)
 			<div class="h-[calc(100vh-64px)] flex items-center justify-center overflow-y-auto">
 				<div class="w-[480px] h-auto  flex-col  border border-grey-darker rounded-md p-4">
 					<div class="text-3xl font-light mb-2">
 						Sign In
 					</div>
 					if dto.Error != "" {
-						@alertErrorComponent(dto.Error)
+						@vcomponent.AlertError(dto.Error)
 					}
 					<form method="post">
 						<div class="flex flex-row my-3">

@@ -769,10 +769,6 @@ h3 {
   min-height: 48px;
 }
 
-.min-h-\[64px\] {
-  min-height: 64px;
-}
-
 .min-h-\[90vh\] {
   min-height: 90vh;
 }
@@ -847,6 +843,10 @@ h3 {
 
 .max-w-\[960px\] {
   max-width: 960px;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 .animate-fade {
@@ -1171,11 +1171,6 @@ h3 {
 
 .hover\:bg-danger\/80:hover {
   background-color: rgb(255 77 79 / 0.8);
-}
-
-.hover\:bg-grey-hover:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(217 217 217 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-post-hover:hover {

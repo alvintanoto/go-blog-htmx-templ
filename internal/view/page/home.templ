@@ -1,17 +1,18 @@
-package view
+package vpages
 
 import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
+	"alvintanoto.id/blog-htmx-templ/internal/view/component"
 )
 
 templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
 	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]">
-		@Posts(posts, "/load-more-posts?page=1")
+		@vcomponent.Posts(posts, "/load-more-posts?page=1")
 	</div>
 	if user != nil {
 		<div class="max-w-[720px] mx-auto relative">
 			<div class="absolute bottom-[24px] right-[24px]">
-				@newPostButton("")
+				@vcomponent.NewPostButton("")
 			</div>
 		</div>
 	}
@@ -35,24 +36,24 @@ templ emptyHomepageState(user *dto.UserDTO) {
 				or ...  
 			</div>
 			<div class="my-1">
-				@newPostButton("Create a new post")
+				@vcomponent.NewPostButton("Create a new post")
 			</div>
 		}
 	</div>
 }
 
-templ Homepage(dto *dto.HomepageDTO) {
+templ Home(dto *dto.HomepageDTO) {
 	<html>
-		@titleComponent()
+		@vcomponent.Title()
 		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
-			@headerComponent("homepage", dto.User)
+			@vcomponent.Header("homepage", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
-					@sideNavigationComponent(dto.User)
+					@vcomponent.SideNavigation(dto.User)
 				</div>
 				<div class="w-full">
 					if len(dto.Posts) > 0 {
-						@postsComponent(dto.User, dto.Posts)
+						// @vcomponent.Posts(dto.User, dto.Posts)
 					} else {
 						@emptyHomepageState(dto.User)
 					}
