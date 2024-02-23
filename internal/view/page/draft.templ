@@ -38,7 +38,7 @@ templ Drafts (posts []dto.PostDTO, url string) {
 	for idx, post := range posts {
 		<a href={ templ.URL(fmt.Sprintf("/post/new-post?id=%s", post.ID)) }>
 			<div
-				class="flex flex-col w-full border-b p-2 border-grey-darker hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto"
+				class="flex flex-col w-full border-b p-2 border-default-border hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto"
 				if len(posts)-1 == idx && len(posts)>= 15 {
 					hx-get={ url }
 					hx-trigger="intersect once"
@@ -55,10 +55,10 @@ templ Drafts (posts []dto.PostDTO, url string) {
 templ Draft(dto *dto.DraftPageDTO) {
 	<html>
 		@vcomponent.Title()
-		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
+		<body class="max-h-[100vh] bg-layout-background text-text text-base overflow-hidden">
 			@vcomponent.Header("draft", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
-				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
 					@vcomponent.SideNavigation(dto.User)
 				</div>
 				<div class="w-full">

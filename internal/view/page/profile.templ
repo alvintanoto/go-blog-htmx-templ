@@ -6,7 +6,7 @@ import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 templ Profile(dto *dto.ProfilePageDTO) {
 	<html>
 		@vcomponent.Title()
-		<body class="max-h-[100vh] bg-layout-background text-base overflow-hidden">
+		<body class="max-h-[100vh] bg-layout-background text-text text-base overflow-hidden">
 			@vcomponent.Header("profile", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">

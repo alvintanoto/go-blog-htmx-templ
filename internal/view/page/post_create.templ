@@ -5,8 +5,8 @@ import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
 templ CreateNewPostButtons() {
 	<div class="flex justify-end">
-		<button type="submit" name="submit_type" value="draft" class="bg-warning py-1 px-2 text-white rounded-sm hover:bg-warning/90">Save as Draft </button>
-		<button type="submit" name="submit_type" value="post" class="bg-primary ml-2 py-1 px-3 text-white rounded-sm hover:bg-primary/90">Post </button>
+		<button type="submit" name="submit_type" value="draft" class={ "text-center mr-2 text-white rounded-md px-2 py-1 cursor-pointer shadow-sm bg-warning hover:bg-warning/80" }>Save as Draft </button>
+		<button type="submit" name="submit_type" value="post" class={ "text-center text-white rounded-md px-2 py-1 cursor-pointer shadow-sm bg-primary hover:bg-primary/80" }>Post </button>
 	</div>
 }
 
@@ -29,10 +29,10 @@ templ EditorContainer(value string) {
 templ CreatePost(dto *dto.CreateNewPostDTO) {
 	<html>
 		@vcomponent.Title()
-		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
+		<body class="max-h-[100vh] bg-layout-background text-text text-base overflow-hidden">
 			@vcomponent.Header("new-post", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
-				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
 					@vcomponent.SideNavigation(dto.User)
 				</div>
 				<div class="w-full overflow-y-scroll h-[calc(100vh-64px)]  py-4">

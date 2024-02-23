@@ -1,7 +1,7 @@
 package vcomponent
 
 templ SignOutModal() {
-	<div id="modalContent" class="min-h-[100vh] min-w-[100vw] animate-fade overflow-hidden fixed bg-black/40 flex items-center justify-center">
+	<div id="modalContent" class="min-h-[100vh] min-w-[100vw] overflow-hidden fixed bg-black/40 flex items-center justify-center">
 		<div
 			class="min-h-[100vh] min-w-[100vw] z-0 fixed"
 			hx-get="/views/hide-modal"
@@ -9,7 +9,7 @@ templ SignOutModal() {
 			hx-swap="innerHTML"
 			class="border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center"
 		></div>
-		<div class="flex flex-col bg-grey rounded-md p-2 min-w-[360px] max-w-[480px] min-h-[120px] z-10">
+		<div class="flex flex-col bg-layout-background rounded-md p-3 min-w-[480px] max-w-[480px] z-10">
 			<div class="text-xl font-semibold">
 				Sign Out
 			</div>
@@ -19,13 +19,11 @@ templ SignOutModal() {
 			<div class="flex flex-row justify-end mt-2">
 				<div
 					hx-on:click="htmx.remove('#modalContent')"
-					class="border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center"
-				>
-					Cancel
-				</div>
+					class={ "text-center border border-default-border text-text rounded-md mr-1 px-2 py-1 cursor-pointer shadow-sm" }
+				>Cancel </div>
 				<div
 					hx-get="/settings/sign-out"
-					class="bg-danger hover:bg-danger/80 px-2 py-1 cursor-pointer rounded-sm text-white  items-center"
+					class={ "text-center text-white rounded-md px-2 py-1 cursor-pointer shadow-sm bg-danger hover:bg-danger/80" }
 				>
 					Confirm
 				</div>

@@ -286,13 +286,6 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 		if userStore != nil {
 			homeDTO.User = userStore.(*dto.UserDTO)
 
-			// TODO: get user timeline posts
-			posts, err := vc.Service.PostService.GetHomeTimeline(homeDTO.User, 0)
-			if err != nil {
-				homeDTO.Error = "Failed to get timeline, please try again later"
-			}
-
-			homeDTO.Posts = posts
 		}
 
 		vpages.Home(homeDTO).Render(r.Context(), w)

@@ -23,7 +23,41 @@ func SignOutModal() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modalContent\" class=\"min-h-[100vh] min-w-[100vw] animate-fade overflow-hidden fixed bg-black/40 flex items-center justify-center\"><div class=\"min-h-[100vh] min-w-[100vw] z-0 fixed\" hx-get=\"/views/hide-modal\" hx-target=\"#modalContainer\" hx-swap=\"innerHTML\" class=\"border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center\"></div><div class=\"flex flex-col bg-grey rounded-md p-2 min-w-[360px] max-w-[480px] min-h-[120px] z-10\"><div class=\"text-xl font-semibold\">Sign Out</div><div class=\"text-base py-2\">This action will sign you out, proceed?</div><div class=\"flex flex-row justify-end mt-2\"><div hx-on:click=\"htmx.remove(&#39;#modalContent&#39;)\" class=\"border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center\">Cancel</div><div hx-get=\"/settings/sign-out\" class=\"bg-danger hover:bg-danger/80 px-2 py-1 cursor-pointer rounded-sm text-white  items-center\">Confirm</div></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modalContent\" class=\"min-h-[100vh] min-w-[100vw] overflow-hidden fixed bg-black/40 flex items-center justify-center\"><div class=\"min-h-[100vh] min-w-[100vw] z-0 fixed\" hx-get=\"/views/hide-modal\" hx-target=\"#modalContainer\" hx-swap=\"innerHTML\" class=\"border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center\"></div><div class=\"flex flex-col bg-layout-background rounded-md p-3 min-w-[480px] max-w-[480px] z-10\"><div class=\"text-xl font-semibold\">Sign Out</div><div class=\"text-base py-2\">This action will sign you out, proceed?</div><div class=\"flex flex-row justify-end mt-2\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 = []any{"text-center border border-default-border text-text rounded-md mr-1 px-2 py-1 cursor-pointer shadow-sm"}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-on:click=\"htmx.remove(&#39;#modalContent&#39;)\" class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var2).String()))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Cancel </div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var3 = []any{"text-center text-white rounded-md px-2 py-1 cursor-pointer shadow-sm bg-danger hover:bg-danger/80"}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-get=\"/settings/sign-out\" class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var3).String()))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Confirm</div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

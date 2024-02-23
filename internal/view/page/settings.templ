@@ -6,11 +6,11 @@ import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 templ Settings(dto *dto.SettingsPageDto) {
 	<html>
 		@vcomponent.Title()
-		<body class="max-h-[100vh] select-none bg-grey text-base overflow-hidden">
+		<body class="max-h-[100vh] select-none bg-layout-background text-text text-base overflow-hidden">
 			<div id="modalContainer"></div>
 			@vcomponent.Header("settings", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
-				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
 					@vcomponent.SideNavigation(dto.User)
 				</div>
 				<div class="w-full">
