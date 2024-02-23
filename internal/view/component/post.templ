@@ -6,6 +6,19 @@ import (
 	"fmt"
 )
 
+templ emptyPostStatePage() {
+	<div class="overflow-y-scroll mt-[144px] flex items-center justify-center flex-col">
+		<div class="text-3xl font-light my-1">
+			<svg width="72px" height="72px">
+				<image xlink:href="/assets/icons/empty.svg" width="72px" height="72px"></image>
+			</svg>
+		</div>
+		<div class="text-3xl font-light my-1">
+			So Empty ...
+		</div>
+	</div>
+}
+
 templ NewPostButton(text string) {
 	<div class="bg-primary text-white text-center px-3 py-2 rounded-3xl cursor-pointer hover:bg-primary/90">
 		<a href="/post/new-post" class="flex flex-row items-center">
@@ -54,7 +67,7 @@ templ PostDetail (post dto.PostDTO) {
 }
 
 templ Post (post dto.PostDTO) {
-	<div class="flex flex-row w-full border-b border-grey-darker hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto">
+	<div class="flex flex-row w-full border-b border-default-border hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto">
 		<div class="w-[36px] h-[36px]  border-warning p-2 mr-2 ">
 			<div class="min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover">
 				<svg width="16px" height="16px">
@@ -83,19 +96,33 @@ templ Post (post dto.PostDTO) {
 	</div>
 }
 
-templ Posts (posts []dto.PostDTO, url string) {
-	for idx, post := range posts {
-		<a href={ templ.URL(fmt.Sprintf("/post/%s", post.ID)) }>
-			<div
-				class=""
-				if len(posts)-1 == idx && len(posts)>= 15 {
-					hx-get={ url }
-					hx-trigger="intersect once"
-					hx-swap="afterend"
-				}
-			>
-				@Post(post)
+templ Posts (posts []dto.PostDTO, nextPage int) {
+	if len(posts) > 0 {
+		for idx, post := range posts {
+			<a href={ templ.URL(fmt.Sprintf("/post/%s", post.ID)) }>
+				<div
+					class=""
+					if len(posts)-1 == idx && len(posts)>= 15 {
+						hx-get={ fmt.Sprintf("/profile/load-posts?page=%d", nextPage) }
+						hx-on="htmx:afterRequest: htmx.remove('#loading')"
+						hx-trigger="intersect once"
+						hx-swap="afterend"
+					}
+				>
+					@Post(post)
+				</div>
+			</a>
+		}
+		if len(posts) >= 15 {
+			<div id="loading" class="animate-spin min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white">
+				<svg width="16px" height="16px" class="stroke-white">
+					<image xlink:href="/assets/icons/spin.svg" width="16px" height="16px"></image>
+				</svg>
 			</div>
-		</a>
+		}
+	} else {
+		if nextPage == 1 && len(posts) <=0 {
+			@emptyPostStatePage()
+		}
 	}
 }

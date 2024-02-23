@@ -299,24 +299,6 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 	}
 }
 
-func (vc *ViewController) HomepageInfiniteScrollHandler() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		store, _ := vc.Session.Get(r, "default")
-		user := store.Values["user"].(*dto.UserDTO)
-
-		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
-
-		// TODO: get user timeline posts
-		posts, err := vc.Service.PostService.GetUserPosts(user, page)
-		if err != nil {
-			return
-		}
-
-		nPage := page + 1
-		vcomponent.Posts(posts, fmt.Sprintf("/profile/load-more-posts?page=%d", nPage)).Render(r.Context(), w)
-	}
-}
-
 func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		session, _ := vc.Session.Get(r, "default")
@@ -475,7 +457,7 @@ func (vc *ViewController) ProfilePostInfiniteScrollHandler() func(http.ResponseW
 		}
 
 		nPage := page + 1
-		vcomponent.Posts(posts, fmt.Sprintf("/profile/load-more-posts?page=%d", nPage)).Render(r.Context(), w)
+		vcomponent.Posts(posts, nPage).Render(r.Context(), w)
 	}
 }
 
@@ -521,18 +503,21 @@ func (vc *ViewController) Populate() func(http.ResponseWriter, *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
 
-		var contents []string
+		go func() {
+			var contents []string
 
-		for i := 0; i < 10000; i++ {
-			contents = append(contents, fmt.Sprintf("[%d] %s", i+1, `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra ut lectus vel tincidunt. In efficitur nisi ultricies est tempus, non aliquet diam vulputate. Sed ullamcorper, nulla eget ullamcorper elementum, ligula nulla ornare augue, eget convallis orci lacus ac est. Etiam justo nulla, tincidunt et nisl ac, volutpat vestibulum nunc. Quisque ac lacus eu tortor mattis porta ac sit amet quam. Pellentesque ultrices pulvinar aliquam. Vestibulum eget quam leo. Sed sed lectus vitae metus placerat fringilla.
+			for i := 0; i < 1000000; i++ {
+				contents = append(contents, fmt.Sprintf("[%d] %s", i+1, `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra ut lectus vel tincidunt. In efficitur nisi ultricies est tempus, non aliquet diam vulputate. Sed ullamcorper, nulla eget ullamcorper elementum, ligula nulla ornare augue, eget convallis orci lacus ac est. Etiam justo nulla, tincidunt et nisl ac, volutpat vestibulum nunc. Quisque ac lacus eu tortor mattis porta ac sit amet quam. Pellentesque ultrices pulvinar aliquam. Vestibulum eget quam leo. Sed sed lectus vitae metus placerat fringilla.
 			Aenean vitae justo vitae lectus auctor aliquet ut et ante. Mauris tempus vehicula nisi nec varius. Nam enim nunc, suscipit sit amet tristique ut, tincidunt eu leo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus pellentesque efficitur sapien, sed hendrerit ligula egestas eu. Phasellus turpis dui, imperdiet eget neque at, bibendum vulputate arcu. Duis at pretium felis. Donec in urna eget felis lobortis dapibus. Praesent tempor lorem libero, id vestibulum ipsum suscipit sed. Duis varius urna et elit venenatis placerat. Mauris vitae enim id ante semper blandit at nec justo.
 			In tristique enim id odio rutrum, at ultrices tortor consequat. Aenean congue tincidunt interdum. Integer quis urna lacinia, mollis ipsum id, lobortis augue. Proin quis suscipit nibh. Morbi sit amet iaculis ante. Mauris sit amet lacinia nunc, ut commodo est. Quisque a vulputate quam, nec placerat elit.
 			Aliquam quis nulla eget sem pretium congue vitae vitae mi. Curabitur sagittis ex ut ex gravida efficitur. Ut placerat vulputate metus in volutpat. Nunc nec lobortis orci, sit amet vehicula tellus. Morbi non ligula at est sollicitudin dapibus. Aenean quis magna justo. Aenean sed orci vel tellus interdum efficitur. Sed mi libero, scelerisque vel lobortis in, finibus dapibus mauris. Maecenas sit amet aliquet ligula. Etiam in urna at nunc rhoncus pulvinar. Aliquam pretium molestie metus.
 			Duis pharetra metus eu tristique eleifend. Proin hendrerit interdum mauris non gravida. Etiam malesuada purus dui, sit amet elementum ipsum fringilla nec. Vivamus mauris urna, faucibus a ullamcorper sed, tincidunt nec nisi. Vestibulum at gravida augue. Sed sed condimentum erat. Donec finibus placerat augue, sit amet varius risus mollis a. Etiam orci erat, posuere sit amet volutpat non, volutpat vitae lacus. In ut pretium massa, at consequat magna. Pellentesque sit amet posuere risus. Phasellus interdum nulla vitae lectus blandit scelerisque. Vestibulum sit amet turpis vulputate, varius ante tempus, rutrum arcu. Nulla facilisi.
 			`))
-		}
+			}
 
-		vc.Service.PostService.Populate(user.ID, contents)
+			vc.Service.PostService.Populate(user.ID, contents)
+		}()
+
 		w.Write([]byte("success"))
 	}
 }

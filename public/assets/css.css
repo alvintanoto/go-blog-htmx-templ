@@ -709,6 +709,10 @@ h3 {
   height: 240px;
 }
 
+.h-\[24px\] {
+  height: 24px;
+}
+
 .h-\[36px\] {
   height: 36px;
 }
@@ -849,8 +853,24 @@ h3 {
   flex: 1 1 0%;
 }
 
-.animate-fade {
-  animation: fadein 5s ease-in-out;
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 .cursor-pointer {
@@ -980,14 +1000,8 @@ h3 {
   border-color: rgb(255 77 79 / var(--tw-border-opacity));
 }
 
-.border-error-border {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 204 199 / var(--tw-border-opacity));
-}
-
-.border-grey-darker {
-  --tw-border-opacity: 1;
-  border-color: rgb(179 179 179 / var(--tw-border-opacity));
+.border-default-border {
+  border-color: #D9D9D9FF;
 }
 
 .border-warning {
@@ -1009,24 +1023,16 @@ h3 {
   background-color: rgb(255 77 79 / var(--tw-bg-opacity));
 }
 
-.bg-error {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 242 240 / var(--tw-bg-opacity));
+.bg-default-border {
+  background-color: #D9D9D9FF;
 }
 
-.bg-grey {
-  --tw-bg-opacity: 1;
-  background-color: rgb(242 243 245 / var(--tw-bg-opacity));
+.bg-disabled {
+  background-color: #00000040;
 }
 
-.bg-grey-darker {
-  --tw-bg-opacity: 1;
-  background-color: rgb(179 179 179 / var(--tw-bg-opacity));
-}
-
-.bg-grey-hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(217 217 217 / var(--tw-bg-opacity));
+.bg-layout-background {
+  background-color: #F5F5F5FF;
 }
 
 .bg-primary {
@@ -1084,8 +1090,8 @@ h3 {
   padding-bottom: 12px;
 }
 
-.pt-3 {
-  padding-top: 20px;
+.pt-2 {
+  padding-top: 12px;
 }
 
 .text-center {
@@ -1130,19 +1136,9 @@ h3 {
   font-weight: 600;
 }
 
-.text-black-grey {
-  --tw-text-opacity: 1;
-  color: rgb(31 31 31 / var(--tw-text-opacity));
-}
-
 .text-danger {
   --tw-text-opacity: 1;
   color: rgb(255 77 79 / var(--tw-text-opacity));
-}
-
-.text-error-text {
-  --tw-text-opacity: 1;
-  color: rgb(168 7 26 / var(--tw-text-opacity));
 }
 
 .text-primary {
@@ -1176,16 +1172,6 @@ h3 {
 
 .hover\:bg-danger\/80:hover {
   background-color: rgb(255 77 79 / 0.8);
-}
-
-.hover\:bg-grey:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(242 243 245 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-post-hover:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(231 233 236 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-primary\/90:hover {
@@ -1222,8 +1208,7 @@ h3 {
     border-right-width: 1px;
   }
 
-  .md\:border-grey-darker {
-    --tw-border-opacity: 1;
-    border-color: rgb(179 179 179 / var(--tw-border-opacity));
+  .md\:border-default-border {
+    border-color: #D9D9D9FF;
   }
 }

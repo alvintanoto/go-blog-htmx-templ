@@ -2,9 +2,6 @@
 module.exports = {
   content: ["./internal/view/**/*.{templ,html,js}"],
   theme: {
-    animation: {
-      fade: 'fadein 5s ease-in-out',
-    },
     fontSize: {
       sm: ['12px', '20px'],
       base: ['14px', '22px'],
@@ -24,20 +21,34 @@ module.exports = {
       semibold: '600'
     },
     colors: {
+      // Functional Color
       black: '#000000',
       white: '#FFFFFF',
-      grey: '#F2F3F5',
-      "grey-darker": '#b3b3b3',
-      "grey-hover": '#d9d9d9',
-      "black-grey": "#1f1f1f",
+      transparent: "transparent",
       primary: '#1677ff',
       success: '#52c41a',
       warning: '#faad14',
-      error: '#fff2f0',
-      "error-border": '#ffccc7',
-      "error-text": "#a8071a",
-      "post-hover": "#e7e9ec",
-      "danger": "#ff4d4f"
+      danger: '#ff4d4f',
+
+      // Neutral Color (light)
+      "heading-text": "#000000E0",
+      "text": "#000000E0",
+      "secondary-text": "#000000A6",
+      "disabled": "#00000040",
+      "default-border": "#D9D9D9FF",
+      "separator": "#0505050F",
+      "layout-background": "#F5F5F5FF",
+
+      // Neutral Color (dark)
+      "dark-heading-text": "#FFFFFFD9",
+      "dark-text": "#FFFFFFD9",
+      "dark-secondary-text": "#FFFFFFA6",
+      "dark-disabled": "#FFFFFF40",
+      "dark-default-border": "#424242FF",
+      "dark-separator": "#FDFDFD1F",
+      "dark-layout-background": "#282C34"
+
+      // Color Theme
     },
     spacing: {
       '1': '8px',

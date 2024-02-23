@@ -1,7 +1,7 @@
 package vcomponent
 
 templ SignOutModal() {
-	<div class="min-h-[100vh] min-w-[100vw] animate-fade overflow-hidden fixed bg-black/40 flex items-center justify-center">
+	<div id="modalContent" class="min-h-[100vh] min-w-[100vw] animate-fade overflow-hidden fixed bg-black/40 flex items-center justify-center">
 		<div
 			class="min-h-[100vh] min-w-[100vw] z-0 fixed"
 			hx-get="/views/hide-modal"
@@ -18,9 +18,7 @@ templ SignOutModal() {
 			</div>
 			<div class="flex flex-row justify-end mt-2">
 				<div
-					hx-get="/views/hide-modal"
-					hx-target="#modalContainer"
-					hx-swap="innerHTML"
+					hx-on:click="htmx.remove('#modalContent')"
 					class="border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center"
 				>
 					Cancel

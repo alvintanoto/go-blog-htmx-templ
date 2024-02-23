@@ -6,9 +6,7 @@ import (
 )
 
 templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
-	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]">
-		@vcomponent.Posts(posts, "/load-more-posts?page=1")
-	</div>
+	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]"></div>
 	if user != nil {
 		<div class="max-w-[720px] mx-auto relative">
 			<div class="absolute bottom-[24px] right-[24px]">

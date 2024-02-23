@@ -13,7 +13,7 @@ import "bytes"
 import "alvintanoto.id/blog-htmx-templ/internal/dto"
 import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
-func emptyProfilePageState() templ.Component {
+func Profile(dto *dto.ProfilePageDTO) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -26,30 +26,6 @@ func emptyProfilePageState() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"overflow-y-scroll mt-[144px] flex items-center justify-center flex-col\"><div class=\"text-3xl font-light my-1\"><svg width=\"72px\" height=\"72px\"><image xlink:href=\"/assets/icons/empty.svg\" width=\"72px\" height=\"72px\"></image></svg></div><div class=\"text-3xl font-light my-1\">So Empty ...</div></div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if !templ_7745c5c3_IsBuffer {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
-		}
-		return templ_7745c5c3_Err
-	})
-}
-
-func Profile(dto *dto.ProfilePageDTO) templ.Component {
-	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
-		if !templ_7745c5c3_IsBuffer {
-			templ_7745c5c3_Buffer = templ.GetBuffer()
-			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var2 == nil {
-			templ_7745c5c3_Var2 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -58,7 +34,7 @@ func Profile(dto *dto.ProfilePageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"max-h-[100vh] bg-grey text-base overflow-hidden\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"max-h-[100vh] bg-layout-background text-base overflow-hidden\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -66,7 +42,7 @@ func Profile(dto *dto.ProfilePageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"grid-cols-2 md:flex md:min-h-full\"><div class=\"hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker \">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"grid-cols-2 md:flex md:min-h-full\"><div class=\"hidden md:flex md:min-w-[192px] md:border-r md:border-default-border \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -74,16 +50,16 @@ func Profile(dto *dto.ProfilePageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full\"><div class=\"overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-3 pt-3\"><div class=\"bg-primary/75 min-h-[168px] h-[168px] max-h-full rounded-md relative mb-[84px]\"><div class=\"flex flex-row absolute h-[144px] top-[96px] w-full\"><div class=\"h-full w-[144px] rounded-full m-auto border-warning border-[4px] bg-grey-hover flex\"><div class=\"min-h-[48px] min-w-[48px] rounded-sm flex items-center justify-center m-auto cursor-pointer\"><svg width=\"48px\" height=\"48px\"><image xlink:href=\"/assets/icons/user_2.svg\" width=\"48px\" height=\"48px\"></image></svg></div></div></div><div class=\"flex flex-row absolute top-[172px] px-2 right-[0%] cursor-pointer hover:text-primary hover:underline items-end\">Edit Profile</div></div><div class=\"font-light text-center text-4xl cursor-pointer\"><span>&#64;")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full\"><div class=\"overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2\"><div class=\"bg-primary/75 min-h-[168px] h-[168px] max-h-full rounded-md relative mb-[84px]\"><div class=\"flex flex-row absolute h-[144px] top-[96px] w-full\"><div class=\"h-full w-[144px] rounded-full m-auto border-warning border-[4px] bg-layout-background flex\"><div class=\"min-h-[48px] min-w-[48px] rounded-sm flex items-center justify-center m-auto cursor-pointer\"><svg width=\"48px\" height=\"48px\"><image xlink:href=\"/assets/icons/user_2.svg\" width=\"48px\" height=\"48px\"></image></svg></div></div></div><div class=\"flex flex-row absolute top-[172px] px-2 right-[0%] cursor-pointer hover:text-primary hover:underline items-end\">Edit Profile</div></div><div class=\"font-light text-center text-4xl cursor-pointer\"><span>&#64;")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(dto.User.Username)
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(dto.User.Username)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/page/profile.templ`, Line: 43, Col: 96}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/page/profile.templ`, Line: 30, Col: 96}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -91,24 +67,24 @@ func Profile(dto *dto.ProfilePageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(dto.User.CreatedAt)
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(dto.User.CreatedAt)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/page/profile.templ`, Line: 44, Col: 121}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/page/profile.templ`, Line: 31, Col: 121}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><div class=\"text-center text-base cursor-pointer flex flex-row justify-center\"><div class=\"mr-2\">0 Following</div><div>0 Followers </div></div><div class=\"flex flex-row justify-evenly mt-4 text-xl max-w-[640px] m-auto\"><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-b-primary text-primary text-center cursor-pointer\">Posts</div><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-grey-darker text-center cursor-pointer\">Bookmarks</div><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-grey-darker text-center cursor-pointer\">Likes</div></div><div class=\"mt-3 m-auto max-w-[960px]\" hx-get=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/profile/load-more-posts?page=0"))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><div class=\"text-center text-base cursor-pointer flex flex-row justify-center\"><div class=\"mr-2\">0 Following</div><div>0 Followers </div></div><div class=\"flex flex-row justify-evenly mt-4 text-xl max-w-[640px] m-auto\"><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-b-primary text-primary text-center cursor-pointer\">Posts</div><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-default-border text-center cursor-pointer\">Bookmarks</div><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-default-border text-center cursor-pointer\">Likes</div></div><div class=\"mt-3 m-auto max-w-[960px]\" hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"load\" hx-swap=\"afterend\"></div></div></div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/profile/load-posts?page=0"))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"load\"><div class=\"mt-3 p-2 m-auto max-w-[960px] h-[144px] bg-default-border rounded-md animate-pulse\"><div class=\"bg-disabled w-full rounded-md h-[24px]\"></div><div class=\"bg-disabled w-full rounded-md h-[24px] my-1\"></div><div class=\"bg-disabled w-full rounded-md h-[24px] my-1\"></div><div class=\"bg-disabled w-full rounded-md h-[24px] my-1\"></div></div></div></div></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
