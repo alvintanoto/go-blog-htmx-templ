@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"time"
 
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
@@ -22,7 +21,6 @@ func (s *PostService) CreatePost(userID string, postID string, payloadContent st
 	var isDrafting bool = action == "draft"
 
 	// new entry
-	fmt.Println("postid", postID)
 	if postID == "" {
 		err = s.repository.PostRepository.CreateNewPost(userID, payloadContent, isDrafting)
 		if err != nil {
@@ -33,7 +31,7 @@ func (s *PostService) CreatePost(userID string, postID string, payloadContent st
 	}
 
 	// get existing post
-	post, err := s.repository.PostRepository.GetPost(userID, postID)
+	post, err := s.repository.PostRepository.GetUserPost(userID, postID)
 	if err != nil {
 		return err
 	}
@@ -80,8 +78,20 @@ func (s *PostService) GetUserPosts(user *dto.UserDTO, page int) (posts []dto.Pos
 	return posts, err
 }
 
+func (s *PostService) GetPostDetail(postID string) (post *dto.PostDTO, err error) {
+	entity, err := s.repository.PostRepository.GetPost(postID)
+	if err != nil {
+		return nil, err
+	}
+	post = new(dto.PostDTO)
+	post.ID = entity.ID
+	post.Content = entity.Content
+
+	return post, nil
+}
+
 func (s *PostService) GetUserPost(user *dto.UserDTO, postID string) (post *dto.PostDTO, err error) {
-	entity, err := s.repository.PostRepository.GetPost(user.ID, postID)
+	entity, err := s.repository.PostRepository.GetUserPost(user.ID, postID)
 	if err != nil {
 		return nil, err
 	}
@@ -141,4 +151,12 @@ func (s *PostService) GetUserDraft(user *dto.UserDTO, page int) (posts []dto.Pos
 	}
 
 	return posts, err
+}
+
+func (s *PostService) Populate(userID string, content []string) error {
+	err := s.repository.PostRepository.CreateBatch(userID, content)
+	if err != nil {
+		return err
+	}
+	return nil
 }

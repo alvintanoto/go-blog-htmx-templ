@@ -88,7 +88,44 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 	return nil
 }
 
-func (r *PostRepository) GetPost(userID, postID string) (post *entity.Post, err error) {
+func (r *PostRepository) GetPost(postID string) (post *entity.Post, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	post = new(entity.Post)
+
+	query := `SELECT 
+				id, user_id, content, reply_count, like_count, dislike_count, impressions, 
+				save_count, visibility, reply_to, is_draft, posted_at, created_at,
+				created_by, updated_at, updated_by, is_deleted
+			FROM 
+				posts
+			WHERE
+				id=$1 AND 
+				reply_to is null AND
+				is_deleted=false
+			`
+
+	args := []interface{}{
+		postID,
+	}
+
+	result := r.db.QueryRowContext(ctx, query, args...)
+	if result.Err() != nil {
+		log.Println("error querying user post by user id: ", result.Err().Error())
+		return nil, result.Err()
+	}
+
+	err = post.Scan(result)
+	if err != nil {
+		log.Println("error scanning user post by user id: ", err.Error())
+		return nil, err
+	}
+
+	return post, nil
+}
+
+func (r *PostRepository) GetUserPost(userID, postID string) (post *entity.Post, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -267,6 +304,43 @@ func (r *PostRepository) UpdatePost(post *entity.Post) (err error) {
 
 	_, err = r.db.ExecContext(ctx, query, args...)
 	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *PostRepository) CreateBatch(userID string, contents []string) error {
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
+
+	stmt, _ := tx.Prepare(pq.CopyIn("posts", "id", "user_id", "content", "posted_at", "created_at", "created_by")) // MessageDetailRecord is the table name
+	for i, content := range contents {
+		fmt.Println("inserting:", i)
+
+		uuid := uuid.NewString()
+		_, err := stmt.Exec(uuid, userID, content, time.Now(), time.Now(), uuid)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+	}
+
+	_, err = stmt.Exec()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	err = stmt.Close()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	err = tx.Commit()
+	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 

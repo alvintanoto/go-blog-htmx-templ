@@ -962,6 +962,11 @@ h3 {
   border-width: 4px;
 }
 
+.border-y {
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+}
+
 .border-b {
   border-bottom-width: 1px;
 }
@@ -1171,6 +1176,11 @@ h3 {
 
 .hover\:bg-danger\/80:hover {
   background-color: rgb(255 77 79 / 0.8);
+}
+
+.hover\:bg-grey:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(242 243 245 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-post-hover:hover {

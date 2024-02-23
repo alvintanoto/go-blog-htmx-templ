@@ -48,8 +48,7 @@ type SettingsPageDto struct {
 }
 
 type ProfilePageDTO struct {
-	User  *UserDTO  `json:"user"`
-	Posts []PostDTO `json:"posts"`
+	User  *UserDTO `json:"user"`
 	Error string
 }
 
