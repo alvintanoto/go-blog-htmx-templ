@@ -8,7 +8,7 @@ import (
 type Controller struct {
 	Middlewares *Middlewares
 
-	ViewController *ViewController
+	ViewController ViewController
 	ApiController  *ApiController
 }
 

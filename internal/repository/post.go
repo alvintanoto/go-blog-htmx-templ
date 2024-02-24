@@ -166,16 +166,20 @@ func (r *PostRepository) GetPublicTimeline() (posts []*entity.Post, err error) {
 	var limit int = 15
 
 	query := `SELECT 
-				id, user_id, content, reply_count, like_count, dislike_count, impressions, 
-				save_count, visibility, reply_to, is_draft, posted_at, created_at,
-				created_by, updated_at, updated_by, is_deleted
+				p.id, p.user_id, p.content, p.reply_count, p.like_count, p.dislike_count, p.impressions, 
+				p.save_count, p.visibility, p.reply_to, p.is_draft, p.posted_at, p.created_at,
+				p.created_by, p.updated_at, p.updated_by, p.is_deleted, bu.username
 			FROM 
-				posts
+				posts p
+			LEFT JOIN 
+				blog_user bu
+			ON
+				bu.id = p.user_id
 			WHERE
-				reply_to is null AND
-				is_draft=false AND
-				is_deleted=false AND
-				visibility = $1
+				p.reply_to is null AND
+				p.is_draft=false AND
+				p.is_deleted=false AND
+				p.visibility = $1
 			ORDER BY
 				id DESC
 			LIMIT 
@@ -195,7 +199,7 @@ func (r *PostRepository) GetPublicTimeline() (posts []*entity.Post, err error) {
 
 	for rows.Next() {
 		var entity = new(entity.Post)
-		err = entity.ScanRows(rows)
+		err = entity.ScanJoinUserRows(rows)
 		if err != nil {
 			log.Println("failed to scan user profile post: ", err.Error())
 			return nil, err
@@ -214,19 +218,23 @@ func (r *PostRepository) GetMorePublicTimeline(lastPosition int) (posts []*entit
 	var limit int = 15
 
 	query := `SELECT 
-				id, user_id, content, reply_count, like_count, dislike_count, impressions, 
-				save_count, visibility, reply_to, is_draft, posted_at, created_at,
-				created_by, updated_at, updated_by, is_deleted
-			FROM 
-				posts
+				p.id, p.user_id, p.content, p.reply_count, p.like_count, p.dislike_count, p.impressions, 
+				p.save_count, p.visibility, p.reply_to, p.is_draft, p.posted_at, p.created_at,
+				p.created_by, p.updated_at, p.updated_by, p.is_deleted, bu.username
+				FROM 
+				posts p
+			LEFT JOIN 
+				blog_user bu
+			ON
+				bu.id = p.user_id
 			WHERE
-				reply_to is null AND
-				is_draft=false AND
-				is_deleted=false AND
-				visibility = $1 AND
-				id < $2
+				p.reply_to is null AND
+				p.is_draft=false AND
+				p.is_deleted=false AND
+				p.visibility = $1 AND
+				p.id < $2
 			ORDER BY
-				id DESC
+				p.id DESC
 			LIMIT 
 				$3
 			`
@@ -245,7 +253,7 @@ func (r *PostRepository) GetMorePublicTimeline(lastPosition int) (posts []*entit
 
 	for rows.Next() {
 		var entity = new(entity.Post)
-		err = entity.ScanRows(rows)
+		err = entity.ScanJoinUserRows(rows)
 		if err != nil {
 			log.Println("failed to scan user profile post: ", err.Error())
 			return nil, err

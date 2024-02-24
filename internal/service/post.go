@@ -165,7 +165,7 @@ func (s *PostService) GetPublicTimeline(lastPosition int) (posts []dto.PostDTO, 
 		post.PostedAt = entity.PostedAt.Format("02 Jan 2006 15:04:05")
 		post.Poster = dto.UserDTO{
 			ID:       *entity.CreatedBy,
-			Username: *entity.CreatedBy,
+			Username: entity.Username,
 		}
 
 		posts = append(posts, *post)

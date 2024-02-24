@@ -50,12 +50,6 @@ func (a *Application) SetupRoutes() {
 		profileRoute.HandleFunc("/load-posts", a.Controller.ViewController.ProfilePostInfiniteScrollHandler())
 	}
 
-	viewRoute := router.PathPrefix("/views/").Subrouter()
-	viewRoute.Use(a.Controller.Middlewares.IsAuthenticated)
-	{
-		viewRoute.HandleFunc("/hide-modal", a.Controller.ViewController.HideModal())
-	}
-
 	// apiRoute := router.PathPrefix("/api/").Subrouter()
 	// {
 	// 	postApiRoute := apiRoute.PathPrefix("/post/").Subrouter()

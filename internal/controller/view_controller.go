@@ -20,19 +20,44 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type ViewController struct {
+type ViewController interface {
+	// errors
+	NotFoundViewHandler() func(http.ResponseWriter, *http.Request)
+
+	// pages
+	SignInHandler() func(http.ResponseWriter, *http.Request)
+	RegisterHandler() func(http.ResponseWriter, *http.Request)
+
+	HomepageViewHandler() func(http.ResponseWriter, *http.Request)
+	HomepageInfiniteScrollHandler() func(http.ResponseWriter, *http.Request)
+
+	CreatePostHandler() func(http.ResponseWriter, *http.Request)
+	PostDetailHandler() func(http.ResponseWriter, *http.Request)
+	DraftHandler() func(http.ResponseWriter, *http.Request)
+
+	ProfileHandler() func(http.ResponseWriter, *http.Request)
+	ProfilePostInfiniteScrollHandler() func(http.ResponseWriter, *http.Request)
+
+	SettingsHandler() func(http.ResponseWriter, *http.Request)
+	SignOutHandler() func(http.ResponseWriter, *http.Request)
+
+	ShowSignOutConfirmation() func(http.ResponseWriter, *http.Request)
+	Populate() func(http.ResponseWriter, *http.Request)
+}
+
+type implViewController struct {
 	Session *redisstore.RedisStore
 	Service *service.Service
 }
 
-func NewViewController(service *service.Service, session *redisstore.RedisStore) *ViewController {
-	return &ViewController{
+func NewViewController(service *service.Service, session *redisstore.RedisStore) ViewController {
+	return &implViewController{
 		Session: session,
 		Service: service,
 	}
 }
 
-func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"]
@@ -45,7 +70,7 @@ func (vc *ViewController) NotFoundViewHandler() func(http.ResponseWriter, *http.
 	}
 }
 
-func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) SignInHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		data := &dto.SignInPageDTO{}
@@ -99,7 +124,7 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 	}
 }
 
-func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) RegisterHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		session, _ := vc.Session.Get(r, "default")
 		registerPageDataDTO := &dto.RegisterPageDTO{
@@ -250,7 +275,7 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 	}
 }
 
-func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) HomepageViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 
@@ -266,7 +291,7 @@ func (vc *ViewController) HomepageViewHandler() func(http.ResponseWriter, *http.
 	}
 }
 
-func (vc *ViewController) HomepageInfiniteScrollHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) HomepageInfiniteScrollHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		lastPosition, _ := strconv.Atoi(r.URL.Query().Get("last_position"))
 
@@ -285,7 +310,7 @@ func (vc *ViewController) HomepageInfiniteScrollHandler() func(http.ResponseWrit
 	}
 }
 
-func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) CreatePostHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		session, _ := vc.Session.Get(r, "default")
 		user := session.Values["user"].(*dto.UserDTO)
@@ -368,7 +393,7 @@ func (vc *ViewController) CreatePostHandler() func(http.ResponseWriter, *http.Re
 	}
 }
 
-func (vc *ViewController) PostDetailHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) PostDetailHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
@@ -393,7 +418,7 @@ func (vc *ViewController) PostDetailHandler() func(http.ResponseWriter, *http.Re
 	}
 }
 
-func (vc *ViewController) DraftHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) DraftHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
@@ -415,7 +440,7 @@ func (vc *ViewController) DraftHandler() func(http.ResponseWriter, *http.Request
 	}
 }
 
-func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) ProfileHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
@@ -429,7 +454,7 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 	}
 }
 
-func (vc *ViewController) ProfilePostInfiniteScrollHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) ProfilePostInfiniteScrollHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
@@ -450,7 +475,7 @@ func (vc *ViewController) ProfilePostInfiniteScrollHandler() func(http.ResponseW
 	}
 }
 
-func (vc *ViewController) SettingsHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) SettingsHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
@@ -461,7 +486,7 @@ func (vc *ViewController) SettingsHandler() func(http.ResponseWriter, *http.Requ
 	}
 }
 
-func (vc *ViewController) SignOutHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) SignOutHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
@@ -475,19 +500,13 @@ func (vc *ViewController) SignOutHandler() func(http.ResponseWriter, *http.Reque
 	}
 }
 
-func (vc *ViewController) HideModal() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(""))
-	}
-}
-
-func (vc *ViewController) ShowSignOutConfirmation() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) ShowSignOutConfirmation() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vcomponent.SignOutModal().Render(r.Context(), w)
 	}
 }
 
-func (vc *ViewController) Populate() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) Populate() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		go func() {
 			var contents []string
