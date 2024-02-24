@@ -96,14 +96,14 @@ templ Post (post dto.PostDTO) {
 	</div>
 }
 
-templ Posts (posts []dto.PostDTO, nextPage int) {
+templ Posts (posts []dto.PostDTO, lastPosition int) {
 	if len(posts) > 0 {
 		for idx, post := range posts {
-			<a href={ templ.URL(fmt.Sprintf("/post/%s", post.ID)) }>
+			<a href={ templ.URL(fmt.Sprintf("/post/%d", post.ID)) }>
 				<div
 					class=""
 					if len(posts)-1 == idx && len(posts)>= 15 {
-						hx-get={ fmt.Sprintf("/profile/load-posts?page=%d", nextPage) }
+						hx-get={ fmt.Sprintf("/profile/load-posts?last_position=%d", lastPosition) }
 						hx-on="htmx:afterRequest: htmx.remove('#loading')"
 						hx-trigger="intersect once"
 						hx-swap="afterend"
@@ -121,7 +121,7 @@ templ Posts (posts []dto.PostDTO, nextPage int) {
 			</div>
 		}
 	} else {
-		if nextPage == 1 && len(posts) <=0 {
+		if lastPosition == 0 && len(posts) <=0 {
 			@emptyPostStatePage()
 		}
 	}

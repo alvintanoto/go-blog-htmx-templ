@@ -36,7 +36,7 @@ templ Register(dto *dto.RegisterPageDTO) {
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.Username.Errors {
-							<div class="text-base text-error-text mb-1">
+							<div class="text-base text-danger mb-1">
 								{ errValue }
 							</div>
 						}
@@ -57,7 +57,7 @@ templ Register(dto *dto.RegisterPageDTO) {
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.Email.Errors {
-							<div class="text-base text-error-text myb1">
+							<div class="text-base text-danger myb1">
 								{ errValue }
 							</div>
 						}
@@ -75,7 +75,7 @@ templ Register(dto *dto.RegisterPageDTO) {
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.PasswordErrors {
-							<div class="text-base text-error-text mb-1">
+							<div class="text-base text-danger mb-1">
 								{ errValue }
 							</div>
 						}
@@ -93,7 +93,7 @@ templ Register(dto *dto.RegisterPageDTO) {
 							/>
 						</div>
 						for _, errValue := range dto.RegisterFieldDTO.ConfirmPasswordErrors {
-							<div class="text-base text-error-text mb-1">
+							<div class="text-base text-danger mb-1">
 								{ errValue }
 							</div>
 						}

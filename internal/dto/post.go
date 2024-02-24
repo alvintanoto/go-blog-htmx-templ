@@ -1,7 +1,7 @@
 package dto
 
 type PostDTO struct {
-	ID          string    `json:"id"`
+	ID          int       `json:"id"`
 	Content     string    `json:"content"`
 	Replies     []PostDTO `json:"replies"`
 	ReplyCounts int       `json:"reply_counts"`

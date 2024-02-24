@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"alvintanoto.id/blog-htmx-templ/internal/entity"
-	"github.com/google/uuid"
 	"github.com/lib/pq"
 )
 
@@ -21,7 +20,6 @@ func NewPostRepository(db *sql.DB) *PostRepository {
 }
 
 func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (err error) {
-	uuid, err := uuid.NewRandom()
 	if err != nil {
 		log.Println("failed to create new uuid: ", err.Error())
 		return nil
@@ -29,7 +27,6 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 
 	currentTime := time.Now()
 	post := &entity.Post{
-		ID:         uuid.String(),
 		UserID:     userID,
 		Content:    content,
 		Visibility: entity.PostVisibilityPublic,
@@ -40,7 +37,6 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 	}
 
 	args := []interface{}{
-		post.ID,
 		post.UserID,
 		post.Content,
 		post.Visibility,
@@ -50,7 +46,6 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 	}
 
 	query := `INSERT INTO posts(
-			id,
 			user_id,
 			content,
 			visibility,
@@ -63,8 +58,7 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 			$3,
 			$4,
 			$5,
-			$6,
-			$7
+			$6
 		)`
 
 	row := r.db.QueryRow(query, args...)
@@ -164,12 +158,11 @@ func (r *PostRepository) GetUserPost(userID, postID string) (post *entity.Post, 
 	return post, nil
 }
 
-func (r *PostRepository) GetPosts(userID string, page int) (posts []*entity.Post, err error) {
+func (r *PostRepository) GetUserPosts(userID string) (posts []*entity.Post, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	var limit int = 15
-	var offset = page * limit
 
 	query := `SELECT 
 				id, user_id, content, reply_count, like_count, dislike_count, impressions, 
@@ -181,18 +174,66 @@ func (r *PostRepository) GetPosts(userID string, page int) (posts []*entity.Post
 				user_id=$1 AND
 				reply_to is null AND
 				is_draft=false AND
-				is_deleted=false
+				is_deleted=false 
 			ORDER BY
-				posted_at DESC
+				id DESC
 			LIMIT 
 				$2
-			OFFSET
-				$3`
+			`
 
 	args := []interface{}{
 		userID,
 		limit,
-		offset,
+	}
+
+	rows, err := r.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		log.Println("failed to query user profile post: ", err.Error())
+		return nil, err
+	}
+
+	for rows.Next() {
+		var entity = new(entity.Post)
+		err = entity.ScanRows(rows)
+		if err != nil {
+			log.Println("failed to scan user profile post: ", err.Error())
+			return nil, err
+		}
+
+		posts = append(posts, entity)
+	}
+
+	return posts, nil
+}
+
+func (r *PostRepository) GetMoreUserPosts(userID string, lastPosition int) (posts []*entity.Post, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var limit int = 15
+
+	query := `SELECT 
+				id, user_id, content, reply_count, like_count, dislike_count, impressions, 
+				save_count, visibility, reply_to, is_draft, posted_at, created_at,
+				created_by, updated_at, updated_by, is_deleted
+			FROM 
+				posts
+			WHERE
+				user_id=$1 AND
+				reply_to is null AND
+				is_draft=false AND
+				is_deleted=false AND
+				id < $2
+			ORDER BY
+				id DESC
+			LIMIT 
+				$3
+			`
+
+	args := []interface{}{
+		userID,
+		lastPosition,
+		limit,
 	}
 
 	rows, err := r.db.QueryContext(ctx, query, args...)
@@ -316,12 +357,11 @@ func (r *PostRepository) CreateBatch(userID string, contents []string) error {
 		return err
 	}
 
-	stmt, _ := tx.Prepare(pq.CopyIn("posts", "id", "user_id", "content", "posted_at", "created_at", "created_by")) // MessageDetailRecord is the table name
+	stmt, _ := tx.Prepare(pq.CopyIn("posts", "user_id", "content", "posted_at", "created_at", "created_by")) // MessageDetailRecord is the table name
 	for i, content := range contents {
 		fmt.Println("inserting:", i)
 
-		uuid := uuid.NewString()
-		_, err := stmt.Exec(uuid, userID, content, time.Now(), time.Now(), uuid)
+		_, err := stmt.Exec(userID, content, time.Now(), time.Now(), userID)
 		if err != nil {
 			fmt.Println(err)
 			return err

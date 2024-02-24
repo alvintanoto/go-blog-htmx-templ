@@ -62,32 +62,17 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 				return
 			}
 
-			decoder := schema.NewDecoder()
+			username := r.PostFormValue("username")
+			password := r.PostFormValue("password")
 
-			var payload dto.UserSignInRequestDTO
-
-			err := r.ParseForm()
-			if err != nil {
-				log.Println("error parsing form:", err.Error())
-				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
-				return
-			}
-
-			err = decoder.Decode(&payload, r.PostForm)
-			if err != nil {
-				log.Println("error decoding payload: ", err.Error())
-				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
-				return
-			}
-
-			if strings.TrimSpace(payload.Username) == "" || strings.TrimSpace(payload.Password) == "" {
+			if strings.TrimSpace(username) == "" || strings.TrimSpace(password) == "" {
 				store.AddFlash("Username or password invalid, please try again.", "error")
 				store.Save(r, w)
 				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
 				return
 			}
 
-			user, err := vc.Service.AuthenticationService.SignIn(r.Context(), payload.Username, payload.Password)
+			user, err := vc.Service.AuthenticationService.SignIn(r.Context(), username, password)
 			if err != nil {
 				switch err {
 				case repository.ErrorRecordNotFound,
@@ -96,7 +81,7 @@ func (vc *ViewController) SignInHandler() func(http.ResponseWriter, *http.Reques
 				default:
 					store.AddFlash("Failed to sign in, please try again later.", "error")
 				}
-				// TODO: redirect to sign in with flash error
+
 				store.Save(r, w)
 				http.Redirect(w, r, "/auth/sign-in", http.StatusTemporaryRedirect)
 				return
@@ -135,30 +120,28 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 			Error: "",
 		}
 
+		if flashes := session.Flashes("error"); len(flashes) > 0 {
+			registerPageDataDTO.Error = flashes[len(flashes)-1].(string)
+
+			session.Save(r, w)
+			vpages.Register(registerPageDataDTO).Render(r.Context(), w)
+			return
+		}
+
 		switch r.Method {
 		case http.MethodGet:
 			vpages.Register(registerPageDataDTO).Render(r.Context(), w)
 			return
 		case http.MethodPost:
-			var payload dto.RegisterUserRequestDTO
-			decoder := schema.NewDecoder()
-
-			err := r.ParseForm()
-			if err != nil {
-				log.Println("error parsing form: ", err.Error())
-				http.Redirect(w, r, "/auth/register", http.StatusTemporaryRedirect)
-				return
-			}
-			err = decoder.Decode(&payload, r.PostForm)
-			if err != nil {
-				log.Println("error decoding payload: ", err.Error())
-				http.Redirect(w, r, "/auth/register", http.StatusTemporaryRedirect)
-				return
-			}
+			username := strings.TrimSpace(r.PostFormValue("username"))
+			email := strings.TrimSpace(r.PostFormValue("email"))
+			password := r.PostFormValue("password")
+			confirmPassword := r.PostFormValue("confirm_password")
+			errCount := 0
 
 			if flashes := session.Flashes("validation_error"); len(flashes) > 0 {
-				registerPageDataDTO.RegisterFieldDTO.Username.Value = payload.Username
-				registerPageDataDTO.RegisterFieldDTO.Email.Value = payload.Email
+				registerPageDataDTO.RegisterFieldDTO.Username.Value = username
+				registerPageDataDTO.RegisterFieldDTO.Email.Value = password
 
 				// redirect result check for flashes
 				for _, flash := range session.Flashes("username") {
@@ -185,13 +168,6 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 				vpages.Register(registerPageDataDTO).Render(r.Context(), w)
 				return
 			}
-
-			errCount := 0
-
-			username := strings.TrimSpace(payload.Username)
-			email := strings.TrimSpace(payload.Email)
-			password := payload.Password
-			confirmPassword := payload.ConfirmPassword
 
 			if username == "" {
 				session.AddFlash("Username must not be empty.", "username")
@@ -255,8 +231,9 @@ func (vc *ViewController) RegisterHandler() func(http.ResponseWriter, *http.Requ
 				default:
 					session.AddFlash("Failed registering new user, please try again later.", "error")
 				}
+
 				sessions.Save(r, w)
-				http.Redirect(w, r, "/register", http.StatusTemporaryRedirect)
+				http.Redirect(w, r, "/auth/register", http.StatusTemporaryRedirect)
 				return
 			}
 
@@ -443,15 +420,19 @@ func (vc *ViewController) ProfilePostInfiniteScrollHandler() func(http.ResponseW
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
 
-		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+		lastPosition, _ := strconv.Atoi(r.URL.Query().Get("last_position"))
 
-		posts, err := vc.Service.PostService.GetUserPosts(user, page)
+		posts, err := vc.Service.PostService.GetUserPosts(user, lastPosition)
 		if err != nil {
 			return
 		}
 
-		nPage := page + 1
-		vcomponent.Posts(posts, nPage).Render(r.Context(), w)
+		newLastPositionID := 0
+		if len(posts) > 0 {
+			newLastPositionID = posts[len(posts)-1].ID
+		}
+
+		vcomponent.Posts(posts, newLastPositionID).Render(r.Context(), w)
 	}
 }
 

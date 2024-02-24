@@ -38,7 +38,7 @@ templ Profile(data *dto.PageDTO) {
 						</div>
 						<div
 							class="mt-3 m-auto max-w-[960px]"
-							hx-get={ "/profile/load-posts?page=0" }
+							hx-get={ "/profile/load-posts?last_position=0" }
 							hx-trigger="load"
 						>
 							<div

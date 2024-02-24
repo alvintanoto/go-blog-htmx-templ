@@ -25,8 +25,9 @@ func (s *UserService) RegisterUser(username, email, password string) (user *dto.
 	}
 
 	return &dto.UserDTO{
-		ID:       entity.ID,
-		Email:    entity.Email,
-		Username: entity.Username,
+		ID:        entity.ID,
+		Email:     entity.Email,
+		Username:  entity.Username,
+		CreatedAt: entity.CreatedAt.Format("02 January 2006"),
 	}, nil
 }

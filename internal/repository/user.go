@@ -69,6 +69,7 @@ func (r *UserRepository) RegisterUser(username, email, password string) (user *e
 		CreatedBy:    username,
 		UpdatedBy:    username,
 		LastLoggedIn: time.Now(),
+		CreatedAt:    time.Now(),
 		IsDeleted:    false,
 	}
 
@@ -80,6 +81,7 @@ func (r *UserRepository) RegisterUser(username, email, password string) (user *e
 		created_by,
 		updated_by,
 		last_logged_in,
+		created_at, 
 		is_deleted
 	) VALUES (
 		$1,
@@ -89,7 +91,8 @@ func (r *UserRepository) RegisterUser(username, email, password string) (user *e
 		$5,
 		$6,
 		$7,
-		$8
+		$8,
+		$9
 	)`
 
 	args := []interface{}{
@@ -100,6 +103,7 @@ func (r *UserRepository) RegisterUser(username, email, password string) (user *e
 		user.CreatedBy,
 		user.UpdatedBy,
 		user.LastLoggedIn,
+		user.CreatedAt,
 		user.IsDeleted,
 	}
 

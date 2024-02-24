@@ -12,7 +12,7 @@ const (
 )
 
 type Post struct {
-	ID              string
+	ID              int
 	UserID          string
 	Content         string
 	ReplyCount      int

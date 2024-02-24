@@ -314,7 +314,7 @@ func Post(post dto.PostDTO) templ.Component {
 	})
 }
 
-func Posts(posts []dto.PostDTO, nextPage int) templ.Component {
+func Posts(posts []dto.PostDTO, lastPosition int) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -333,7 +333,7 @@ func Posts(posts []dto.PostDTO, nextPage int) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var21 templ.SafeURL = templ.URL(fmt.Sprintf("/post/%s", post.ID))
+				var templ_7745c5c3_Var21 templ.SafeURL = templ.URL(fmt.Sprintf("/post/%d", post.ID))
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var21)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -347,7 +347,7 @@ func Posts(posts []dto.PostDTO, nextPage int) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("/profile/load-posts?page=%d", nextPage)))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("/profile/load-posts?last_position=%d", lastPosition)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -380,7 +380,7 @@ func Posts(posts []dto.PostDTO, nextPage int) templ.Component {
 				}
 			}
 		} else {
-			if nextPage == 1 && len(posts) <= 0 {
+			if lastPosition == 0 && len(posts) <= 0 {
 				templ_7745c5c3_Err = emptyPostStatePage().Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err

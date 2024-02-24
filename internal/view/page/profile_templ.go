@@ -80,7 +80,7 @@ func Profile(data *dto.PageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/profile/load-posts?page=0"))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/profile/load-posts?last_position=0"))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,6 +1,6 @@
 -- post --
 CREATE TABLE posts(
-    id varchar(40) NOT NULL PRIMARY KEY,
+    id bigserial NOT NULL PRIMARY KEY,
     user_id varchar(40) NOT NULL, 
     content varchar(150) NOT NULL,
     reply_count int NOT NULL DEFAULT 0,
@@ -21,3 +21,8 @@ CREATE TABLE posts(
         FOREIGN KEY(user_id)
             REFERENCES blog_user(id)
 );
+
+create index index_post_reply_to on posts("reply_to");
+create index index_post_is_draft on posts("is_draft");
+create index index_post_is_deleted on posts("is_deleted");
+create index index_post_user_id on posts("user_id");

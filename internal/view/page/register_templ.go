@@ -77,7 +77,7 @@ func Register(dto *dto.RegisterPageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, errValue := range dto.RegisterFieldDTO.Username.Errors {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base text-error-text mb-1\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base text-danger mb-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -118,7 +118,7 @@ func Register(dto *dto.RegisterPageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, errValue := range dto.RegisterFieldDTO.Email.Errors {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base text-error-text myb1\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base text-danger myb1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -141,7 +141,7 @@ func Register(dto *dto.RegisterPageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, errValue := range dto.RegisterFieldDTO.PasswordErrors {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base text-error-text mb-1\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base text-danger mb-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -164,7 +164,7 @@ func Register(dto *dto.RegisterPageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, errValue := range dto.RegisterFieldDTO.ConfirmPasswordErrors {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base text-error-text mb-1\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-base text-danger mb-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
