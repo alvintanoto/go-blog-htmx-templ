@@ -45,9 +45,9 @@ templ PostDetail (post dto.PostDTO) {
 				</svg>
 			</div>
 		</div>
-		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
+		<div class="min-h-[96px] p-2 flex flex-col justify-between w-full">
 			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm text-black-grey">{ post.PostedAt }</span></div>
-			<div class="mb-3 max-w-[960px]">{ post.Content } </div>
+			<div class="mb-3 max-w-[960px] text-base">{ post.Content } </div>
 		</div>
 	</div>
 	<div class="max-w-[960px] mx-auto text-sm flex flex-row justify-evenly hover:bg-grey border-y border-separator">
