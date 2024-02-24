@@ -364,10 +364,9 @@ func (vc *ViewController) PostDetailHandler() func(http.ResponseWriter, *http.Re
 			return
 		}
 
-		fmt.Println(postID)
 		post, err := vc.Service.PostService.GetPostDetail(postID)
 		if err != nil {
-			http.Redirect(w, r, fmt.Sprintf("/"), http.StatusSeeOther)
+			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return
 		}
 
@@ -375,7 +374,6 @@ func (vc *ViewController) PostDetailHandler() func(http.ResponseWriter, *http.Re
 			User: user,
 			Post: *post,
 		}).Render(r.Context(), w)
-		return
 	}
 }
 
