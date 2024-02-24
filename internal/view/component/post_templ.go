@@ -97,7 +97,7 @@ func PostDetail(post dto.PostDTO) templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row w-full border-grey-darker cursor-pointer max-w-[960px] mx-auto\"><div class=\"w-[36px] h-[36px]  border-warning p-2 mr-2 \"><div class=\"min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover\"><svg width=\"16px\" height=\"16px\"><image xlink:href=\"/assets/icons/user_2.svg\" width=\"16px\" height=\"16px\"></image></svg></div></div><div class=\"min-h-[96px] p-2 flex flex-col justify-between w-full\"><div class=\"mb-2\">&#64;")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row w-full border-grey-darker cursor-pointer max-w-[960px] mx-auto\"><div class=\"w-[36px] h-[36px]  border-warning p-2 mr-2 \"><div class=\"min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-separator\"><svg width=\"16px\" height=\"16px\"><image xlink:href=\"/assets/icons/user_2.svg\" width=\"16px\" height=\"16px\"></image></svg></div></div><div class=\"min-h-[96px] p-2 flex flex-col justify-between w-full\"><div class=\"mb-2\">&#64;")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -136,7 +136,7 @@ func PostDetail(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"max-w-[960px] mx-auto text-sm flex flex-row justify-evenly hover:bg-grey border-y border-separator\"><div class=\"hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"max-w-[960px] mx-auto text-sm flex flex-row justify-evenly hover:bg-grey border-y border-separator\"><div class=\"hover:text-primary hover:bg-separator rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -149,7 +149,7 @@ func PostDetail(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Likes</div><div class=\"hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Likes</div><div class=\"hover:text-primary hover:bg-separator rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -162,7 +162,7 @@ func PostDetail(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Dislikes</div><div class=\"hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Dislikes</div><div class=\"hover:text-primary hover:bg-separator rounded-md  cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -175,7 +175,7 @@ func PostDetail(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Replies</div><div class=\"hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Replies</div><div class=\"hover:text-primary hover:bg-separator rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -212,7 +212,7 @@ func Post(post dto.PostDTO) templ.Component {
 			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row w-full border-b border-default-border hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto\"><div class=\"w-[36px] h-[36px]  border-warning p-2 mr-2 \"><div class=\"min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-grey-hover\"><svg width=\"16px\" height=\"16px\"><image xlink:href=\"/assets/icons/user_2.svg\" width=\"16px\" height=\"16px\"></image></svg></div></div><div class=\"min-h-[96px] p-2  flex flex-col justify-between w-full\"><div class=\"mb-2\">&#64;")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row w-full border-b border-default-border hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto\"><div class=\"w-[36px] h-[36px]  border-warning p-2 mr-2 \"><div class=\"min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-separator\"><svg width=\"16px\" height=\"16px\"><image xlink:href=\"/assets/icons/user_2.svg\" width=\"16px\" height=\"16px\"></image></svg></div></div><div class=\"min-h-[96px] p-2  flex flex-col justify-between w-full\"><div class=\"mb-2\">&#64;")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -251,7 +251,7 @@ func Post(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"text-sm flex flex-row\" onclick=\"return false;\"><div class=\"hover:text-primary cursor-pointer flex flex-row items-center\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"text-sm flex flex-row\" onclick=\"return false;\"><div class=\"hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -264,7 +264,7 @@ func Post(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Likes</div><div class=\"hover:text-primary cursor-pointer flex flex-row items-center ml-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Likes</div><div class=\"hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -277,7 +277,7 @@ func Post(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Dislikes</div><div class=\"hover:text-primary cursor-pointer flex flex-row items-center ml-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Dislikes</div><div class=\"hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -290,7 +290,7 @@ func Post(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Replies</div><div class=\"hover:text-primary cursor-pointer flex flex-row items-center ml-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Replies</div><div class=\"hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
