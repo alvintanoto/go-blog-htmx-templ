@@ -8,11 +8,11 @@ import (
 templ Register(dto *dto.RegisterPageDTO) {
 	<html>
 		@vcomponent.Title()
-		<body class="max-h-[100vh] select-none bg-grey text-base">
+		<body class="max-h-[100vh] select-none bg-layout-background text-text text-base">
 			@vcomponent.Header("register", nil)
 			<div class="min-h-[calc(100vh-64px)] my-4 flex items-center justify-center">
-				<div class="w-[480px] h-auto  flex-col  border border-grey-darker rounded-md p-4 mb-4">
-					<div class="text-3xl font-light mb-2">
+				<div class="w-[480px] h-auto  flex-col rounded-md p-4 mb-4">
+					<div class="text-3xl font-light my-4">
 						Register
 					</div>
 					if dto.Error != "" {
@@ -20,7 +20,7 @@ templ Register(dto *dto.RegisterPageDTO) {
 					}
 					<form method="post">
 						<div class="flex flex-row mt-3">
-							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
+							<div class="min-h-[48px] min-w-[48px] bg-disabled rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">
 									<image xlink:href="/assets/icons/user.svg" width="24px" height="24px"></image>
 								</svg>
@@ -41,7 +41,7 @@ templ Register(dto *dto.RegisterPageDTO) {
 							</div>
 						}
 						<div class="flex flex-row mt-3">
-							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
+							<div class="min-h-[48px] min-w-[48px] bg-disabled rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">
 									<image xlink:href="/assets/icons/email.svg" width="24px" height="24px"></image>
 								</svg>
@@ -62,7 +62,7 @@ templ Register(dto *dto.RegisterPageDTO) {
 							</div>
 						}
 						<div class="flex flex-row mt-3">
-							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
+							<div class="min-h-[48px] min-w-[48px] bg-disabled rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">
 									<image xlink:href="/assets/icons/password.svg" width="24px" height="24px"></image>
 								</svg>
@@ -80,7 +80,7 @@ templ Register(dto *dto.RegisterPageDTO) {
 							</div>
 						}
 						<div class="flex flex-row mt-3">
-							<div class="min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center">
+							<div class="min-h-[48px] min-w-[48px] bg-disabled rounded-l-sm flex items-center justify-center">
 								<svg width="24px" height="24px">
 									<image xlink:href="/assets/icons/password.svg" width="24px" height="24px"></image>
 								</svg>
@@ -98,8 +98,8 @@ templ Register(dto *dto.RegisterPageDTO) {
 							</div>
 						}
 						<div class="mt-3 float-right">
-							<a href="/auth/sign-in"><span class="mx-2 cursor-pointer hover:text-primary">Sign In</span></a>
-							<button class="bg-primary text-white font-light px-2 py-1 rounded-sm hover:bg-primary/90">REGISTER</button>
+							<a href="/auth/sign-in"><span class="mx-1 cursor-pointer px-2 py-1 cursor-pointer rounded-md hover:bg-separator hover:text-primary">Sign In</span></a>
+							<button class={ "text-center text-white rounded-md px-2 py-1 cursor-pointer shadow-sm bg-primary hover:bg-primary/80" }>REGISTER</button>
 						</div>
 					</form>
 				</div>

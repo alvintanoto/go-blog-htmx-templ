@@ -607,9 +607,9 @@ h3 {
   margin: auto;
 }
 
-.mx-2 {
-  margin-left: 12px;
-  margin-right: 12px;
+.mx-1 {
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .mx-auto {
@@ -965,11 +965,6 @@ h3 {
   border-bottom-right-radius: 0.125rem;
 }
 
-.rounded-s {
-  border-start-start-radius: 0.25rem;
-  border-end-start-radius: 0.25rem;
-}
-
 .border {
   border-width: 1px;
 }
@@ -998,6 +993,10 @@ h3 {
 
 .border-default-border {
   border-color: #D9D9D9FF;
+}
+
+.border-separator {
+  border-color: #0505050F;
 }
 
 .border-warning {
@@ -1194,6 +1193,10 @@ h3 {
 
 .hover\:bg-primary\/90:hover {
   background-color: rgb(22 119 255 / 0.9);
+}
+
+.hover\:bg-separator:hover {
+  background-color: #0505050F;
 }
 
 .hover\:bg-warning\/80:hover {

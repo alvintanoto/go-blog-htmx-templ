@@ -6,10 +6,10 @@ import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 templ PostDetail(data dto.PostDetailDTO) {
 	<html>
 		@vcomponent.Title()
-		<body class="max-h-[100vh] bg-grey text-base overflow-hidden">
+		<body class="max-h-[100vh] bg-layout-background text-text text-base overflow-hidden">
 			@vcomponent.Header("new-post", data.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
-				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-grey-darker ">
+				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
 					@vcomponent.SideNavigation(data.User)
 				</div>
 				<div class="w-full overflow-y-scroll h-[calc(100vh-64px)] py-4">

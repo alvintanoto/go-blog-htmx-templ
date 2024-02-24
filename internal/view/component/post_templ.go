@@ -136,7 +136,7 @@ func PostDetail(post dto.PostDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"max-w-[960px] mx-auto text-sm flex flex-row justify-evenly hover:bg-grey border-y border-grey-darker\"><div class=\"hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div><div class=\"max-w-[960px] mx-auto text-sm flex flex-row justify-evenly hover:bg-grey border-y border-separator\"><div class=\"hover:text-primary cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

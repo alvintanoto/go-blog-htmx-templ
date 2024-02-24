@@ -19,7 +19,7 @@ templ Header(route string, user *dto.UserDTO) {
 		if user == nil && route != "sign-in" && route != "register" {
 			<div class="text-base">
 				<a href="/auth/sign-in">
-					<button type="button" class="rounded-s text-white bg-primary px-2 py-1 hover:bg-primary/90">SIGN IN</button>
+					<button type="button" class={ "text-center text-white rounded-md px-2 py-1 cursor-pointer shadow-sm bg-primary hover:bg-primary/80" }>SIGN IN</button>
 				</a>
 			</div>
 		}

@@ -23,7 +23,7 @@ func SignOutModal() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modalContent\" class=\"min-h-[100vh] min-w-[100vw] overflow-hidden fixed bg-black/40 flex items-center justify-center\"><div class=\"min-h-[100vh] min-w-[100vw] z-0 fixed\" hx-get=\"/views/hide-modal\" hx-target=\"#modalContainer\" hx-swap=\"innerHTML\" class=\"border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center\"></div><div class=\"flex flex-col bg-layout-background rounded-md p-3 min-w-[480px] max-w-[480px] z-10\"><div class=\"text-xl font-semibold\">Sign Out</div><div class=\"text-base py-2\">This action will sign you out, proceed?</div><div class=\"flex flex-row justify-end mt-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modalContent\" class=\"min-h-[100vh] min-w-[100vw] overflow-hidden fixed bg-black/40 flex items-center justify-center\"><div class=\"min-h-[100vh] min-w-[100vw] z-0 fixed\" hx-on:click=\"htmx.remove(&#39;#modalContent&#39;)\" class=\"border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center\"></div><div class=\"flex flex-col bg-layout-background rounded-md p-3 min-w-[480px] max-w-[480px] z-10\"><div class=\"text-xl font-semibold\">Sign Out</div><div class=\"text-base py-2\">This action will sign you out, proceed?</div><div class=\"flex flex-row justify-end mt-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

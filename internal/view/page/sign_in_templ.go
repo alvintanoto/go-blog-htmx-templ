@@ -36,7 +36,7 @@ func SignIn(dto *dto.SignInPageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"max-h-[100vh] select-none bg-grey text-base overflow-hidden \">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"max-h-[100vh] select-none bg-layout-background text-text text-base overflow-hidden \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -44,7 +44,7 @@ func SignIn(dto *dto.SignInPageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-[calc(100vh-64px)] flex items-center justify-center overflow-y-auto\"><div class=\"w-[480px] h-auto  flex-col  border border-grey-darker rounded-md p-4\"><div class=\"text-3xl font-light mb-2\">Sign In</div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-[calc(100vh-64px)] flex items-center justify-center overflow-y-auto\"><div class=\"w-[480px] h-auto flex-col rounded-md p-4\"><div class=\"text-3xl font-light my-4\">Sign In</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -54,7 +54,24 @@ func SignIn(dto *dto.SignInPageDTO) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\"><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/user.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-grey-darker rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/password.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"password\" placeholder=\"Password\" name=\"password\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"mt-3 float-right\"><a href=\"/auth/register\"><span class=\"mx-2 cursor-pointer hover:text-primary\">Register</span></a> <button class=\"bg-primary text-white font-light px-2 py-1 rounded-sm hover:bg-primary/90\">SIGN IN</button></div></form></div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\"><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-disabled rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/user.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"text\" placeholder=\"Username\" name=\"username\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"flex flex-row my-3\"><div class=\"min-h-[48px] min-w-[48px] bg-disabled rounded-l-sm flex items-center justify-center\"><svg width=\"24px\" height=\"24px\"><image xlink:href=\"/assets/icons/password.svg\" width=\"24px\" height=\"24px\"></image></svg></div><input type=\"password\" placeholder=\"Password\" name=\"password\" class=\"h-[48px] w-full px-2 py-1 text-base rounded-r-sm outline-none\"></div><div class=\"mt-3 float-right\"><a href=\"/auth/register\"><span class=\"mx-1 cursor-pointer px-2 py-1 cursor-pointer rounded-md hover:bg-separator hover:text-primary\">Register</span></a> ")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 = []any{"text-center text-white rounded-md px-2 py-1 cursor-pointer shadow-sm bg-primary hover:bg-primary/80"}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var2).String()))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">SIGN IN</button></div></form></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
