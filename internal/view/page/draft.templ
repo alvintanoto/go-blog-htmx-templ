@@ -36,7 +36,7 @@ templ draftList(user *dto.UserDTO, posts []dto.PostDTO) {
 // TODO: fix this later
 templ Drafts (posts []dto.PostDTO, url string) {
 	for idx, post := range posts {
-		<a href={ templ.URL(fmt.Sprintf("/post/new-post?id=%s", post.ID)) }>
+		<a href={ templ.URL(fmt.Sprintf("/post/new-post?id=%d", post.ID)) }>
 			<div
 				class="flex flex-col w-full border-b p-2 border-default-border hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto"
 				if len(posts)-1 == idx && len(posts)>= 15 {

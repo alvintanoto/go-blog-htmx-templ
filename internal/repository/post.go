@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"math/rand"
 	"time"
 
 	"alvintanoto.id/blog-htmx-templ/internal/entity"
@@ -357,11 +358,22 @@ func (r *PostRepository) CreateBatch(userID string, contents []string) error {
 		return err
 	}
 
+	userIds := []string{
+		"8c5902e3-9354-47ce-a4eb-d3b339b2205b",
+		"1015cff7-f938-4d76-aada-83575e0fcf98",
+		"b93ee4d0-600b-48a3-9557-ad605d9e9672",
+		"ac396233-fd77-4cfa-a1d7-90afa3c236b6",
+		"fcb9e0bb-a85c-4e61-be48-46488d6deb28",
+		"595f931f-9db5-41b7-b49f-126382083d2d",
+		"52543c55-a982-4d1c-8b10-be4325766a12",
+	}
+
 	stmt, _ := tx.Prepare(pq.CopyIn("posts", "user_id", "content", "posted_at", "created_at", "created_by")) // MessageDetailRecord is the table name
 	for i, content := range contents {
 		fmt.Println("inserting:", i)
+		inputUserID := userIds[rand.Intn(len(userIds))]
 
-		_, err := stmt.Exec(userID, content, time.Now(), time.Now(), userID)
+		_, err := stmt.Exec(inputUserID, content, time.Now(), time.Now(), inputUserID)
 		if err != nil {
 			fmt.Println(err)
 			return err
