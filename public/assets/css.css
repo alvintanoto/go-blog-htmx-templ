@@ -575,16 +575,8 @@ h3 {
   bottom: 24px;
 }
 
-.right-\[0\%\] {
-  right: 0%;
-}
-
 .right-\[24px\] {
   right: 24px;
-}
-
-.top-\[172px\] {
-  top: 172px;
 }
 
 .top-\[96px\] {
@@ -912,10 +904,6 @@ h3 {
   align-content: flex-end;
 }
 
-.items-end {
-  align-items: flex-end;
-}
-
 .items-center {
   align-items: center;
 }
@@ -1231,10 +1219,6 @@ h3 {
 .hover\:text-primary:hover {
   --tw-text-opacity: 1;
   color: rgb(22 119 255 / var(--tw-text-opacity));
-}
-
-.hover\:underline:hover {
-  text-decoration-line: underline;
 }
 
 @media (min-width: 768px) {

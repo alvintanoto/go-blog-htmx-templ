@@ -1,5 +1,15 @@
 package dto
 
+type GlobalMessage struct {
+	Type  string
+	Value string
+}
+
+type PageDTO struct {
+	RouteName     string
+	GlobalMessage GlobalMessage
+}
+
 type HomepageDTO struct {
 	User  *UserDTO  `json:"user"`
 	Posts []PostDTO `json:"posts"`
