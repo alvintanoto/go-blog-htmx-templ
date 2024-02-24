@@ -5,16 +5,42 @@ import (
 )
 
 templ SideNavigation(user *dto.UserDTO) {
-	<div class="text-base w-full">
-		<a href="/"><div class="p-2 border-b border-default-border cursor-pointer hover:bg-post-hover">Home </div> </a>
+	<div class="text-base w-full max-h-[calc(100vh-64px)] overflow-y-auto border-r border-default-border">
+		<a href="/">
+			<div
+				class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }
+			>Home </div>
+		</a>
 		if user != nil {
-			<a href="/search/"><div class="p-2 border-b border-default-border cursor-pointer hover:bg-post-hover">Search </div> </a>
-			<a href="/notification/"><div class="p-2 border-b border-default-border cursor-pointer hover:bg-post-hover">Notification </div> </a>
-			<a href="/bookmark/"><div class="p-2 border-b border-default-border cursor-pointer hover:bg-post-hover">Bookmark </div> </a>
-			<a href="/message/"><div class="p-2 border-b border-default-border cursor-pointer hover:bg-post-hover">Message </div> </a>
-			<a href="/draft/"><div class="p-2 border-b border-default-border cursor-pointer hover:bg-post-hover">Draft </div> </a>
-			<a href="/settings/"><div class="p-2 border-b border-default-border cursor-pointer hover:bg-post-hover">Settings </div></a>
-			<a href="/profile/"><div class="p-2 border-b border-default-border cursor-pointer hover:bg-post-hover">Profile </div></a>
+			<div class="p-2 text-sm text-disabled cursor-default">
+				Gociall
+			</div>
+			<hr class="mx-2 text-disabled"/>
+			<a href="/search/">
+				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Search </div>
+			</a>
+			<a href="/notification/">
+				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Notification </div>
+			</a>
+			<a href="/bookmark/">
+				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Bookmark </div>
+			</a>
+			<a href="/message/">
+				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Message </div>
+			</a>
+			<a href="/draft/">
+				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Draft </div>
+			</a>
+			<div class="p-2 text-sm text-disabled cursor-default">
+				User
+			</div>
+			<hr class="mx-2 text-disabled"/>
+			<a href="/settings/">
+				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Settings </div>
+			</a>
+			<a href="/profile/">
+				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Profile </div>
+			</a>
 		}
 	</div>
 }

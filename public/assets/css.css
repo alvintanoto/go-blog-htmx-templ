@@ -603,6 +603,10 @@ h3 {
   float: right;
 }
 
+.m-1 {
+  margin: 8px;
+}
+
 .m-auto {
   margin: auto;
 }
@@ -610,6 +614,11 @@ h3 {
 .mx-1 {
   margin-left: 8px;
   margin-right: 8px;
+}
+
+.mx-2 {
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
 .mx-auto {
@@ -869,6 +878,10 @@ h3 {
   animation: spin 1s linear infinite;
 }
 
+.cursor-default {
+  cursor: default;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -986,6 +999,10 @@ h3 {
   border-bottom-width: 2px;
 }
 
+.border-r {
+  border-right-width: 1px;
+}
+
 .border-danger {
   --tw-border-opacity: 1;
   border-color: rgb(255 77 79 / var(--tw-border-opacity));
@@ -1050,6 +1067,10 @@ h3 {
 
 .stroke-white {
   stroke: #FFFFFF;
+}
+
+.p-1 {
+  padding: 8px;
 }
 
 .p-2 {
@@ -1142,6 +1163,10 @@ h3 {
 .text-danger {
   --tw-text-opacity: 1;
   color: rgb(255 77 79 / var(--tw-text-opacity));
+}
+
+.text-disabled {
+  color: #00000040;
 }
 
 .text-primary {
