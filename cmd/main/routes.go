@@ -13,7 +13,7 @@ func (a *Application) SetupRoutes() {
 	router.Use(a.Controller.Middlewares.LoggingMiddleware)
 
 	router.HandleFunc("/", a.Controller.ViewController.HomepageViewHandler())
-	router.HandleFunc("/populate", a.Controller.ViewController.Populate())
+	router.HandleFunc("/load-posts", a.Controller.ViewController.HomepageInfiniteScrollHandler())
 
 	authRoute := router.PathPrefix("/auth/").Subrouter()
 	authRoute.Use(a.Controller.Middlewares.IsAuthenticated)

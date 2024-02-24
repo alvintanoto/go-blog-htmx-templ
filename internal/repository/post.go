@@ -159,6 +159,104 @@ func (r *PostRepository) GetUserPost(userID, postID string) (post *entity.Post, 
 	return post, nil
 }
 
+func (r *PostRepository) GetPublicTimeline() (posts []*entity.Post, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
+	var limit int = 15
+
+	query := `SELECT 
+				id, user_id, content, reply_count, like_count, dislike_count, impressions, 
+				save_count, visibility, reply_to, is_draft, posted_at, created_at,
+				created_by, updated_at, updated_by, is_deleted
+			FROM 
+				posts
+			WHERE
+				reply_to is null AND
+				is_draft=false AND
+				is_deleted=false AND
+				visibility = $1
+			ORDER BY
+				id DESC
+			LIMIT 
+				$2
+			`
+
+	args := []interface{}{
+		entity.PostVisibilityPublic,
+		limit,
+	}
+
+	rows, err := r.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		log.Println("failed to query user profile post: ", err.Error())
+		return nil, err
+	}
+
+	for rows.Next() {
+		var entity = new(entity.Post)
+		err = entity.ScanRows(rows)
+		if err != nil {
+			log.Println("failed to scan user profile post: ", err.Error())
+			return nil, err
+		}
+
+		posts = append(posts, entity)
+	}
+
+	return posts, nil
+}
+
+func (r *PostRepository) GetMorePublicTimeline(lastPosition int) (posts []*entity.Post, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
+	var limit int = 15
+
+	query := `SELECT 
+				id, user_id, content, reply_count, like_count, dislike_count, impressions, 
+				save_count, visibility, reply_to, is_draft, posted_at, created_at,
+				created_by, updated_at, updated_by, is_deleted
+			FROM 
+				posts
+			WHERE
+				reply_to is null AND
+				is_draft=false AND
+				is_deleted=false AND
+				visibility = $1 AND
+				id < $2
+			ORDER BY
+				id DESC
+			LIMIT 
+				$3
+			`
+
+	args := []interface{}{
+		entity.PostVisibilityPublic,
+		lastPosition,
+		limit,
+	}
+
+	rows, err := r.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		log.Println("failed to query user profile post: ", err.Error())
+		return nil, err
+	}
+
+	for rows.Next() {
+		var entity = new(entity.Post)
+		err = entity.ScanRows(rows)
+		if err != nil {
+			log.Println("failed to scan user profile post: ", err.Error())
+			return nil, err
+		}
+
+		posts = append(posts, entity)
+	}
+
+	return posts, nil
+}
+
 func (r *PostRepository) GetUserPosts(userID string) (posts []*entity.Post, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -352,7 +450,7 @@ func (r *PostRepository) UpdatePost(post *entity.Post) (err error) {
 	return nil
 }
 
-func (r *PostRepository) CreateBatch(userID string, contents []string) error {
+func (r *PostRepository) CreateBatch(contents []string) error {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return err
@@ -368,12 +466,12 @@ func (r *PostRepository) CreateBatch(userID string, contents []string) error {
 		"52543c55-a982-4d1c-8b10-be4325766a12",
 	}
 
-	stmt, _ := tx.Prepare(pq.CopyIn("posts", "user_id", "content", "posted_at", "created_at", "created_by")) // MessageDetailRecord is the table name
+	stmt, _ := tx.Prepare(pq.CopyIn("posts", "user_id", "content", "visibility", "posted_at", "created_at", "created_by")) // MessageDetailRecord is the table name
 	for i, content := range contents {
 		fmt.Println("inserting:", i)
 		inputUserID := userIds[rand.Intn(len(userIds))]
 
-		_, err := stmt.Exec(inputUserID, content, time.Now(), time.Now(), inputUserID)
+		_, err := stmt.Exec(inputUserID, content, entity.PostVisibilityPublic, time.Now(), time.Now(), inputUserID)
 		if err != nil {
 			fmt.Println(err)
 			return err

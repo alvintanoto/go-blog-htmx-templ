@@ -96,14 +96,43 @@ templ Post (post dto.PostDTO) {
 	</div>
 }
 
-templ Posts (posts []dto.PostDTO, lastPosition int) {
+templ ProfilePosts (posts []dto.PostDTO, lastPosition int) {
 	if len(posts) > 0 {
 		for idx, post := range posts {
 			<a href={ templ.URL(fmt.Sprintf("/post/%d", post.ID)) }>
 				<div
-					class=""
 					if len(posts)-1 == idx && len(posts)>= 15 {
 						hx-get={ fmt.Sprintf("/profile/load-posts?last_position=%d", lastPosition) }
+						hx-on="htmx:afterRequest: htmx.remove('#loading')"
+						hx-trigger="intersect once"
+						hx-swap="afterend"
+					}
+				>
+					@Post(post)
+				</div>
+			</a>
+		}
+		if len(posts) >= 15 {
+			<div id="loading" class="animate-spin min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white">
+				<svg width="16px" height="16px" class="stroke-white">
+					<image xlink:href="/assets/icons/spin.svg" width="16px" height="16px"></image>
+				</svg>
+			</div>
+		}
+	} else {
+		if lastPosition == 0 && len(posts) <=0 {
+			@emptyPostStatePage()
+		}
+	}
+}
+
+templ TimelinePosts (posts []dto.PostDTO, lastPosition int) {
+	if len(posts) > 0 {
+		for idx, post := range posts {
+			<a href={ templ.URL(fmt.Sprintf("/post/%d", post.ID)) }>
+				<div
+					if len(posts)-1 == idx && len(posts)>= 15 {
+						hx-get={ fmt.Sprintf("/load-posts?last_position=%d", lastPosition) }
 						hx-on="htmx:afterRequest: htmx.remove('#loading')"
 						hx-trigger="intersect once"
 						hx-swap="afterend"

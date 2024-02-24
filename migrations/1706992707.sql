@@ -26,3 +26,4 @@ create index index_post_reply_to on posts("reply_to");
 create index index_post_is_draft on posts("is_draft");
 create index index_post_is_deleted on posts("is_deleted");
 create index index_post_user_id on posts("user_id");
+create index index_post_visibility on posts("visibility");

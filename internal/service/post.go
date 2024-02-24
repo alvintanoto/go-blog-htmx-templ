@@ -138,8 +138,44 @@ func (s *PostService) GetUserDraft(user *dto.UserDTO, page int) (posts []dto.Pos
 	return posts, err
 }
 
-func (s *PostService) Populate(userID string, content []string) error {
-	err := s.repository.PostRepository.CreateBatch(userID, content)
+func (s *PostService) GetPublicTimeline(lastPosition int) (posts []dto.PostDTO, err error) {
+	var entities []*entity.Post
+
+	if lastPosition == 0 {
+		entities, err = s.repository.PostRepository.GetPublicTimeline()
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		entities, err = s.repository.PostRepository.GetMorePublicTimeline(lastPosition)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	for _, entity := range entities {
+		var post = new(dto.PostDTO)
+		post.ID = entity.ID
+		post.Content = entity.Content
+		post.ReplyCounts = entity.ReplyCount
+		post.Likes = entity.LikeCount
+		post.Dislikes = entity.DislikeCount
+		post.Impressions = entity.ImpressionCount
+		post.SavedCounts = entity.SaveCount
+		post.PostedAt = entity.PostedAt.Format("02 Jan 2006 15:04:05")
+		post.Poster = dto.UserDTO{
+			ID:       *entity.CreatedBy,
+			Username: *entity.CreatedBy,
+		}
+
+		posts = append(posts, *post)
+	}
+
+	return posts, err
+}
+
+func (s *PostService) Populate(content []string) error {
+	err := s.repository.PostRepository.CreateBatch(content)
 	if err != nil {
 		return err
 	}
