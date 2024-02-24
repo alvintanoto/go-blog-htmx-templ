@@ -1044,6 +1044,10 @@ h3 {
   background-color: rgb(22 119 255 / var(--tw-bg-opacity));
 }
 
+.bg-primary\/10 {
+  background-color: rgb(22 119 255 / 0.1);
+}
+
 .bg-primary\/75 {
   background-color: rgb(22 119 255 / 0.75);
 }
@@ -1219,6 +1223,10 @@ h3 {
 
 .hover\:bg-separator:hover {
   background-color: #0505050F;
+}
+
+.hover\:bg-separator\/10:hover {
+  background-color: rgb(5 5 5 / 0.1);
 }
 
 .hover\:bg-warning\/80:hover {

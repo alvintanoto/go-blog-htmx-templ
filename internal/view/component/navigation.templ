@@ -4,11 +4,15 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 )
 
-templ SideNavigation(user *dto.UserDTO) {
+templ SideNavigation(user *dto.UserDTO, routeName string) {
 	<div class="text-base w-full max-h-[calc(100vh-64px)] overflow-y-auto border-r border-default-border">
 		<a href="/">
 			<div
-				class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }
+				class={
+					"m-1 p-1 cursor-pointer rounded-sm",
+					templ.KV("text-text hover:bg-separator/10", routeName != "Home"),
+					templ.KV("bg-primary/10 text-primary", routeName == "Home"),
+				}
 			>Home </div>
 		</a>
 		if user != nil {
@@ -29,17 +33,35 @@ templ SideNavigation(user *dto.UserDTO) {
 				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Message </div>
 			</a>
 			<a href="/draft/">
-				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Draft </div>
+				<div
+					class={
+						"m-1 p-1 cursor-pointer rounded-sm",
+						templ.KV("text-text hover:bg-separator/10", routeName != "Draft"),
+						templ.KV("bg-primary/10 text-primary", routeName == "Draft"),
+					}
+				>Draft </div>
 			</a>
 			<div class="p-2 text-sm text-disabled cursor-default">
 				User
 			</div>
 			<hr class="mx-2 text-disabled"/>
 			<a href="/settings/">
-				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Settings </div>
+				<div
+					class={
+						"m-1 p-1 cursor-pointer rounded-sm",
+						templ.KV("text-text hover:bg-separator/10", routeName != "Settings"),
+						templ.KV("bg-primary/10 text-primary", routeName == "Settings"),
+					}
+				>Settings </div>
 			</a>
 			<a href="/profile/">
-				<div class={ "m-1 p-1 text-text cursor-pointer rounded-sm", }>Profile </div>
+				<div
+					class={
+						"m-1 p-1  cursor-pointer rounded-sm",
+						templ.KV("text-text hover:bg-separator/10", routeName != "Profile"),
+						templ.KV("bg-primary/10 text-primary", routeName == "Profile"),
+					}
+				>Profile </div>
 			</a>
 		}
 	</div>

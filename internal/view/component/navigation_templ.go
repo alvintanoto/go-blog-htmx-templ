@@ -14,7 +14,7 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 )
 
-func SideNavigation(user *dto.UserDTO) templ.Component {
+func SideNavigation(user *dto.UserDTO, routeName string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -31,7 +31,11 @@ func SideNavigation(user *dto.UserDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"m-1 p-1 text-text cursor-pointer rounded-sm"}
+		var templ_7745c5c3_Var2 = []any{
+			"m-1 p-1 cursor-pointer rounded-sm",
+			templ.KV("text-text hover:bg-separator/10", routeName != "Home"),
+			templ.KV("bg-primary/10 text-primary", routeName == "Home"),
+		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -121,7 +125,11 @@ func SideNavigation(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 = []any{"m-1 p-1 text-text cursor-pointer rounded-sm"}
+			var templ_7745c5c3_Var7 = []any{
+				"m-1 p-1 cursor-pointer rounded-sm",
+				templ.KV("text-text hover:bg-separator/10", routeName != "Draft"),
+				templ.KV("bg-primary/10 text-primary", routeName == "Draft"),
+			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -138,7 +146,11 @@ func SideNavigation(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var8 = []any{"m-1 p-1 text-text cursor-pointer rounded-sm"}
+			var templ_7745c5c3_Var8 = []any{
+				"m-1 p-1 cursor-pointer rounded-sm",
+				templ.KV("text-text hover:bg-separator/10", routeName != "Settings"),
+				templ.KV("bg-primary/10 text-primary", routeName == "Settings"),
+			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -155,7 +167,11 @@ func SideNavigation(user *dto.UserDTO) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var9 = []any{"m-1 p-1 text-text cursor-pointer rounded-sm"}
+			var templ_7745c5c3_Var9 = []any{
+				"m-1 p-1  cursor-pointer rounded-sm",
+				templ.KV("text-text hover:bg-separator/10", routeName != "Profile"),
+				templ.KV("bg-primary/10 text-primary", routeName == "Profile"),
+			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

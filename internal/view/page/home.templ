@@ -47,7 +47,7 @@ templ Home(dto *dto.HomepageDTO) {
 			@vcomponent.Header("homepage", dto.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
-					@vcomponent.SideNavigation(dto.User)
+					@vcomponent.SideNavigation(dto.User, "Home")
 				</div>
 				<div class="w-full">
 					if len(dto.Posts) > 0 {

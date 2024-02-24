@@ -13,7 +13,7 @@ import "bytes"
 import "alvintanoto.id/blog-htmx-templ/internal/dto"
 import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
-func Profile(dto *dto.ProfilePageDTO) templ.Component {
+func Profile(data *dto.PageDTO) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -38,7 +38,7 @@ func Profile(dto *dto.ProfilePageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = vcomponent.Header("profile", dto.User).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = vcomponent.Header("profile", data.User).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -46,7 +46,7 @@ func Profile(dto *dto.ProfilePageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = vcomponent.SideNavigation(dto.User).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = vcomponent.SideNavigation(data.User, data.RouteName).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -55,9 +55,9 @@ func Profile(dto *dto.ProfilePageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(dto.User.Username)
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(data.User.Username)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/page/profile.templ`, Line: 27, Col: 96}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/page/profile.templ`, Line: 27, Col: 97}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -68,9 +68,9 @@ func Profile(dto *dto.ProfilePageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(dto.User.CreatedAt)
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(data.User.CreatedAt)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/page/profile.templ`, Line: 28, Col: 121}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/page/profile.templ`, Line: 28, Col: 122}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {

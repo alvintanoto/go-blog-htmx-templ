@@ -3,14 +3,14 @@ package vpages
 import "alvintanoto.id/blog-htmx-templ/internal/dto"
 import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
-templ Profile(dto *dto.ProfilePageDTO) {
+templ Profile(data *dto.PageDTO) {
 	<html>
 		@vcomponent.Title()
 		<body class="max-h-[100vh] bg-layout-background text-text text-base overflow-hidden">
-			@vcomponent.Header("profile", dto.User)
+			@vcomponent.Header("profile", data.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
-					@vcomponent.SideNavigation(dto.User)
+					@vcomponent.SideNavigation(data.User, data.RouteName)
 				</div>
 				<div class="w-full">
 					<div class="overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2">
@@ -25,8 +25,8 @@ templ Profile(dto *dto.ProfilePageDTO) {
 								</div>
 							</div>
 						</div>
-						<div class="font-light text-center text-4xl cursor-pointer"><span>&#64;{ dto.User.Username }</span></div>
-						<div class="text-center text-base cursor-pointer my-1">Member since <span class="text-primary">{ dto.User.CreatedAt } </span></div>
+						<div class="font-light text-center text-4xl cursor-pointer"><span>&#64;{ data.User.Username }</span></div>
+						<div class="text-center text-base cursor-pointer my-1">Member since <span class="text-primary">{ data.User.CreatedAt } </span></div>
 						<div class="text-center text-base cursor-pointer flex flex-row justify-center">
 							<div class="mr-2">0 Following</div>
 							<div>0 Followers </div>

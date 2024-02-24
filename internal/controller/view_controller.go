@@ -429,8 +429,9 @@ func (vc *ViewController) ProfileHandler() func(http.ResponseWriter, *http.Reque
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
 
-		profileDTO := &dto.ProfilePageDTO{
-			User: user,
+		profileDTO := &dto.PageDTO{
+			RouteName: "Profile",
+			User:      user,
 		}
 
 		vpages.Profile(profileDTO).Render(r.Context(), w)

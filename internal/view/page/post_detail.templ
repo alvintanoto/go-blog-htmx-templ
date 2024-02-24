@@ -10,7 +10,7 @@ templ PostDetail(data dto.PostDetailDTO) {
 			@vcomponent.Header("new-post", data.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
-					@vcomponent.SideNavigation(data.User)
+					@vcomponent.SideNavigation(data.User, "")
 				</div>
 				<div class="w-full overflow-y-scroll h-[calc(100vh-64px)] py-4">
 					@vcomponent.PostDetail(data.Post)
