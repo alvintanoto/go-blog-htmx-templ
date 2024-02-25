@@ -60,6 +60,6 @@ type SettingsPageDto struct {
 
 type PostDetailDTO struct {
 	User  *UserDTO `json:"user"`
-	Post  PostDTO  `json:"posts`
+	Post  PostDTO  `json:"posts"`
 	Error string
 }

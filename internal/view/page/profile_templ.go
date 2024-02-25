@@ -76,7 +76,7 @@ func Profile(data *dto.PageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><div class=\"text-center text-base cursor-pointer flex flex-row justify-center\"><div class=\"mr-2\">0 Following</div><div>0 Followers </div></div><div class=\"flex flex-row justify-evenly mt-4 text-xl max-w-[640px] m-auto\"><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-b-primary text-primary text-center cursor-pointer\">Posts</div><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-default-border text-center cursor-pointer\">Bookmarks</div><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-default-border text-center cursor-pointer\">Likes</div></div><div class=\"mt-3 m-auto max-w-[960px]\" hx-get=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><div class=\"text-center text-base cursor-pointer flex flex-row justify-center\"><div class=\"mr-2\">0 Following</div><div>0 Followers </div></div><div class=\"flex flex-row justify-evenly mt-4 text-xl max-w-[640px] m-auto\"><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-b-primary text-primary text-center cursor-pointer\">Posts</div><div class=\"w-[calc(75%/3)] pb-2 border-b-2 border-default-border text-center cursor-pointer\">Likes</div></div><div class=\"mt-3 m-auto max-w-[960px]\" hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

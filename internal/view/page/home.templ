@@ -16,14 +16,14 @@ templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
 	}
 }
 
-templ Home(dto *dto.PageDTO) {
+templ Home(data *dto.PageDTO) {
 	<html>
 		@vcomponent.Title()
 		<body class="max-h-[100vh] bg-layout-background text-text text-base overflow-hidden">
-			@vcomponent.Header("homepage", dto.User)
+			@vcomponent.Header("homepage", data.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
-					@vcomponent.SideNavigation(dto.User, "Home")
+					@vcomponent.SideNavigation(data.User, "Home")
 				</div>
 				<div class="w-full">
 					<div class="overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2">

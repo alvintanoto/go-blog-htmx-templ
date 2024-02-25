@@ -53,7 +53,7 @@ func postsComponent(user *dto.UserDTO, posts []dto.PostDTO) templ.Component {
 	})
 }
 
-func Home(dto *dto.PageDTO) templ.Component {
+func Home(data *dto.PageDTO) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -78,7 +78,7 @@ func Home(dto *dto.PageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = vcomponent.Header("homepage", dto.User).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = vcomponent.Header("homepage", data.User).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -86,7 +86,7 @@ func Home(dto *dto.PageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = vcomponent.SideNavigation(dto.User, "Home").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = vcomponent.SideNavigation(data.User, "Home").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
