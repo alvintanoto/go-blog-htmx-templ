@@ -10,7 +10,7 @@ templ Profile(data *dto.PageDTO) {
 			@vcomponent.Header("profile", data.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
-					@vcomponent.SideNavigation(data.User, data.RouteName)
+					@vcomponent.SideNavigation(data.User, data.RouteName, data.Theme)
 				</div>
 				<div class="w-full">
 					<div class="overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2">

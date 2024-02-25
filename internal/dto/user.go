@@ -5,6 +5,7 @@ type UserDTO struct {
 	Username  string `json:"username"`
 	Email     string `json:"email"`
 	CreatedAt string `json:"created_at"`
+	Configs   UserConfigDTO
 }
 
 type RegisterUserRequestDTO struct {
@@ -18,3 +19,5 @@ type UserSignInRequestDTO struct {
 	Username string `schema:"username"`
 	Password string `schema:"password"`
 }
+
+type UserConfigDTO map[string]string

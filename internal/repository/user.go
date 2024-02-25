@@ -127,3 +127,111 @@ func (r *UserRepository) RegisterUser(username, email, password string) (user *e
 
 	return user, nil
 }
+
+func (r *UserRepository) GetUserConfig(userID string) (entities []*entity.UserConfig, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
+	query := `SELECT 
+					ref_user_config.key, rel_user_config.value
+				FROM 
+					rel_user_config rel_user_config
+			LEFT JOIN 
+				ref_user_config ref_user_config
+			ON
+				ref_user_config.key = rel_user_config.config_id
+			WHERE
+				rel_user_config.user_id = $1
+			`
+
+	args := []interface{}{
+		userID,
+	}
+
+	rows, err := r.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		log.Println("failed to query user profile post: ", err.Error())
+		return nil, err
+	}
+
+	for rows.Next() {
+		var entity = new(entity.UserConfig)
+		err = entity.ScanUserConfig(rows)
+		if err != nil {
+			log.Println("failed to scan user profile post: ", err.Error())
+			return nil, err
+		}
+
+		entities = append(entities, entity)
+	}
+
+	return entities, nil
+}
+
+func (r *UserRepository) InsertUserConfig(userID, key, value string) (err error) {
+	args := []interface{}{
+		userID,
+		key,
+		value,
+	}
+
+	query := `INSERT INTO rel_user_config(
+			user_id,
+			config_id,
+			value
+		) VALUES (
+			$1,
+			$2,
+			$3
+		)`
+
+	row := r.db.QueryRow(query, args...)
+	if row.Err() != nil {
+		switch e := row.Err().(type) {
+		case *pq.Error:
+			switch e.Code {
+			case "23505":
+				fmt.Println("error creating new post: ", ErrorConstraintViolation)
+				return ErrorConstraintViolation
+			case "23503":
+				fmt.Println("error creating new post: ", ErrorForeignKeyViolation)
+				return ErrorForeignKeyViolation
+			}
+		}
+
+		log.Println("failed to create user config: ", row.Err())
+		return row.Err()
+	}
+
+	return nil
+}
+
+func (r *UserRepository) UpdateUserConfig(userID, key, value string) (err error) {
+	args := []interface{}{
+		userID,
+		key,
+		value,
+	}
+
+	query := `UPDATE rel_user_config SET user_id=$1, config_id=$2, value=$3`
+
+	row := r.db.QueryRow(query, args...)
+	if row.Err() != nil {
+		switch e := row.Err().(type) {
+		case *pq.Error:
+			switch e.Code {
+			case "23505":
+				fmt.Println("error creating new post: ", ErrorConstraintViolation)
+				return ErrorConstraintViolation
+			case "23503":
+				fmt.Println("error creating new post: ", ErrorForeignKeyViolation)
+				return ErrorForeignKeyViolation
+			}
+		}
+
+		log.Println("failed to create user config: ", row.Err())
+		return row.Err()
+	}
+
+	return nil
+}

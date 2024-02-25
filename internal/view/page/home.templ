@@ -23,7 +23,7 @@ templ Home(data *dto.PageDTO) {
 			@vcomponent.Header("homepage", data.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
-					@vcomponent.SideNavigation(data.User, "Home")
+					@vcomponent.SideNavigation(data.User, "Home", data.Theme)
 				</div>
 				<div class="w-full">
 					<div class="overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2">

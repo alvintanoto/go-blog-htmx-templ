@@ -7,6 +7,7 @@ type GlobalMessage struct {
 
 type PageDTO struct {
 	RouteName     string
+	Theme         string
 	GlobalMessage GlobalMessage
 	User          *UserDTO
 }
@@ -54,8 +55,7 @@ type DraftPageDTO struct {
 }
 
 type SettingsPageDto struct {
-	User  *UserDTO `json:"user"`
-	Error string
+	PageDTO
 }
 
 type PostDetailDTO struct {

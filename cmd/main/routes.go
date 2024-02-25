@@ -40,6 +40,7 @@ func (a *Application) SetupRoutes() {
 	settingsRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
 		settingsRoute.HandleFunc("/", a.Controller.ViewController.SettingsHandler())
+		settingsRoute.HandleFunc("/appearance/theme", a.Controller.ViewController.SettingsChangeThemeHandler())
 		settingsRoute.HandleFunc("/sign-out-confirmation", a.Controller.ViewController.ShowSignOutConfirmation())
 		settingsRoute.HandleFunc("/sign-out", a.Controller.ViewController.SignOutHandler())
 	}

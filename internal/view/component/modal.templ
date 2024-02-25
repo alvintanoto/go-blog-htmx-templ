@@ -1,13 +1,17 @@
 package vcomponent
 
-templ SignOutModal() {
-	<div id="modalContent" class="min-h-[100vh] min-w-[100vw] overflow-hidden fixed bg-black/40 flex items-center justify-center">
+templ SignOutModal(theme string) {
+	<div id="modalContent" class="min-h-[100vh] min-w-[100vw] overflow-hidden fixed bg-black/30 flex items-center justify-center">
 		<div
 			class="min-h-[100vh] min-w-[100vw] z-0 fixed"
 			hx-on:click="htmx.remove('#modalContent')"
 			class="border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center"
 		></div>
-		<div class="flex flex-col bg-layout-background rounded-md p-3 min-w-[480px] max-w-[480px] z-10">
+		<div
+			class={ "flex flex-col rounded-md p-3 min-w-[480px] max-w-[480px] z-10",
+			templ.KV("bg-layout-background text-text", theme=="1"),
+			templ.KV("bg-dark-layout-background text-dark-text", theme=="0") }
+		>
 			<div class="text-xl font-semibold">
 				Sign Out
 			</div>
@@ -17,7 +21,9 @@ templ SignOutModal() {
 			<div class="flex flex-row justify-end mt-2">
 				<div
 					hx-on:click="htmx.remove('#modalContent')"
-					class={ "text-center border border-default-border text-text rounded-md mr-1 px-2 py-1 cursor-pointer shadow-sm" }
+					class={ "text-center border border-default-border  rounded-md mr-1 px-2 py-1 cursor-pointer shadow-sm",
+						templ.KV("text-text", theme=="1"),
+						templ.KV("text-dark-text", theme=="0") }
 				>Cancel </div>
 				<div
 					hx-get="/settings/sign-out"

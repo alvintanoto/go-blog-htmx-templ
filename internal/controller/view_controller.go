@@ -40,6 +40,7 @@ type ViewController interface {
 	ProfilePostInfiniteScrollHandler() func(http.ResponseWriter, *http.Request)
 
 	SettingsHandler() func(http.ResponseWriter, *http.Request)
+	SettingsChangeThemeHandler() func(http.ResponseWriter, *http.Request)
 	SignOutHandler() func(http.ResponseWriter, *http.Request)
 
 	ShowSignOutConfirmation() func(http.ResponseWriter, *http.Request)
@@ -113,11 +114,13 @@ func (vc *implViewController) SignInHandler() func(http.ResponseWriter, *http.Re
 				return
 			}
 
+			configs, _ := vc.Service.UserService.GetUserConfig(user.ID)
 			store.Values["user"] = &dto.UserDTO{
 				ID:        user.ID,
 				Username:  user.Username,
 				Email:     user.Email,
 				CreatedAt: user.CreatedAt,
+				Configs:   configs,
 			}
 			store.Save(r, w)
 			http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -482,9 +485,35 @@ func (vc *implViewController) SettingsHandler() func(http.ResponseWriter, *http.
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
 
-		vpages.Settings(&dto.SettingsPageDto{
-			User: user,
-		}).Render(r.Context(), w)
+		data := &dto.SettingsPageDto{
+			PageDTO: dto.PageDTO{
+				User:  user,
+				Theme: user.Configs["USER_THEME"],
+			},
+		}
+
+		vpages.Settings(data).Render(r.Context(), w)
+	}
+}
+
+func (vc *implViewController) SettingsChangeThemeHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
+		selectedTheme := r.PostFormValue("theme")
+		userConfigs, _ := vc.Service.UserService.GetUserConfig(user.ID)
+
+		if userConfigs["USER_THEME"] == "" {
+			// no value insert
+			_ = vc.Service.UserService.InsertUserConfig(user.ID, "USER_THEME", selectedTheme)
+		} else {
+			_ = vc.Service.UserService.UpdateUserConfig(user.ID, "USER_THEME", selectedTheme)
+		}
+
+		user.Configs["USER_THEME"] = selectedTheme
+		store.Save(r, w)
+		http.Redirect(w, r, "/settings/", http.StatusSeeOther)
 	}
 }
 
@@ -504,7 +533,10 @@ func (vc *implViewController) SignOutHandler() func(http.ResponseWriter, *http.R
 
 func (vc *implViewController) ShowSignOutConfirmation() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		vcomponent.SignOutModal().Render(r.Context(), w)
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
+		vcomponent.SignOutModal(user.Configs["USER_THEME"]).Render(r.Context(), w)
 	}
 }
 
