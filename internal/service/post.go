@@ -96,6 +96,12 @@ func (s *PostService) GetPostDetail(postID string) (post *dto.PostDTO, err error
 	post = new(dto.PostDTO)
 	post.ID = entity.ID
 	post.Content = entity.Content
+	post.ReplyCounts = entity.ReplyCount
+	post.Likes = entity.LikeCount
+	post.Dislikes = entity.DislikeCount
+	post.Impressions = entity.ImpressionCount
+	post.SavedCounts = entity.SaveCount
+	post.PostedAt = entity.PostedAt.Format("02 Jan 2006 15:04:05")
 	post.Poster.Username = entity.Username
 
 	return post, nil
