@@ -64,11 +64,18 @@ func (vc *implViewController) NotFoundViewHandler() func(http.ResponseWriter, *h
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"]
 		if user != nil {
-			verror.NotFound(user.(*dto.UserDTO)).Render(r.Context(), w)
+			user := user.(*dto.UserDTO)
+			verror.NotFound(dto.PageDTO{
+				User:  user,
+				Theme: user.Configs["USER_THEME"],
+			}).Render(r.Context(), w)
 			return
 		}
 
-		verror.NotFound(nil).Render(r.Context(), w)
+		verror.NotFound(dto.PageDTO{
+			User:  nil,
+			Theme: "1",
+		}).Render(r.Context(), w)
 	}
 }
 
@@ -285,18 +292,42 @@ func (vc *implViewController) HomepageViewHandler() func(http.ResponseWriter, *h
 		userStore := store.Values["user"]
 
 		if userStore == nil {
-			vpages.Home(&dto.PageDTO{}).Render(r.Context(), w)
+			vpages.Home(&dto.PageDTO{
+				Theme: "1",
+			}).Render(r.Context(), w)
 			return
 		}
 
+		user := userStore.(*dto.UserDTO)
 		vpages.Home(&dto.PageDTO{
-			User: userStore.(*dto.UserDTO),
+			User:  user,
+			Theme: user.Configs["USER_THEME"],
 		}).Render(r.Context(), w)
 	}
 }
 
 func (vc *implViewController) HomepageInfiniteScrollHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		userStore := store.Values["user"]
+
+		if userStore == nil {
+			lastPosition, _ := strconv.Atoi(r.URL.Query().Get("last_position"))
+
+			posts, err := vc.Service.PostService.GetPublicTimeline(lastPosition)
+			if err != nil {
+				log.Println("err fetching public timeline: ", err)
+				return
+			}
+
+			newLastPositionID := 0
+			if len(posts) > 0 {
+				newLastPositionID = posts[len(posts)-1].ID
+			}
+
+			vcomponent.TimelinePosts(posts, newLastPositionID, "1").Render(r.Context(), w)
+		}
+
 		lastPosition, _ := strconv.Atoi(r.URL.Query().Get("last_position"))
 
 		posts, err := vc.Service.PostService.GetPublicTimeline(lastPosition)
@@ -310,7 +341,8 @@ func (vc *implViewController) HomepageInfiniteScrollHandler() func(http.Response
 			newLastPositionID = posts[len(posts)-1].ID
 		}
 
-		vcomponent.TimelinePosts(posts, newLastPositionID).Render(r.Context(), w)
+		user := userStore.(*dto.UserDTO)
+		vcomponent.TimelinePosts(posts, newLastPositionID, user.Configs["USER_THEME"]).Render(r.Context(), w)
 	}
 }
 
@@ -403,7 +435,8 @@ func (vc *implViewController) PostDetailHandler() func(http.ResponseWriter, *htt
 		user := store.Values["user"].(*dto.UserDTO)
 
 		vpages.PostDetail(dto.PageDTO{
-			User: user,
+			User:  user,
+			Theme: user.Configs["USER_THEME"],
 		}).Render(r.Context(), w)
 	}
 }
@@ -413,13 +446,16 @@ func (vc *implViewController) PostContentHandler() func(http.ResponseWriter, *ht
 		currentUrl := r.Header.Get("HX-Current-URL")
 		splitStr := strings.Split(currentUrl, "/")
 
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
 		post, err := vc.Service.PostService.GetPostDetail(splitStr[len(splitStr)-1])
 		if err != nil {
 			vcomponent.PostDetailNoPostFound().Render(r.Context(), w)
 			return
 		}
 
-		vcomponent.PostDetail(*post).Render(r.Context(), w)
+		vcomponent.PostDetail(*post, user.Configs["USER_THEME"]).Render(r.Context(), w)
 	}
 }
 
@@ -453,6 +489,7 @@ func (vc *implViewController) ProfileHandler() func(http.ResponseWriter, *http.R
 		profileDTO := &dto.PageDTO{
 			RouteName: "Profile",
 			User:      user,
+			Theme:     user.Configs["USER_THEME"],
 		}
 
 		vpages.Profile(profileDTO).Render(r.Context(), w)
@@ -476,7 +513,7 @@ func (vc *implViewController) ProfilePostInfiniteScrollHandler() func(http.Respo
 			newLastPositionID = posts[len(posts)-1].ID
 		}
 
-		vcomponent.ProfilePosts(posts, newLastPositionID).Render(r.Context(), w)
+		vcomponent.ProfilePosts(posts, newLastPositionID, user.Configs["USER_THEME"]).Render(r.Context(), w)
 	}
 }
 

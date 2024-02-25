@@ -1022,6 +1022,10 @@ h3 {
   border-color: #424242FF;
 }
 
+.border-dark-separator {
+  border-color: #FDFDFD1F;
+}
+
 .border-default-border {
   border-color: #D9D9D9FF;
 }
@@ -1053,9 +1057,21 @@ h3 {
   background-color: rgb(255 77 79 / 0.1);
 }
 
+.bg-dark-default-border {
+  background-color: #424242FF;
+}
+
+.bg-dark-disabled {
+  background-color: #FFFFFF40;
+}
+
 .bg-dark-layout-background {
   --tw-bg-opacity: 1;
   background-color: rgb(40 44 52 / var(--tw-bg-opacity));
+}
+
+.bg-dark-separator {
+  background-color: #FDFDFD1F;
 }
 
 .bg-default-border {
@@ -1258,6 +1274,10 @@ h3 {
 
 .hover\:bg-danger\/80:hover {
   background-color: rgb(255 77 79 / 0.8);
+}
+
+.hover\:bg-dark-separator:hover {
+  background-color: #FDFDFD1F;
 }
 
 .hover\:bg-dark-separator\/10:hover {

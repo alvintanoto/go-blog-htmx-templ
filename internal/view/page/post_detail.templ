@@ -6,10 +6,18 @@ import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 templ PostDetail(data dto.PageDTO) {
 	<html>
 		@vcomponent.Title()
-		<body class="max-h-[100vh] bg-layout-background text-text text-base overflow-hidden">
+		<body
+			class={ "max-h-[100vh] select-none  text-base overflow-hidden",
+				templ.KV("bg-layout-background text-text", data.Theme == "1"),
+				templ.KV("bg-dark-layout-background text-dark-text", data.Theme == "0") }
+		>
 			@vcomponent.Header("new-post", data.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
-				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
+				<div
+					class={ "hidden md:flex md:min-w-[192px] md:border-r",
+					templ.KV("md:border-default-border", data.Theme == "1"),
+					templ.KV("md:border-dark-default-border", data.Theme == "0") }
+				>
 					@vcomponent.SideNavigation(data.User, "", data.Theme)
 				</div>
 				<div class="w-full overflow-y-scroll h-[calc(100vh-64px)] py-4">
@@ -18,7 +26,6 @@ templ PostDetail(data dto.PageDTO) {
 						hx-get="/post/content"
 						hx-trigger="load, once"
 					></div>
-					// @vcomponent.PostDetail(data.Post)
 				</div>
 			</div>
 		</body>

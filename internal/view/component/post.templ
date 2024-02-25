@@ -42,10 +42,16 @@ templ PostDetailNoPostFound() {
 	</div>
 }
 
-templ PostDetail (post dto.PostDTO) {
-	<div class="flex flex-row w-full border-grey-darker cursor-pointer max-w-[960px] mx-auto">
+templ PostDetail (post dto.PostDTO, theme string) {
+	<div
+		class={ "flex flex-row w-full cursor-pointer max-w-[960px] mx-auto" }
+	>
 		<div class="w-[36px] h-[36px]  border-warning p-2 mr-2 ">
-			<div class="min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-separator">
+			<div
+				class={ "min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer",
+					templ.KV("bg-separator", theme == "1"),
+					templ.KV("bg-dark-separator", theme == "0") }
+			>
 				<svg width="16px" height="16px">
 					<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
 				</svg>
@@ -56,33 +62,71 @@ templ PostDetail (post dto.PostDTO) {
 			<div class="mb-3 max-w-[960px] text-base">{ post.Content } </div>
 		</div>
 	</div>
-	<div class="max-w-[960px] mx-auto text-sm flex flex-row justify-evenly hover:bg-grey border-y border-separator">
-		<div class="hover:text-primary hover:bg-separator rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center">
+	<div
+		class={
+			"max-w-[960px] mx-auto text-sm flex flex-row justify-evenly border-y",
+			templ.KV("border-separator", theme == "1"),
+			templ.KV("border-dark-separator", theme == "0"),
+		}
+	>
+		<div
+			class={
+				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
+				templ.KV("hover:bg-separator", theme == "1"),
+				templ.KV("hover:bg-dark-separator", theme == "0"),
+			}
+		>
 			{ strconv.Itoa(post.Likes) } Likes
 		</div>
-		<div class="hover:text-primary hover:bg-separator rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center">
+		<div
+			class={
+				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
+				templ.KV("hover:bg-separator", theme == "1"),
+				templ.KV("hover:bg-dark-separator", theme == "0"),
+			}
+		>
 			{ strconv.Itoa(post.Dislikes) } Dislikes
 		</div>
-		<div class="hover:text-primary hover:bg-separator rounded-md  cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center">
+		<div
+			class={
+				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
+				templ.KV("hover:bg-separator", theme == "1"),
+				templ.KV("hover:bg-dark-separator", theme == "0"),
+			}
+		>
 			{ strconv.Itoa(post.ReplyCounts) } Replies
 		</div>
-		<div class="hover:text-primary hover:bg-separator rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 hover:bg-post-hover flex justify-center">
+		<div
+			class={
+				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
+				templ.KV("hover:bg-separator", theme == "1"),
+				templ.KV("hover:bg-dark-separator", theme == "0"),
+			}
+		>
 			{ strconv.Itoa(post.Impressions) } Impressions
 		</div>
 	</div>
 }
 
-templ Post (post dto.PostDTO) {
-	<div class="flex flex-row w-full border-b border-default-border hover:bg-post-hover cursor-pointer max-w-[720px] mx-auto">
-		<div class="w-[36px] h-[36px]  border-warning p-2 mr-2 ">
-			<div class="min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer bg-separator">
+templ Post (post dto.PostDTO, theme string) {
+	<div
+		class={ "flex flex-row w-full border-b cursor-pointer max-w-[960px] mx-auto",
+			templ.KV("border-default-border", theme == "1"),
+			templ.KV("border-dark-default-border", theme == "0") }
+	>
+		<div class="w-[36px] h-[36px] border-warning p-2 mr-2 ">
+			<div
+				class={ "min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer",
+					templ.KV("bg-separator", theme == "1"),
+					templ.KV("bg-dark-separator", theme == "0") }
+			>
 				<svg width="16px" height="16px">
 					<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
 				</svg>
 			</div>
 		</div>
 		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
-			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm text-black-grey">{ post.PostedAt }</span></div>
+			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm">{ post.PostedAt }</span></div>
 			<div class="mb-3 max-w-[960px]">{ post.Content } </div>
 			<div class="text-sm flex flex-row" onclick="return false;">
 				<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center">
@@ -102,7 +146,7 @@ templ Post (post dto.PostDTO) {
 	</div>
 }
 
-templ ProfilePosts (posts []dto.PostDTO, lastPosition int) {
+templ ProfilePosts (posts []dto.PostDTO, lastPosition int, theme string) {
 	if len(posts) > 0 {
 		for idx, post := range posts {
 			<a href={ templ.URL(fmt.Sprintf("/post/%d", post.ID)) }>
@@ -114,7 +158,7 @@ templ ProfilePosts (posts []dto.PostDTO, lastPosition int) {
 						hx-swap="afterend"
 					}
 				>
-					@Post(post)
+					@Post(post, theme)
 				</div>
 			</a>
 		}
@@ -132,7 +176,7 @@ templ ProfilePosts (posts []dto.PostDTO, lastPosition int) {
 	}
 }
 
-templ TimelinePosts (posts []dto.PostDTO, lastPosition int) {
+templ TimelinePosts (posts []dto.PostDTO, lastPosition int, theme string) {
 	if len(posts) > 0 {
 		for idx, post := range posts {
 			<a href={ templ.URL(fmt.Sprintf("/post/%d", post.ID)) }>
@@ -144,7 +188,7 @@ templ TimelinePosts (posts []dto.PostDTO, lastPosition int) {
 						hx-swap="afterend"
 					}
 				>
-					@Post(post)
+					@Post(post, theme)
 				</div>
 			</a>
 		}

@@ -85,9 +85,8 @@ func (a *Application) InitializeSession() {
 	}
 
 	store.Options(sessions.Options{
-		Path:     "/",
-		MaxAge:   60 * 60 * 3,
-		SameSite: http.SameSiteStrictMode,
+		Path:   "/",
+		MaxAge: 60 * 60 * 3,
 	})
 
 	a.Store = store

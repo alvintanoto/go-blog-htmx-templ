@@ -6,10 +6,18 @@ import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 templ Profile(data *dto.PageDTO) {
 	<html>
 		@vcomponent.Title()
-		<body class="max-h-[100vh] bg-layout-background text-text text-base overflow-hidden">
+		<body
+			class={ "max-h-[100vh] select-none  text-base overflow-hidden",
+				templ.KV("bg-layout-background text-text", data.Theme == "1"),
+				templ.KV("bg-dark-layout-background text-dark-text", data.Theme == "0") }
+		>
 			@vcomponent.Header("profile", data.User)
 			<div class="grid-cols-2 md:flex md:min-h-full">
-				<div class="hidden md:flex md:min-w-[192px] md:border-r md:border-default-border ">
+				<div
+					class={ "hidden md:flex md:min-w-[192px] md:border-r",
+					templ.KV("md:border-default-border", data.Theme == "1"),
+					templ.KV("md:border-dark-default-border", data.Theme == "0") }
+				>
 					@vcomponent.SideNavigation(data.User, data.RouteName, data.Theme)
 				</div>
 				<div class="w-full">
@@ -41,12 +49,18 @@ templ Profile(data *dto.PageDTO) {
 							hx-trigger="load"
 						>
 							<div
-								class="mt-3 p-2 m-auto max-w-[960px] h-[144px] bg-default-border rounded-md animate-pulse"
+								class={ "mt-3 p-2 m-auto max-w-[960px] h-[144px] rounded-md animate-pulse",
+									templ.KV("bg-default-border", data.Theme == "1"),
+									templ.KV("bg-dark-default-border", data.Theme == "0") }
 							>
-								<div class="bg-disabled w-full rounded-md h-[24px]"></div>
-								<div class="bg-disabled w-full rounded-md h-[24px] my-1"></div>
-								<div class="bg-disabled w-full rounded-md h-[24px] my-1"></div>
-								<div class="bg-disabled w-full rounded-md h-[24px] my-1"></div>
+								for i :=0 ; i<=3 ; i++ {
+									<div
+										class={ "w-full rounded-md h-[24px]",
+											templ.KV("my-1", i !=0),
+											templ.KV("bg-disabled", data.Theme == "1"),
+											templ.KV("bg-dark-disabled", data.Theme == "0") }
+									></div>
+								}
 							</div>
 						</div>
 					</div>
