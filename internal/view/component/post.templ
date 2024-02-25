@@ -36,6 +36,12 @@ templ NewPostButton(text string) {
 	</div>
 }
 
+templ PostDetailNoPostFound() {
+	<div class="w-full">
+		<div class="min-h-[90vh] text-center flex justify-center items-center text-4xl font-light">404 <br/> Page Not Found </div>
+	</div>
+}
+
 templ PostDetail (post dto.PostDTO) {
 	<div class="flex flex-row w-full border-grey-darker cursor-pointer max-w-[960px] mx-auto">
 		<div class="w-[36px] h-[36px]  border-warning p-2 mr-2 ">

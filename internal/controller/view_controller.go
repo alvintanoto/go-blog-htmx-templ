@@ -13,7 +13,6 @@ import (
 	vcomponent "alvintanoto.id/blog-htmx-templ/internal/view/component"
 	verror "alvintanoto.id/blog-htmx-templ/internal/view/error"
 	vpages "alvintanoto.id/blog-htmx-templ/internal/view/page"
-	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
 	"github.com/rbcervilla/redisstore/v9"
@@ -33,6 +32,8 @@ type ViewController interface {
 
 	CreatePostHandler() func(http.ResponseWriter, *http.Request)
 	PostDetailHandler() func(http.ResponseWriter, *http.Request)
+	PostContentHandler() func(http.ResponseWriter, *http.Request)
+
 	DraftHandler() func(http.ResponseWriter, *http.Request)
 
 	ProfileHandler() func(http.ResponseWriter, *http.Request)
@@ -278,16 +279,16 @@ func (vc *implViewController) RegisterHandler() func(http.ResponseWriter, *http.
 func (vc *implViewController) HomepageViewHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
-
-		data := &dto.PageDTO{}
-
 		userStore := store.Values["user"]
 
-		if userStore != nil {
-			data.User = userStore.(*dto.UserDTO)
+		if userStore == nil {
+			vpages.Home(&dto.PageDTO{}).Render(r.Context(), w)
+			return
 		}
 
-		vpages.Home(data).Render(r.Context(), w)
+		vpages.Home(&dto.PageDTO{
+			User: userStore.(*dto.UserDTO),
+		}).Render(r.Context(), w)
 	}
 }
 
@@ -398,23 +399,24 @@ func (vc *implViewController) PostDetailHandler() func(http.ResponseWriter, *htt
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
 
-		pathParam := mux.Vars(r)
-		postID := pathParam["id"]
-		if postID == "" {
-			verror.NotFound(user).Render(r.Context(), w)
-			return
-		}
-
-		post, err := vc.Service.PostService.GetPostDetail(postID)
-		if err != nil {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
-			return
-		}
-
-		vpages.PostDetail(dto.PostDetailDTO{
+		vpages.PostDetail(dto.PageDTO{
 			User: user,
-			Post: *post,
 		}).Render(r.Context(), w)
+	}
+}
+
+func (vc *implViewController) PostContentHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		currentUrl := r.Header.Get("HX-Current-URL")
+		splitStr := strings.Split(currentUrl, "/")
+
+		post, err := vc.Service.PostService.GetPostDetail(splitStr[len(splitStr)-1])
+		if err != nil {
+			vcomponent.PostDetailNoPostFound().Render(r.Context(), w)
+			return
+		}
+
+		vcomponent.PostDetail(*post).Render(r.Context(), w)
 	}
 }
 

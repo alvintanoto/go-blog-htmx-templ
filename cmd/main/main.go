@@ -87,6 +87,7 @@ func (a *Application) InitializeSession() {
 	store.Options(sessions.Options{
 		Path:   "/",
 		MaxAge: 60 * 60 * 3,
+		Domain: "",
 	})
 
 	a.Store = store

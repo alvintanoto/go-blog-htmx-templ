@@ -90,15 +90,19 @@ func (r *PostRepository) GetPost(postID string) (post *entity.Post, err error) {
 	post = new(entity.Post)
 
 	query := `SELECT 
-				id, user_id, content, reply_count, like_count, dislike_count, impressions, 
-				save_count, visibility, reply_to, is_draft, posted_at, created_at,
-				created_by, updated_at, updated_by, is_deleted
+				p.id, p.user_id, p.content, p.reply_count, p.like_count, p.dislike_count, p.impressions, 
+				p.save_count, p.visibility, p.reply_to, p.is_draft, p.posted_at, p.created_at,
+				p.created_by, p.updated_at, p.updated_by, p.is_deleted, bu.username
 			FROM 
-				posts
+				posts p
+			LEFT JOIN 
+				blog_user bu
+			ON
+				bu.id = p.user_id
 			WHERE
-				id=$1 AND 
-				reply_to is null AND
-				is_deleted=false
+				p.id=$1 AND 
+				p.reply_to is null AND
+				p.is_deleted=false
 			`
 
 	args := []interface{}{
@@ -111,7 +115,7 @@ func (r *PostRepository) GetPost(postID string) (post *entity.Post, err error) {
 		return nil, result.Err()
 	}
 
-	err = post.Scan(result)
+	err = post.ScanJoinUser(result)
 	if err != nil {
 		log.Println("error scanning user post by user id: ", err.Error())
 		return nil, err

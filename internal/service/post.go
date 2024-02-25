@@ -96,6 +96,7 @@ func (s *PostService) GetPostDetail(postID string) (post *dto.PostDTO, err error
 	post = new(dto.PostDTO)
 	post.ID = entity.ID
 	post.Content = entity.Content
+	post.Poster.Username = entity.Username
 
 	return post, nil
 }

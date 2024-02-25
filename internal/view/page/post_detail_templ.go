@@ -13,7 +13,7 @@ import "bytes"
 import "alvintanoto.id/blog-htmx-templ/internal/dto"
 import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
-func PostDetail(data dto.PostDetailDTO) templ.Component {
+func PostDetail(data dto.PageDTO) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -50,15 +50,7 @@ func PostDetail(data dto.PostDetailDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full overflow-y-scroll h-[calc(100vh-64px)] py-4\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = vcomponent.PostDetail(data.Post).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full overflow-y-scroll h-[calc(100vh-64px)] py-4\"><div class=\"w-full\" hx-get=\"/post/content\" hx-trigger=\"load, once\"></div></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

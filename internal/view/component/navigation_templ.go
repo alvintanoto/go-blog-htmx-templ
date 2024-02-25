@@ -125,14 +125,14 @@ func SideNavigation(user *dto.UserDTO, routeName string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Draft </div></a><div class=\"p-2 text-sm text-disabled cursor-default\">User</div><hr class=\"mx-2 text-disabled\"><a href=\"/settings/\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Draft </div></a><div class=\"p-2 text-sm text-disabled cursor-default\">User</div><hr class=\"mx-2 text-disabled\"><a href=\"/analytics/\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var7 = []any{
 				"m-1 p-1 cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Settings"),
-				templ.KV("bg-primary/10 text-primary", routeName == "Settings"),
+				templ.KV("text-text hover:bg-separator/10", routeName != "Analytics"),
+				templ.KV("bg-primary/10 text-primary", routeName == "Analytics"),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 			if templ_7745c5c3_Err != nil {
@@ -146,14 +146,14 @@ func SideNavigation(user *dto.UserDTO, routeName string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Settings </div></a> <a href=\"/profile/\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Analytics </div></a> <a href=\"/settings/\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 = []any{
-				"m-1 p-1  cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Profile"),
-				templ.KV("bg-primary/10 text-primary", routeName == "Profile"),
+				"m-1 p-1 cursor-pointer rounded-sm",
+				templ.KV("text-text hover:bg-separator/10", routeName != "Settings"),
+				templ.KV("bg-primary/10 text-primary", routeName == "Settings"),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 			if templ_7745c5c3_Err != nil {
@@ -164,6 +164,27 @@ func SideNavigation(user *dto.UserDTO, routeName string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var8).String()))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Settings </div></a> <a href=\"/profile/\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var9 = []any{
+				"m-1 p-1  cursor-pointer rounded-sm",
+				templ.KV("text-text hover:bg-separator/10", routeName != "Profile"),
+				templ.KV("bg-primary/10 text-primary", routeName == "Profile"),
+			}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var9).String()))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

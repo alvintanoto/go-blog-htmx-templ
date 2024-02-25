@@ -42,6 +42,15 @@ templ SideNavigation(user *dto.UserDTO, routeName string) {
 				User
 			</div>
 			<hr class="mx-2 text-disabled"/>
+			<a href="/analytics/">
+				<div
+					class={
+						"m-1 p-1 cursor-pointer rounded-sm",
+						templ.KV("text-text hover:bg-separator/10", routeName != "Analytics"),
+						templ.KV("bg-primary/10 text-primary", routeName == "Analytics"),
+					}
+				>Analytics </div>
+			</a>
 			<a href="/settings/">
 				<div
 					class={

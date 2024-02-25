@@ -58,6 +58,31 @@ func (p *Post) Scan(row *sql.Row) (err error) {
 	return err
 }
 
+func (p *Post) ScanJoinUser(row *sql.Row) (err error) {
+	err = row.Scan(
+		&p.ID,
+		&p.UserID,
+		&p.Content,
+		&p.ReplyCount,
+		&p.LikeCount,
+		&p.DislikeCount,
+		&p.ImpressionCount,
+		&p.SaveCount,
+		&p.Visibility,
+		&p.ReplyTo,
+		&p.IsDraft,
+		&p.PostedAt,
+		&p.CreatedAt,
+		&p.CreatedBy,
+		&p.UpdatedAt,
+		&p.UpdatedBy,
+		&p.IsDeleted,
+		&p.Username,
+	)
+
+	return err
+}
+
 func (p *Post) ScanRows(rows *sql.Rows) (err error) {
 	err = rows.Scan(
 		&p.ID,

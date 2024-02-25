@@ -26,6 +26,7 @@ func (a *Application) SetupRoutes() {
 	postRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
 		postRoute.HandleFunc("/new-post", a.Controller.ViewController.CreatePostHandler())
+		postRoute.HandleFunc("/content", a.Controller.ViewController.PostContentHandler())
 		postRoute.HandleFunc("/{id}", a.Controller.ViewController.PostDetailHandler())
 	}
 
