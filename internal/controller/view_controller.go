@@ -326,6 +326,7 @@ func (vc *implViewController) HomepageInfiniteScrollHandler() func(http.Response
 			}
 
 			vcomponent.TimelinePosts(posts, newLastPositionID, "1").Render(r.Context(), w)
+			return
 		}
 
 		lastPosition, _ := strconv.Atoi(r.URL.Query().Get("last_position"))
@@ -559,7 +560,7 @@ func (vc *implViewController) SignOutHandler() func(http.ResponseWriter, *http.R
 		switch r.Method {
 		case http.MethodGet:
 			store, _ := vc.Session.Get(r, "default")
-			store.Values["user"] = nil
+			store.Options.MaxAge = -1
 			store.Save(r, w)
 
 			w.Header().Set("Hx-redirect", "/")
