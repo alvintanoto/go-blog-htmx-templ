@@ -136,7 +136,7 @@ func Settings(data *dto.SettingsPageDto) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var6 = []any{"min-w-[96px] appearance-none w-full px-2 py-1 my-1 border border-default-border z-10 bg-transparent",
+		var templ_7745c5c3_Var6 = []any{"min-w-[96px] appearance-none w-full px-2 py-1 my-1 border rounded-md border-default-border z-10 bg-transparent",
 			templ.KV("border-dark-default-border", data.Theme == "0"),
 			templ.KV("border-default-border", data.Theme == "1")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)

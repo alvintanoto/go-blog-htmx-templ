@@ -55,7 +55,7 @@ templ Settings(data *dto.SettingsPageDto) {
 											id="theme-select"
 											name="theme"
 											onchange="this.form.submit()"
-											class={ "min-w-[96px] appearance-none w-full px-2 py-1 my-1 border border-default-border z-10 bg-transparent",
+											class={ "min-w-[96px] appearance-none w-full px-2 py-1 my-1 border rounded-md border-default-border z-10 bg-transparent",
 											templ.KV("border-dark-default-border", data.Theme=="0"),
 											templ.KV("border-default-border", data.Theme=="1") }
 										>
