@@ -4,7 +4,7 @@ import "alvintanoto.id/blog-htmx-templ/internal/dto"
 import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
 script themeDropdown(theme string) {
-    document.getElementById("theme-select").value = theme
+    document.getElementById("theme-select").value = theme || 1
 }
 
 templ Settings(data *dto.SettingsPageDto) {
@@ -12,7 +12,7 @@ templ Settings(data *dto.SettingsPageDto) {
 		@vcomponent.Title()
 		<body
 			class={ "max-h-[100vh] select-none  text-base overflow-hidden",
-				templ.KV("bg-layout-background text-text", data.Theme == "1"),
+				templ.KV("bg-layout-background text-text", data.Theme != "0"),
 				templ.KV("bg-dark-layout-background text-dark-text", data.Theme == "0") }
 		>
 			<div id="modalContainer"></div>
@@ -20,7 +20,7 @@ templ Settings(data *dto.SettingsPageDto) {
 			<div class="grid-cols-2 md:flex md:min-h-full">
 				<div
 					class={ "hidden md:flex md:min-w-[192px] md:border-r",
-					templ.KV("md:border-default-border", data.Theme == "1"),
+					templ.KV("md:border-default-border", data.Theme != "0"),
 					templ.KV("md:border-dark-default-border", data.Theme == "0") }
 				>
 					@vcomponent.SideNavigation(data.User, "Settings", data.Theme)
@@ -31,7 +31,7 @@ templ Settings(data *dto.SettingsPageDto) {
 							<div
 								class={ "text-3xl",
 								templ.KV("text-dark-heading-text", data.Theme=="0"),
-								templ.KV("text-heading-text", data.Theme=="1") }
+								templ.KV("text-heading-text", data.Theme!="0") }
 							>
 								Appearance
 							</div>
@@ -43,7 +43,7 @@ templ Settings(data *dto.SettingsPageDto) {
 											<svg
 												class={ "pointer-events-none row-start-1 col-start-1 mr-2",
 													templ.KV("text-dark-text", data.Theme=="0"),
-													templ.KV("text-text", data.Theme=="1") }
+													templ.KV("text-text", data.Theme!="0") }
 												height="12px"
 												width="12px"
 												viewBox="0 0 16 16"
@@ -57,7 +57,7 @@ templ Settings(data *dto.SettingsPageDto) {
 											onchange="this.form.submit()"
 											class={ "min-w-[96px] appearance-none w-full px-2 py-1 my-1 border rounded-md border-default-border z-10 bg-transparent",
 											templ.KV("border-dark-default-border", data.Theme=="0"),
-											templ.KV("border-default-border", data.Theme=="1") }
+											templ.KV("border-default-border", data.Theme!="0") }
 										>
 											<option value="0">Dark </option>
 											<option value="1">Light </option>

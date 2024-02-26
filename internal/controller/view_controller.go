@@ -13,7 +13,6 @@ import (
 	vcomponent "alvintanoto.id/blog-htmx-templ/internal/view/component"
 	verror "alvintanoto.id/blog-htmx-templ/internal/view/error"
 	vpages "alvintanoto.id/blog-htmx-templ/internal/view/page"
-	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
 	"github.com/rbcervilla/redisstore/v9"
 	"golang.org/x/crypto/bcrypt"
@@ -30,11 +29,9 @@ type ViewController interface {
 	HomepageViewHandler() func(http.ResponseWriter, *http.Request)
 	HomepageInfiniteScrollHandler() func(http.ResponseWriter, *http.Request)
 
-	CreatePostHandler() func(http.ResponseWriter, *http.Request)
+	PostNewPostHandler() func(http.ResponseWriter, *http.Request)
 	PostDetailHandler() func(http.ResponseWriter, *http.Request)
 	PostContentHandler() func(http.ResponseWriter, *http.Request)
-
-	DraftHandler() func(http.ResponseWriter, *http.Request)
 
 	ProfileHandler() func(http.ResponseWriter, *http.Request)
 	ProfilePostInfiniteScrollHandler() func(http.ResponseWriter, *http.Request)
@@ -347,86 +344,30 @@ func (vc *implViewController) HomepageInfiniteScrollHandler() func(http.Response
 	}
 }
 
-func (vc *implViewController) CreatePostHandler() func(http.ResponseWriter, *http.Request) {
+func (vc *implViewController) PostNewPostHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		session, _ := vc.Session.Get(r, "default")
 		user := session.Values["user"].(*dto.UserDTO)
 
-		id := r.URL.Query().Get("id")
-
-		createPostDTO := &dto.CreateNewPostDTO{
-			User: user,
-		}
-
-		if flashes := session.Flashes("error"); len(flashes) > 0 {
-			createPostDTO.Error = flashes[len(flashes)-1].(string)
-
-			session.Save(r, w)
-			vpages.CreatePost(createPostDTO).Render(r.Context(), w)
+		content := r.PostFormValue("content")
+		if len(content) <= 0 {
 			return
 		}
 
-		switch r.Method {
-		case http.MethodGet:
-			if id != "" {
-				post, err := vc.Service.PostService.GetUserPost(user, id)
-				if err != nil {
-					// failed just redirect to drafts
-					http.Redirect(w, r, "/draft/", http.StatusSeeOther)
-					return
-				}
-
-				createPostDTO.Content = post.Content
-			}
-			vpages.CreatePost(createPostDTO).Render(r.Context(), w)
-		case http.MethodPost:
-			decoder := schema.NewDecoder()
-
-			var payload dto.SubmitPostDTO
-
-			err := r.ParseForm()
-			if err != nil {
-				log.Println("error parsing form: ", err.Error())
-				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
-				return
-			}
-			err = decoder.Decode(&payload, r.PostForm)
-			if err != nil {
-				log.Println("error decoding payload: ", err.Error())
-				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
-				return
-			}
-
-			content := strings.TrimSpace(payload.Content)
-			if len(content) <= 0 {
-				log.Println("create post handler error: empty content value")
-
-				session.AddFlash("Content cannot be empty.", "error")
-				sessions.Save(r, w)
-
-				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
-				return
-			}
-
-			// data not exist in the database
-			err = vc.Service.PostService.CreatePost(user.ID, id, content, payload.SubmitType)
-			if err != nil {
-				log.Println("error posting / drafting post: ", err.Error())
-
-				session.AddFlash("failed to create / draft a new post, please try again later.", "error")
-				sessions.Save(r, w)
-
-				http.Redirect(w, r, "/post/new-post", http.StatusMovedPermanently)
-				return
-			}
-
-			if payload.SubmitType == "draft" {
-				http.Redirect(w, r, "/draft/", http.StatusSeeOther)
-				return
-			}
-
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+		id, err := vc.Service.PostService.CreatePost(user.ID, content)
+		if err != nil {
+			// handle error
+			return
 		}
+
+		data, err := vc.Service.PostService.GetPostDetail(id)
+		if err != nil {
+			// handle error
+			return
+		}
+
+		vcomponent.Post(*data, user.Configs["USER_THEME"]).Render(r.Context(), w)
+		return
 	}
 }
 
@@ -450,35 +391,19 @@ func (vc *implViewController) PostContentHandler() func(http.ResponseWriter, *ht
 		store, _ := vc.Session.Get(r, "default")
 		user := store.Values["user"].(*dto.UserDTO)
 
-		post, err := vc.Service.PostService.GetPostDetail(splitStr[len(splitStr)-1])
+		postID, err := strconv.Atoi(splitStr[len(splitStr)-1])
+		if err != nil {
+			vcomponent.PostDetailNoPostFound().Render(r.Context(), w)
+			return
+		}
+
+		post, err := vc.Service.PostService.GetPostDetail(postID)
 		if err != nil {
 			vcomponent.PostDetailNoPostFound().Render(r.Context(), w)
 			return
 		}
 
 		vcomponent.PostDetail(*post, user.Configs["USER_THEME"]).Render(r.Context(), w)
-	}
-}
-
-func (vc *implViewController) DraftHandler() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		store, _ := vc.Session.Get(r, "default")
-		user := store.Values["user"].(*dto.UserDTO)
-
-		draftDTO := &dto.DraftPageDTO{
-			User:  user,
-			Posts: []dto.PostDTO{},
-		}
-
-		posts, err := vc.Service.PostService.GetUserDraft(user, 0)
-		if err != nil {
-			draftDTO.Error = "Failed to get user drafts, please try again later"
-			vpages.Draft(draftDTO).Render(r.Context(), w)
-			return
-		}
-
-		draftDTO.Posts = posts
-		vpages.Draft(draftDTO).Render(r.Context(), w)
 	}
 }
 

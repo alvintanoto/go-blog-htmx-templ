@@ -29,7 +29,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var2 = []any{
 			"text-base w-full max-h-[calc(100vh-64px)] overflow-y-auto border-r",
-			templ.KV("border-default-border", theme == "1"),
+			templ.KV("border-default-border", theme != "0"),
 			templ.KV("border-dark-default-border", theme == "0"),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
@@ -50,7 +50,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 		}
 		var templ_7745c5c3_Var3 = []any{
 			"m-1 p-1 cursor-pointer rounded-sm",
-			templ.KV("text-text hover:bg-separator/10", routeName != "Home" && theme == "1"),
+			templ.KV("text-text hover:bg-separator/10", routeName != "Home" && theme != "0"),
 			templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Home" && theme == "0"),
 			templ.KV("bg-primary/10 text-primary", routeName == "Home"),
 		}
@@ -73,7 +73,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 		if user != nil {
 			var templ_7745c5c3_Var4 = []any{
 				"p-2 text-sm cursor-default",
-				templ.KV("text-disabled", theme == "1"),
+				templ.KV("text-disabled", theme != "0"),
 				templ.KV("text-dark-disabled", theme == "0"),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
@@ -94,7 +94,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			}
 			var templ_7745c5c3_Var5 = []any{
 				"mx-2",
-				templ.KV("text-disabled", theme == "1"),
+				templ.KV("text-disabled", theme != "0"),
 				templ.KV("text-dark-disabled", theme == "0"),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
@@ -115,7 +115,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			}
 			var templ_7745c5c3_Var6 = []any{
 				"m-1 p-1 cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Search" && theme == "1"),
+				templ.KV("text-text hover:bg-separator/10", routeName != "Search" && theme != "0"),
 				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Search" && theme == "0"),
 				templ.KV("bg-primary/10 text-primary", routeName == "Search"),
 			}
@@ -137,7 +137,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			}
 			var templ_7745c5c3_Var7 = []any{
 				"m-1 p-1 cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Notification" && theme == "1"),
+				templ.KV("text-text hover:bg-separator/10", routeName != "Notification" && theme != "0"),
 				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Notification" && theme == "0"),
 				templ.KV("bg-primary/10 text-primary", routeName == "Notification"),
 			}
@@ -159,7 +159,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			}
 			var templ_7745c5c3_Var8 = []any{
 				"m-1 p-1 cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Message" && theme == "1"),
+				templ.KV("text-text hover:bg-separator/10", routeName != "Message" && theme != "0"),
 				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Message" && theme == "0"),
 				templ.KV("bg-primary/10 text-primary", routeName == "Message"),
 			}
@@ -175,15 +175,14 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Message </div></a> <a href=\"/draft/\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Message </div></a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var9 = []any{
-				"m-1 p-1 cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Draft" && theme == "1"),
-				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Draft" && theme == "0"),
-				templ.KV("bg-primary/10 text-primary", routeName == "Draft"),
+				"p-2 text-sm cursor-default",
+				templ.KV("text-disabled", theme != "0"),
+				templ.KV("text-dark-disabled", theme == "0"),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
 			if templ_7745c5c3_Err != nil {
@@ -197,36 +196,15 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Draft </div></a>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var10 = []any{
-				"p-2 text-sm cursor-default",
-				templ.KV("text-disabled", theme == "1"),
-				templ.KV("text-dark-disabled", theme == "0"),
-			}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var10).String()))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">User</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var11 = []any{
-				"mx-2", templ.KV("text-disabled", theme == "1"),
+			var templ_7745c5c3_Var10 = []any{
+				templ.KV("text-disabled", theme != "0"),
 				templ.KV("text-dark-disabled", theme == "0"),
 			}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -234,7 +212,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var11).String()))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var10).String()))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -242,11 +220,33 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var12 = []any{
+			var templ_7745c5c3_Var11 = []any{
 				"m-1 p-1 cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Analytics" && theme == "1"),
+				templ.KV("text-text hover:bg-separator/10", routeName != "Analytics" && theme != "0"),
 				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Analytics" && theme == "0"),
 				templ.KV("bg-primary/10 text-primary", routeName == "Analytics"),
+			}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var11).String()))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Analytics </div></a> <a href=\"/settings/\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var12 = []any{
+				"m-1 p-1 cursor-pointer rounded-sm",
+				templ.KV("text-text hover:bg-separator/10", routeName != "Settings" && theme != "0"),
+				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Settings" && theme == "0"),
+				templ.KV("bg-primary/10 text-primary", routeName == "Settings"),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
 			if templ_7745c5c3_Err != nil {
@@ -260,15 +260,15 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Analytics </div></a> <a href=\"/settings/\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Settings </div></a> <a href=\"/profile/\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var13 = []any{
 				"m-1 p-1 cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Settings" && theme == "1"),
-				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Settings" && theme == "0"),
-				templ.KV("bg-primary/10 text-primary", routeName == "Settings"),
+				templ.KV("text-text hover:bg-separator/10", routeName != "Profile" && theme != "0"),
+				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Profile" && theme == "0"),
+				templ.KV("bg-primary/10 text-primary", routeName == "Profile"),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
 			if templ_7745c5c3_Err != nil {
@@ -279,28 +279,6 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 				return templ_7745c5c3_Err
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var13).String()))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Settings </div></a> <a href=\"/profile/\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var14 = []any{
-				"m-1 p-1 cursor-pointer rounded-sm",
-				templ.KV("text-text hover:bg-separator/10", routeName != "Profile" && theme == "1"),
-				templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Profile" && theme == "0"),
-				templ.KV("bg-primary/10 text-primary", routeName == "Profile"),
-			}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var14).String()))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

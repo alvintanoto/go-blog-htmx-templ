@@ -36,6 +36,75 @@ templ NewPostButton(text string) {
 	</div>
 }
 
+script AutoResizeTextAreaScript() {
+	var observe;
+	if (window.attachEvent) {
+		observe = function (element, event, handler) {
+			element.attachEvent('on'+event, handler);
+		};
+	}
+	else {
+		observe = function (element, event, handler) {
+			element.addEventListener(event, handler, false);
+		};
+	}
+
+	var text = document.getElementById('arTextArea');
+	function resize () {
+		text.style.height = 'auto';
+		text.style.height = text.scrollHeight+'px';
+	}
+	/* 0-timeout to get the already changed text */
+	function delayedResize () {
+		window.setTimeout(resize, 0);
+	}
+	observe(text, 'change',  resize);
+	observe(text, 'cut',     delayedResize);
+	observe(text, 'paste',   delayedResize);
+	observe(text, 'drop',    delayedResize);
+	observe(text, 'keydown', delayedResize);
+
+	text.focus();
+	text.select();
+	resize();
+}
+
+templ CreatePostInput(user dto.UserDTO) {
+	<div
+		class={ "flex flex-row w-full border-b max-w-[768px] mx-auto",
+			templ.KV("border-default-border", user.Configs["USER_THEME"] != "0"),
+			templ.KV("border-dark-default-border", user.Configs["USER_THEME"] == "0") }
+	>
+		<div class="w-[36px] h-[36px] border-warning p-2 mr-2 ">
+			<div
+				class={ "min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer",
+					templ.KV("bg-separator", user.Configs["USER_THEME"] != "0"),
+					templ.KV("bg-dark-separator", user.Configs["USER_THEME"] == "0") }
+			>
+				<svg width="16px" height="16px">
+					<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
+				</svg>
+			</div>
+		</div>
+		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
+			<form hx-post="/post/post_new_post" hx-target="#timeline" hx-swap="afterbegin" hx-on::after-request="this.reset()">
+				<textarea
+					rows="1"
+					style="height:1em;"
+					id="arTextArea"
+					name="content"
+					placeholder="Type something.."
+					class={ "px-2 w-full py-1 bg-transparent outline-none resize-none" }
+				></textarea>
+				<div class="flex flex-row justify-between align-center">
+					<div></div>
+					<input type="submit" class="bg-primary hover:bg-primary/80 min-w-[96px] text-white text-sm text-center content-end px-1 rounded-md cursor-pointer"/>
+				</div>
+			</form>
+		</div>
+	</div>
+}
+
 templ PostDetailNoPostFound() {
 	<div class="w-full">
 		<div class="min-h-[90vh] text-center flex justify-center items-center text-4xl font-light">404 <br/> Page Not Found </div>
@@ -44,12 +113,12 @@ templ PostDetailNoPostFound() {
 
 templ PostDetail (post dto.PostDTO, theme string) {
 	<div
-		class={ "flex flex-row w-full cursor-pointer max-w-[960px] mx-auto" }
+		class={ "flex flex-row w-full cursor-pointer max-w-[768px] mx-auto" }
 	>
 		<div class="w-[36px] h-[36px]  border-warning p-2 mr-2 ">
 			<div
 				class={ "min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer",
-					templ.KV("bg-separator", theme == "1"),
+					templ.KV("bg-separator", theme != "0"),
 					templ.KV("bg-dark-separator", theme == "0") }
 			>
 				<svg width="16px" height="16px">
@@ -59,21 +128,21 @@ templ PostDetail (post dto.PostDTO, theme string) {
 		</div>
 		<div class="min-h-[96px] p-2 flex flex-col justify-between w-full">
 			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm text-black-grey">{ post.PostedAt }</span></div>
-			<div class="mb-3 max-w-[960px] text-base">{ post.Content } </div>
+			<div class="mb-3 max-w-[768px] text-base">{ post.Content } </div>
 		</div>
 	</div>
 	<div
 		class={
-			"max-w-[960px] mx-auto text-sm flex flex-row justify-evenly border-y",
-			templ.KV("border-separator", theme == "1"),
+			"max-w-[768px] mx-auto text-sm flex flex-row justify-evenly border-y",
+			templ.KV("border-separator", theme != "0"),
 			templ.KV("border-dark-separator", theme == "0"),
 		}
 	>
 		<div
 			class={
 				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-				templ.KV("hover:bg-separator", theme == "1"),
-				templ.KV("hover:bg-dark-separator", theme == "0"),
+				templ.KV("border-separator", theme != "0"),
+				templ.KV("border-dark-separator", theme == "0"),
 			}
 		>
 			{ strconv.Itoa(post.Likes) } Likes
@@ -81,8 +150,8 @@ templ PostDetail (post dto.PostDTO, theme string) {
 		<div
 			class={
 				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-				templ.KV("hover:bg-separator", theme == "1"),
-				templ.KV("hover:bg-dark-separator", theme == "0"),
+				templ.KV("border-separator", theme != "0"),
+				templ.KV("border-dark-separator", theme == "0"),
 			}
 		>
 			{ strconv.Itoa(post.Dislikes) } Dislikes
@@ -90,8 +159,8 @@ templ PostDetail (post dto.PostDTO, theme string) {
 		<div
 			class={
 				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-				templ.KV("hover:bg-separator", theme == "1"),
-				templ.KV("hover:bg-dark-separator", theme == "0"),
+				templ.KV("border-separator", theme != "0"),
+				templ.KV("border-dark-separator", theme == "0"),
 			}
 		>
 			{ strconv.Itoa(post.ReplyCounts) } Replies
@@ -99,8 +168,8 @@ templ PostDetail (post dto.PostDTO, theme string) {
 		<div
 			class={
 				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-				templ.KV("hover:bg-separator", theme == "1"),
-				templ.KV("hover:bg-dark-separator", theme == "0"),
+				templ.KV("border-separator", theme != "0"),
+				templ.KV("border-dark-separator", theme == "0"),
 			}
 		>
 			{ strconv.Itoa(post.Impressions) } Impressions
@@ -110,14 +179,14 @@ templ PostDetail (post dto.PostDTO, theme string) {
 
 templ Post (post dto.PostDTO, theme string) {
 	<div
-		class={ "flex flex-row w-full border-b cursor-pointer max-w-[960px] mx-auto",
-			templ.KV("border-default-border", theme == "1"),
+		class={ "flex flex-row w-full border-b cursor-pointer max-w-[768px] mx-auto",
+			templ.KV("border-default-border", theme != "0"),
 			templ.KV("border-dark-default-border", theme == "0") }
 	>
 		<div class="w-[36px] h-[36px] border-warning p-2 mr-2 ">
 			<div
 				class={ "min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer",
-					templ.KV("bg-separator", theme == "1"),
+					templ.KV("bg-separator", theme != "0"),
 					templ.KV("bg-dark-separator", theme == "0") }
 			>
 				<svg width="16px" height="16px">
@@ -127,7 +196,7 @@ templ Post (post dto.PostDTO, theme string) {
 		</div>
 		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
 			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm">{ post.PostedAt }</span></div>
-			<div class="mb-3 max-w-[960px]">{ post.Content } </div>
+			<div class="mb-3 max-w-[768px]">{ post.Content } </div>
 			<div class="text-sm flex flex-row" onclick="return false;">
 				<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center">
 					{ strconv.Itoa(post.Likes) } Likes

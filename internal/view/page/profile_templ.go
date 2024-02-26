@@ -35,7 +35,7 @@ func Profile(data *dto.PageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 = []any{"max-h-[100vh] select-none  text-base overflow-hidden",
-			templ.KV("bg-layout-background text-text", data.Theme == "1"),
+			templ.KV("bg-layout-background text-text", data.Theme != "0"),
 			templ.KV("bg-dark-layout-background text-dark-text", data.Theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
@@ -62,7 +62,7 @@ func Profile(data *dto.PageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 = []any{"hidden md:flex md:min-w-[192px] md:border-r",
-			templ.KV("md:border-default-border", data.Theme == "1"),
+			templ.KV("md:border-default-border", data.Theme != "0"),
 			templ.KV("md:border-dark-default-border", data.Theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 		if templ_7745c5c3_Err != nil {
@@ -123,7 +123,7 @@ func Profile(data *dto.PageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 = []any{"mt-3 p-2 m-auto max-w-[960px] h-[144px] rounded-md animate-pulse",
-			templ.KV("bg-default-border", data.Theme == "1"),
+			templ.KV("bg-default-border", data.Theme != "0"),
 			templ.KV("bg-dark-default-border", data.Theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
@@ -144,7 +144,7 @@ func Profile(data *dto.PageDTO) templ.Component {
 		for i := 0; i <= 3; i++ {
 			var templ_7745c5c3_Var7 = []any{"w-full rounded-md h-[24px]",
 				templ.KV("my-1", i != 0),
-				templ.KV("bg-disabled", data.Theme == "1"),
+				templ.KV("bg-disabled", data.Theme != "0"),
 				templ.KV("bg-dark-disabled", data.Theme == "0")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 			if templ_7745c5c3_Err != nil {

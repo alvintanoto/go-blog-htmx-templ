@@ -20,19 +20,14 @@ func NewPostRepository(db *sql.DB) *PostRepository {
 	return &PostRepository{db: db}
 }
 
-func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (err error) {
-	if err != nil {
-		log.Println("failed to create new uuid: ", err.Error())
-		return nil
-	}
-
+func (r *PostRepository) CreatePost(userID, content string) (id int, err error) {
 	currentTime := time.Now()
 	post := &entity.Post{
 		UserID:     userID,
 		Content:    content,
 		Visibility: entity.PostVisibilityPublic,
 		CreatedBy:  &userID,
-		IsDraft:    isDraft,
+		IsDraft:    false,
 		IsDeleted:  false,
 		PostedAt:   &currentTime,
 	}
@@ -60,7 +55,7 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 			$4,
 			$5,
 			$6
-		)`
+		) RETURNING id`
 
 	row := r.db.QueryRow(query, args...)
 	if row.Err() != nil {
@@ -69,21 +64,26 @@ func (r *PostRepository) CreateNewPost(userID, content string, isDraft bool) (er
 			switch e.Code {
 			case "23505":
 				fmt.Println("error creating new post: ", ErrorConstraintViolation)
-				return ErrorConstraintViolation
+				return 0, ErrorConstraintViolation
 			case "23503":
 				fmt.Println("error creating new post: ", ErrorForeignKeyViolation)
-				return ErrorForeignKeyViolation
+				return 0, ErrorForeignKeyViolation
 			}
 		}
 
 		log.Println("failed to create new post: ", row.Err())
-		return row.Err()
+		return 0, row.Err()
 	}
 
-	return nil
+	err = row.Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
 }
 
-func (r *PostRepository) GetPost(postID string) (post *entity.Post, err error) {
+func (r *PostRepository) GetPost(postID int) (post *entity.Post, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -124,7 +124,7 @@ func (r *PostRepository) GetPost(postID string) (post *entity.Post, err error) {
 	return post, nil
 }
 
-func (r *PostRepository) GetUserPost(userID, postID string) (post *entity.Post, err error) {
+func (r *PostRepository) GetUserPost(userID string, postID int) (post *entity.Post, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 

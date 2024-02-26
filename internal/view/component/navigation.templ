@@ -8,7 +8,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 	<div
 		class={
 			"text-base w-full max-h-[calc(100vh-64px)] overflow-y-auto border-r",
-			templ.KV("border-default-border", theme == "1"),
+			templ.KV("border-default-border", theme != "0"),
 			templ.KV("border-dark-default-border", theme == "0"),
 		}
 	>
@@ -16,7 +16,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 			<div
 				class={
 					"m-1 p-1 cursor-pointer rounded-sm",
-					templ.KV("text-text hover:bg-separator/10", routeName != "Home" && theme == "1"),
+					templ.KV("text-text hover:bg-separator/10", routeName != "Home" && theme != "0"),
 					templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Home" && theme == "0"),
 					templ.KV("bg-primary/10 text-primary", routeName == "Home"),
 				}
@@ -26,7 +26,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 			<div
 				class={
 					"p-2 text-sm cursor-default",
-					templ.KV("text-disabled", theme == "1"),
+					templ.KV("text-disabled", theme != "0"),
 					templ.KV("text-dark-disabled", theme == "0"),
 				}
 			>
@@ -35,7 +35,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 			<hr
 				class={
 					"mx-2",
-					templ.KV("text-disabled", theme == "1"),
+					templ.KV("text-disabled", theme != "0"),
 					templ.KV("text-dark-disabled", theme == "0"),
 				}
 			/>
@@ -43,7 +43,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 				<div
 					class={
 						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Search" && theme == "1"),
+						templ.KV("text-text hover:bg-separator/10", routeName != "Search" && theme != "0"),
 						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Search" && theme == "0"),
 						templ.KV("bg-primary/10 text-primary", routeName == "Search"),
 					}
@@ -53,7 +53,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 				<div
 					class={
 						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Notification" && theme == "1"),
+						templ.KV("text-text hover:bg-separator/10", routeName != "Notification" && theme != "0"),
 						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Notification" && theme == "0"),
 						templ.KV("bg-primary/10 text-primary", routeName == "Notification"),
 					}
@@ -63,26 +63,16 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 				<div
 					class={
 						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Message" && theme == "1"),
+						templ.KV("text-text hover:bg-separator/10", routeName != "Message" && theme != "0"),
 						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Message" && theme == "0"),
 						templ.KV("bg-primary/10 text-primary", routeName == "Message"),
 					}
 				>Message </div>
 			</a>
-			<a href="/draft/">
-				<div
-					class={
-						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Draft" && theme == "1"),
-						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Draft" && theme == "0"),
-						templ.KV("bg-primary/10 text-primary", routeName == "Draft"),
-					}
-				>Draft </div>
-			</a>
 			<div
 				class={
 					"p-2 text-sm cursor-default",
-					templ.KV("text-disabled", theme == "1"),
+					templ.KV("text-disabled", theme != "0"),
 					templ.KV("text-dark-disabled", theme == "0"),
 				}
 			>
@@ -90,7 +80,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 			</div>
 			<hr
 				class={
-					"mx-2", templ.KV("text-disabled", theme == "1"),
+					templ.KV("text-disabled", theme != "0"),
 					templ.KV("text-dark-disabled", theme == "0"),
 				}
 			/>
@@ -98,7 +88,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 				<div
 					class={
 						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Analytics" && theme == "1"),
+						templ.KV("text-text hover:bg-separator/10", routeName != "Analytics" && theme != "0"),
 						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Analytics" && theme == "0"),
 						templ.KV("bg-primary/10 text-primary", routeName == "Analytics"),
 					}
@@ -108,7 +98,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 				<div
 					class={
 						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Settings" && theme == "1"),
+						templ.KV("text-text hover:bg-separator/10", routeName != "Settings" && theme != "0"),
 						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Settings" && theme == "0"),
 						templ.KV("bg-primary/10 text-primary", routeName == "Settings"),
 					}
@@ -118,7 +108,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 				<div
 					class={
 						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Profile" && theme == "1"),
+						templ.KV("text-text hover:bg-separator/10", routeName != "Profile" && theme != "0"),
 						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Profile" && theme == "0"),
 						templ.KV("bg-primary/10 text-primary", routeName == "Profile"),
 					}

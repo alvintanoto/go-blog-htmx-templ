@@ -25,15 +25,9 @@ func (a *Application) SetupRoutes() {
 	postRoute := router.PathPrefix("/post/").Subrouter()
 	postRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{
-		postRoute.HandleFunc("/new-post", a.Controller.ViewController.CreatePostHandler())
+		postRoute.HandleFunc("/post_new_post", a.Controller.ViewController.PostNewPostHandler())
 		postRoute.HandleFunc("/content", a.Controller.ViewController.PostContentHandler())
 		postRoute.HandleFunc("/{id}", a.Controller.ViewController.PostDetailHandler())
-	}
-
-	draftRoute := router.PathPrefix("/draft/").Subrouter()
-	draftRoute.Use(a.Controller.Middlewares.IsAuthenticated)
-	{
-		draftRoute.HandleFunc("/", a.Controller.ViewController.DraftHandler())
 	}
 
 	settingsRoute := router.PathPrefix("/settings/").Subrouter()

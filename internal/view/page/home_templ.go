@@ -75,7 +75,7 @@ func Home(data *dto.PageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 = []any{"max-h-[100vh] select-none  text-base overflow-hidden",
-			templ.KV("bg-layout-background text-text", data.Theme == "1"),
+			templ.KV("bg-layout-background text-text", data.Theme != "0"),
 			templ.KV("bg-dark-layout-background text-dark-text", data.Theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 		if templ_7745c5c3_Err != nil {
@@ -102,7 +102,7 @@ func Home(data *dto.PageDTO) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 = []any{"hidden md:flex md:min-w-[192px] md:border-r",
-			templ.KV("md:border-default-border", data.Theme == "1"),
+			templ.KV("md:border-default-border", data.Theme != "0"),
 			templ.KV("md:border-dark-default-border", data.Theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {
@@ -124,7 +124,25 @@ func Home(data *dto.PageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full\"><div class=\"overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2\"><div class=\"mt-3 m-auto max-w-[960px]\" hx-get=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full\"><div class=\"overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if data.User != nil {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-3 m-auto max-w-[960px]\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = vcomponent.CreatePostInput(*data.User).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-3 m-auto max-w-[960px]\" hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -132,12 +150,12 @@ func Home(data *dto.PageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"load\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"load\" id=\"timeline\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 = []any{"mt-3 p-2 m-auto max-w-[960px] h-[144px] rounded-md animate-pulse",
-			templ.KV("bg-default-border", data.Theme == "1"),
+			templ.KV("bg-default-border", data.Theme != "0"),
 			templ.KV("bg-dark-default-border", data.Theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 		if templ_7745c5c3_Err != nil {
@@ -158,7 +176,7 @@ func Home(data *dto.PageDTO) templ.Component {
 		for i := 0; i <= 3; i++ {
 			var templ_7745c5c3_Var6 = []any{"w-full rounded-md h-[24px]",
 				templ.KV("my-1", i != 0),
-				templ.KV("bg-disabled", data.Theme == "1"),
+				templ.KV("bg-disabled", data.Theme != "0"),
 				templ.KV("bg-dark-disabled", data.Theme == "0")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 			if templ_7745c5c3_Err != nil {
@@ -177,7 +195,15 @@ func Home(data *dto.PageDTO) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = vcomponent.AutoResizeTextAreaScript().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

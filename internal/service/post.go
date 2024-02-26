@@ -1,8 +1,6 @@
 package service
 
 import (
-	"time"
-
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 	"alvintanoto.id/blog-htmx-templ/internal/entity"
 	"alvintanoto.id/blog-htmx-templ/internal/repository"
@@ -18,41 +16,8 @@ func NewPostService(repository *repository.Repository) *PostService {
 	}
 }
 
-func (s *PostService) CreatePost(userID string, postID string, payloadContent string, action string) (err error) {
-	var isDrafting bool = action == "draft"
-
-	// new entry
-	if postID == "" {
-		err = s.repository.PostRepository.CreateNewPost(userID, payloadContent, isDrafting)
-		if err != nil {
-			return err
-		}
-
-		return nil
-	}
-
-	// get existing post
-	post, err := s.repository.PostRepository.GetUserPost(userID, postID)
-	if err != nil {
-		return err
-	}
-
-	currentTime := time.Now()
-	post.Content = payloadContent
-	post.UpdatedAt = currentTime
-	post.UpdatedBy = &userID
-
-	if !isDrafting {
-		post.IsDraft = false
-		post.PostedAt = &currentTime
-	}
-
-	err = s.repository.PostRepository.UpdatePost(post)
-	if err != nil {
-		return err
-	}
-
-	return nil
+func (s *PostService) CreatePost(userID string, content string) (id int, err error) {
+	return s.repository.PostRepository.CreatePost(userID, content)
 }
 
 func (s *PostService) GetUserPosts(user *dto.UserDTO, lastPosition int) (posts []dto.PostDTO, err error) {
@@ -88,7 +53,7 @@ func (s *PostService) GetUserPosts(user *dto.UserDTO, lastPosition int) (posts [
 	return posts, err
 }
 
-func (s *PostService) GetPostDetail(postID string) (post *dto.PostDTO, err error) {
+func (s *PostService) GetPostDetail(postID int) (post *dto.PostDTO, err error) {
 	entity, err := s.repository.PostRepository.GetPost(postID)
 	if err != nil {
 		return nil, err
@@ -107,7 +72,7 @@ func (s *PostService) GetPostDetail(postID string) (post *dto.PostDTO, err error
 	return post, nil
 }
 
-func (s *PostService) GetUserPost(user *dto.UserDTO, postID string) (post *dto.PostDTO, err error) {
+func (s *PostService) GetUserPost(user *dto.UserDTO, postID int) (post *dto.PostDTO, err error) {
 	entity, err := s.repository.PostRepository.GetUserPost(user.ID, postID)
 	if err != nil {
 		return nil, err

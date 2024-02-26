@@ -28,7 +28,7 @@ func SignOutModal(theme string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 = []any{"flex flex-col rounded-md p-3 min-w-[480px] max-w-[480px] z-10",
-			templ.KV("bg-layout-background text-text", theme == "1"),
+			templ.KV("bg-layout-background text-text", theme != "0"),
 			templ.KV("bg-dark-layout-background text-dark-text", theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
@@ -47,7 +47,7 @@ func SignOutModal(theme string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 = []any{"text-center border border-default-border  rounded-md mr-1 px-2 py-1 cursor-pointer shadow-sm",
-			templ.KV("text-text", theme == "1"),
+			templ.KV("text-text", theme != "0"),
 			templ.KV("text-dark-text", theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 		if templ_7745c5c3_Err != nil {

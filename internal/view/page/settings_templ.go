@@ -15,11 +15,11 @@ import "alvintanoto.id/blog-htmx-templ/internal/view/component"
 
 func themeDropdown(theme string) templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_themeDropdown_c0f8`,
-		Function: `function __templ_themeDropdown_c0f8(theme){document.getElementById("theme-select").value = theme
+		Name: `__templ_themeDropdown_b6c9`,
+		Function: `function __templ_themeDropdown_b6c9(theme){document.getElementById("theme-select").value = theme || 1
 }`,
-		Call:       templ.SafeScript(`__templ_themeDropdown_c0f8`, theme),
-		CallInline: templ.SafeScriptInline(`__templ_themeDropdown_c0f8`, theme),
+		Call:       templ.SafeScript(`__templ_themeDropdown_b6c9`, theme),
+		CallInline: templ.SafeScriptInline(`__templ_themeDropdown_b6c9`, theme),
 	}
 }
 
@@ -45,7 +45,7 @@ func Settings(data *dto.SettingsPageDto) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 = []any{"max-h-[100vh] select-none  text-base overflow-hidden",
-			templ.KV("bg-layout-background text-text", data.Theme == "1"),
+			templ.KV("bg-layout-background text-text", data.Theme != "0"),
 			templ.KV("bg-dark-layout-background text-dark-text", data.Theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
@@ -72,7 +72,7 @@ func Settings(data *dto.SettingsPageDto) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 = []any{"hidden md:flex md:min-w-[192px] md:border-r",
-			templ.KV("md:border-default-border", data.Theme == "1"),
+			templ.KV("md:border-default-border", data.Theme != "0"),
 			templ.KV("md:border-dark-default-border", data.Theme == "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 		if templ_7745c5c3_Err != nil {
@@ -100,7 +100,7 @@ func Settings(data *dto.SettingsPageDto) templ.Component {
 		}
 		var templ_7745c5c3_Var4 = []any{"text-3xl",
 			templ.KV("text-dark-heading-text", data.Theme == "0"),
-			templ.KV("text-heading-text", data.Theme == "1")}
+			templ.KV("text-heading-text", data.Theme != "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -119,7 +119,7 @@ func Settings(data *dto.SettingsPageDto) templ.Component {
 		}
 		var templ_7745c5c3_Var5 = []any{"pointer-events-none row-start-1 col-start-1 mr-2",
 			templ.KV("text-dark-text", data.Theme == "0"),
-			templ.KV("text-text", data.Theme == "1")}
+			templ.KV("text-text", data.Theme != "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -138,7 +138,7 @@ func Settings(data *dto.SettingsPageDto) templ.Component {
 		}
 		var templ_7745c5c3_Var6 = []any{"min-w-[96px] appearance-none w-full px-2 py-1 my-1 border rounded-md border-default-border z-10 bg-transparent",
 			templ.KV("border-dark-default-border", data.Theme == "0"),
-			templ.KV("border-default-border", data.Theme == "1")}
+			templ.KV("border-default-border", data.Theme != "0")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
