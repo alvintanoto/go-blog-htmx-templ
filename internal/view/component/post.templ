@@ -69,12 +69,6 @@ script AutoResizeTextAreaScript() {
 	resize();
 }
 
-script UpdateCharLength() {
-	document.getElementById("arTextArea").addEventListener("keyup", (e)=>{
-		document.getElementById("char-counter").innerHTML = e.target.value.length
-	})
-}
-
 templ CreatePostInput(user dto.UserDTO) {
 	<div
 		class={ "flex flex-row w-full border-b max-w-[768px] mx-auto",
@@ -93,7 +87,12 @@ templ CreatePostInput(user dto.UserDTO) {
 			</div>
 		</div>
 		<div class="px-2 pt-2  flex flex-col justify-between w-full">
-			<form hx-post="/post/post_new_post" hx-target="#timeline" hx-swap="afterbegin" hx-on::after-request="this.reset()">
+			<form
+				hx-post="/post/post_new_post"
+				hx-target="#timeline"
+				hx-swap="afterbegin"
+				hx-on::after-request="this.reset();"
+			>
 				<textarea
 					rows="1"
 					style="height:1em;"
@@ -104,7 +103,7 @@ templ CreatePostInput(user dto.UserDTO) {
 					class={ "px-2 w-full py-1 bg-transparent outline-none resize-none" }
 				></textarea>
 				<div class="flex flex-row justify-between align-center mt-2 mx-2">
-					<div class="text-sm"><span id="char-counter">0</span>/150</div>
+					<div class="text-sm"></div>
 					<input type="submit" value="Post" class="bg-primary hover:bg-primary/80 min-w-[96px] text-white text-sm text-center content-end px-1 rounded-md cursor-pointer"/>
 				</div>
 			</form>
