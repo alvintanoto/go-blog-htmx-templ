@@ -69,6 +69,12 @@ script AutoResizeTextAreaScript() {
 	resize();
 }
 
+script UpdateCharLength() {
+	document.getElementById("arTextArea").addEventListener("keyup", (e)=>{
+		document.getElementById("char-counter").innerHTML = e.target.value.length
+	})
+}
+
 templ CreatePostInput(user dto.UserDTO) {
 	<div
 		class={ "flex flex-row w-full border-b max-w-[768px] mx-auto",
@@ -94,10 +100,11 @@ templ CreatePostInput(user dto.UserDTO) {
 					id="arTextArea"
 					name="content"
 					placeholder="Type something.."
+					maxlength="150"
 					class={ "px-2 w-full py-1 bg-transparent outline-none resize-none" }
 				></textarea>
-				<div class="flex flex-row justify-between align-center">
-					<div></div>
+				<div class="flex flex-row justify-between align-center mt-2 mx-2">
+					<div class="text-sm"><span id="char-counter">0</span>/150</div>
 					<input type="submit" value="Post" class="bg-primary hover:bg-primary/80 min-w-[96px] text-white text-sm text-center content-end px-1 rounded-md cursor-pointer"/>
 				</div>
 			</form>
@@ -178,58 +185,58 @@ templ PostDetail (post dto.PostDTO, theme string) {
 }
 
 templ Post (post dto.PostDTO, theme string) {
-	<div
-		class={ "flex flex-row w-full border-b cursor-pointer max-w-[768px] mx-auto",
+	<a href={ templ.URL(fmt.Sprintf("/post/%d", post.ID)) }>
+		<div
+			class={ "flex flex-row w-full border-b cursor-pointer max-w-[768px] mx-auto",
 			templ.KV("border-default-border", theme != "0"),
 			templ.KV("border-dark-default-border", theme == "0") }
-	>
-		<div class="w-[36px] h-[36px] border-warning p-2 mr-2 ">
-			<div
-				class={ "min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer",
+		>
+			<div class="w-[36px] h-[36px] border-warning p-2 mr-2 ">
+				<div
+					class={ "min-h-[36px] min-w-[36px] rounded-full flex items-center justify-center m-auto cursor-pointer",
 					templ.KV("bg-separator", theme != "0"),
 					templ.KV("bg-dark-separator", theme == "0") }
-			>
-				<svg width="16px" height="16px">
-					<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
-				</svg>
-			</div>
-		</div>
-		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
-			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm">{ post.PostedAt }</span></div>
-			<div class="mb-3 max-w-[768px]">{ post.Content } </div>
-			<div class="text-sm flex flex-row" onclick="return false;">
-				<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center">
-					{ strconv.Itoa(post.Likes) } Likes
-				</div>
-				<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
-					{ strconv.Itoa(post.Dislikes) } Dislikes
-				</div>
-				<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
-					{ strconv.Itoa(post.ReplyCounts) } Replies
-				</div>
-				<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
-					{ strconv.Itoa(post.Impressions) } Impressions
+				>
+					<svg width="16px" height="16px">
+						<image xlink:href="/assets/icons/user_2.svg" width="16px" height="16px"></image>
+					</svg>
 				</div>
 			</div>
+			<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
+				<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm">{ post.PostedAt }</span></div>
+				<div class="mb-3 max-w-[768px]">{ post.Content } </div>
+				<div class="text-sm flex flex-row" onclick="return false;">
+					<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center">
+						{ strconv.Itoa(post.Likes) } Likes
+					</div>
+					<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
+						{ strconv.Itoa(post.Dislikes) } Dislikes
+					</div>
+					<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
+						{ strconv.Itoa(post.ReplyCounts) } Replies
+					</div>
+					<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
+						{ strconv.Itoa(post.Impressions) } Impressions
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+	</a>
 }
 
 templ ProfilePosts (posts []dto.PostDTO, lastPosition int, theme string) {
 	if len(posts) > 0 {
 		for idx, post := range posts {
-			<a href={ templ.URL(fmt.Sprintf("/post/%d", post.ID)) }>
-				<div
-					if len(posts)-1 == idx && len(posts)>= 15 {
-						hx-get={ fmt.Sprintf("/profile/load-posts?last_position=%d", lastPosition) }
-						hx-on="htmx:afterRequest: htmx.remove('#loading')"
-						hx-trigger="intersect once"
-						hx-swap="afterend"
-					}
-				>
-					@Post(post, theme)
-				</div>
-			</a>
+			<div
+				if len(posts)-1 == idx && len(posts)>= 15 {
+					hx-get={ fmt.Sprintf("/profile/load-posts?last_position=%d", lastPosition) }
+					hx-on="htmx:afterRequest: htmx.remove('#loading')"
+					hx-trigger="intersect once"
+					hx-swap="afterend"
+				}
+			>
+				@Post(post, theme)
+			</div>
 		}
 		if len(posts) >= 15 {
 			<div id="loading" class="animate-spin min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white">

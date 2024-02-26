@@ -66,6 +66,7 @@ templ Home(data *dto.PageDTO) {
 			</div>
 			if data.User != nil {
 				@vcomponent.AutoResizeTextAreaScript()
+				@vcomponent.UpdateCharLength()
 			}
 		</body>
 	</html>
