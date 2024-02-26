@@ -23,7 +23,7 @@ func SignOutModal(theme string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modalContent\" class=\"min-h-[100vh] min-w-[100vw] overflow-hidden fixed bg-black/30 flex items-center justify-center\"><div class=\"min-h-[100vh] min-w-[100vw] z-0 fixed\" hx-on:click=\"htmx.remove(&#39;#modalContent&#39;)\" class=\"border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modalContent\" class=\"min-h-[100vh] min-w-[100vw] overflow-hidden fixed backdrop-blur-sm bg-black/30 flex items-center justify-center z-50\"><div class=\"min-h-[100vh] min-w-[100vw] z-0 fixed\" hx-on:click=\"htmx.remove(&#39;#modalContent&#39;)\" class=\"border border-danger text-danger cursor-pointer px-2 py-1 mr-1 hover:bg-danger/10 rounded-sm items-center\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

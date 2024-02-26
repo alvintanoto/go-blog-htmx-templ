@@ -595,6 +595,14 @@ h3 {
   z-index: 10;
 }
 
+.z-20 {
+  z-index: 20;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
 .col-start-1 {
   grid-column-start: 1;
 }
@@ -1013,16 +1021,8 @@ h3 {
   border-color: #424242FF;
 }
 
-.border-dark-separator {
-  border-color: #FDFDFD1F;
-}
-
 .border-default-border {
   border-color: #D9D9D9FF;
-}
-
-.border-separator {
-  border-color: #0505050F;
 }
 
 .border-warning {
@@ -1254,12 +1254,22 @@ h3 {
   outline-offset: 2px;
 }
 
+.backdrop-blur-sm {
+  --tw-backdrop-blur: blur(4px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+
 .hover\:bg-danger\/10:hover {
   background-color: rgb(255 77 79 / 0.1);
 }
 
 .hover\:bg-danger\/80:hover {
   background-color: rgb(255 77 79 / 0.8);
+}
+
+.hover\:bg-dark-separator:hover {
+  background-color: #FDFDFD1F;
 }
 
 .hover\:bg-dark-separator\/10:hover {

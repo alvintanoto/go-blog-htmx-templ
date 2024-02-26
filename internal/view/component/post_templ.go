@@ -170,7 +170,7 @@ func CreatePostInput(user dto.UserDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><svg width=\"16px\" height=\"16px\"><image xlink:href=\"/assets/icons/user_2.svg\" width=\"16px\" height=\"16px\"></image></svg></div></div><div class=\"min-h-[96px] p-2  flex flex-col justify-between w-full\"><form hx-post=\"/post/post_new_post\" hx-target=\"#timeline\" hx-swap=\"afterbegin\" hx-on::after-request=\"this.reset()\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><svg width=\"16px\" height=\"16px\"><image xlink:href=\"/assets/icons/user_2.svg\" width=\"16px\" height=\"16px\"></image></svg></div></div><div class=\"px-2 pt-2  flex flex-col justify-between w-full\"><form hx-post=\"/post/post_new_post\" hx-target=\"#timeline\" hx-swap=\"afterbegin\" hx-on::after-request=\"this.reset()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -187,7 +187,7 @@ func CreatePostInput(user dto.UserDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></textarea><div class=\"flex flex-row justify-between align-center\"><div></div><input type=\"submit\" class=\"bg-primary hover:bg-primary/80 min-w-[96px] text-white text-sm text-center content-end px-1 rounded-md cursor-pointer\"></div></form></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></textarea><div class=\"flex flex-row justify-between align-center\"><div></div><input type=\"submit\" value=\"Post\" class=\"bg-primary hover:bg-primary/80 min-w-[96px] text-white text-sm text-center content-end px-1 rounded-md cursor-pointer\"></div></form></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -312,8 +312,8 @@ func PostDetail(post dto.PostDTO, theme string) templ.Component {
 		}
 		var templ_7745c5c3_Var15 = []any{
 			"max-w-[768px] mx-auto text-sm flex flex-row justify-evenly border-y",
-			templ.KV("border-separator", theme != "0"),
-			templ.KV("border-dark-separator", theme == "0"),
+			templ.KV("border-default-border", theme != "0"),
+			templ.KV("border-dark-default-border", theme == "0"),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var15...)
 		if templ_7745c5c3_Err != nil {
@@ -333,8 +333,8 @@ func PostDetail(post dto.PostDTO, theme string) templ.Component {
 		}
 		var templ_7745c5c3_Var16 = []any{
 			"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-			templ.KV("border-separator", theme != "0"),
-			templ.KV("border-dark-separator", theme == "0"),
+			templ.KV("hover:bg-separator", theme != "0"),
+			templ.KV("hover:bg-dark-separator", theme == "0"),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
 		if templ_7745c5c3_Err != nil {
@@ -367,8 +367,8 @@ func PostDetail(post dto.PostDTO, theme string) templ.Component {
 		}
 		var templ_7745c5c3_Var18 = []any{
 			"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-			templ.KV("border-separator", theme != "0"),
-			templ.KV("border-dark-separator", theme == "0"),
+			templ.KV("hover:bg-separator", theme != "0"),
+			templ.KV("hover:bg-dark-separator", theme == "0"),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var18...)
 		if templ_7745c5c3_Err != nil {
@@ -401,8 +401,8 @@ func PostDetail(post dto.PostDTO, theme string) templ.Component {
 		}
 		var templ_7745c5c3_Var20 = []any{
 			"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-			templ.KV("border-separator", theme != "0"),
-			templ.KV("border-dark-separator", theme == "0"),
+			templ.KV("hover:bg-separator", theme != "0"),
+			templ.KV("hover:bg-dark-separator", theme == "0"),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
 		if templ_7745c5c3_Err != nil {
@@ -435,8 +435,8 @@ func PostDetail(post dto.PostDTO, theme string) templ.Component {
 		}
 		var templ_7745c5c3_Var22 = []any{
 			"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-			templ.KV("border-separator", theme != "0"),
-			templ.KV("border-dark-separator", theme == "0"),
+			templ.KV("hover:bg-separator", theme != "0"),
+			templ.KV("hover:bg-dark-separator", theme == "0"),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var22...)
 		if templ_7745c5c3_Err != nil {

@@ -59,16 +59,6 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 					}
 				>Notification </div>
 			</a>
-			<a href="/message/">
-				<div
-					class={
-						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Message" && theme != "0"),
-						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Message" && theme == "0"),
-						templ.KV("bg-primary/10 text-primary", routeName == "Message"),
-					}
-				>Message </div>
-			</a>
 			<div
 				class={
 					"p-2 text-sm cursor-default",
@@ -80,6 +70,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 			</div>
 			<hr
 				class={
+					"mx-2",
 					templ.KV("text-disabled", theme != "0"),
 					templ.KV("text-dark-disabled", theme == "0"),
 				}

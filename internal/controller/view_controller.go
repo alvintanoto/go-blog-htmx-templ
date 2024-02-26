@@ -474,6 +474,7 @@ func (vc *implViewController) SettingsChangeThemeHandler() func(http.ResponseWri
 			_ = vc.Service.UserService.UpdateUserConfig(user.ID, "USER_THEME", selectedTheme)
 		}
 
+		user.Configs = userConfigs
 		user.Configs["USER_THEME"] = selectedTheme
 		store.Save(r, w)
 		http.Redirect(w, r, "/settings/", http.StatusSeeOther)

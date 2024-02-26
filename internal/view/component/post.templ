@@ -86,7 +86,7 @@ templ CreatePostInput(user dto.UserDTO) {
 				</svg>
 			</div>
 		</div>
-		<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
+		<div class="px-2 pt-2  flex flex-col justify-between w-full">
 			<form hx-post="/post/post_new_post" hx-target="#timeline" hx-swap="afterbegin" hx-on::after-request="this.reset()">
 				<textarea
 					rows="1"
@@ -98,7 +98,7 @@ templ CreatePostInput(user dto.UserDTO) {
 				></textarea>
 				<div class="flex flex-row justify-between align-center">
 					<div></div>
-					<input type="submit" class="bg-primary hover:bg-primary/80 min-w-[96px] text-white text-sm text-center content-end px-1 rounded-md cursor-pointer"/>
+					<input type="submit" value="Post" class="bg-primary hover:bg-primary/80 min-w-[96px] text-white text-sm text-center content-end px-1 rounded-md cursor-pointer"/>
 				</div>
 			</form>
 		</div>
@@ -134,15 +134,15 @@ templ PostDetail (post dto.PostDTO, theme string) {
 	<div
 		class={
 			"max-w-[768px] mx-auto text-sm flex flex-row justify-evenly border-y",
-			templ.KV("border-separator", theme != "0"),
-			templ.KV("border-dark-separator", theme == "0"),
+			templ.KV("border-default-border", theme != "0"),
+			templ.KV("border-dark-default-border", theme == "0"),
 		}
 	>
 		<div
 			class={
 				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-				templ.KV("border-separator", theme != "0"),
-				templ.KV("border-dark-separator", theme == "0"),
+				templ.KV("hover:bg-separator", theme != "0"),
+				templ.KV("hover:bg-dark-separator", theme == "0"),
 			}
 		>
 			{ strconv.Itoa(post.Likes) } Likes
@@ -150,8 +150,8 @@ templ PostDetail (post dto.PostDTO, theme string) {
 		<div
 			class={
 				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-				templ.KV("border-separator", theme != "0"),
-				templ.KV("border-dark-separator", theme == "0"),
+				templ.KV("hover:bg-separator", theme != "0"),
+				templ.KV("hover:bg-dark-separator", theme == "0"),
 			}
 		>
 			{ strconv.Itoa(post.Dislikes) } Dislikes
@@ -159,8 +159,8 @@ templ PostDetail (post dto.PostDTO, theme string) {
 		<div
 			class={
 				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-				templ.KV("border-separator", theme != "0"),
-				templ.KV("border-dark-separator", theme == "0"),
+				templ.KV("hover:bg-separator", theme != "0"),
+				templ.KV("hover:bg-dark-separator", theme == "0"),
 			}
 		>
 			{ strconv.Itoa(post.ReplyCounts) } Replies
@@ -168,8 +168,8 @@ templ PostDetail (post dto.PostDTO, theme string) {
 		<div
 			class={
 				"hover:text-primary rounded-md cursor-pointer flex flex-row items-center flex-1 py-2 flex justify-center",
-				templ.KV("border-separator", theme != "0"),
-				templ.KV("border-dark-separator", theme == "0"),
+				templ.KV("hover:bg-separator", theme != "0"),
+				templ.KV("hover:bg-dark-separator", theme == "0"),
 			}
 		>
 			{ strconv.Itoa(post.Impressions) } Impressions
