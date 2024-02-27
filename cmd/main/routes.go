@@ -30,6 +30,12 @@ func (a *Application) SetupRoutes() {
 		postRoute.HandleFunc("/{id}", a.Controller.ViewController.PostDetailHandler())
 	}
 
+	searchRoute := router.PathPrefix("/search/").Subrouter()
+	searchRoute.Use(a.Controller.Middlewares.IsAuthenticated)
+	{
+		searchRoute.HandleFunc("/", a.Controller.ViewController.SearchHandler())
+	}
+
 	settingsRoute := router.PathPrefix("/settings/").Subrouter()
 	settingsRoute.Use(a.Controller.Middlewares.IsAuthenticated)
 	{

@@ -33,6 +33,8 @@ type ViewController interface {
 	PostDetailHandler() func(http.ResponseWriter, *http.Request)
 	PostContentHandler() func(http.ResponseWriter, *http.Request)
 
+	SearchHandler() func(http.ResponseWriter, *http.Request)
+
 	ProfileHandler() func(http.ResponseWriter, *http.Request)
 	ProfilePostInfiniteScrollHandler() func(http.ResponseWriter, *http.Request)
 
@@ -322,7 +324,7 @@ func (vc *implViewController) HomepageInfiniteScrollHandler() func(http.Response
 				newLastPositionID = posts[len(posts)-1].ID
 			}
 
-			vcomponent.TimelinePosts(posts, newLastPositionID, "1").Render(r.Context(), w)
+			vcomponent.Posts(posts, newLastPositionID, "1").Render(r.Context(), w)
 			return
 		}
 
@@ -340,7 +342,7 @@ func (vc *implViewController) HomepageInfiniteScrollHandler() func(http.Response
 		}
 
 		user := userStore.(*dto.UserDTO)
-		vcomponent.TimelinePosts(posts, newLastPositionID, user.Configs["USER_THEME"]).Render(r.Context(), w)
+		vcomponent.Posts(posts, newLastPositionID, user.Configs["USER_THEME"]).Render(r.Context(), w)
 	}
 }
 
@@ -367,7 +369,6 @@ func (vc *implViewController) PostNewPostHandler() func(http.ResponseWriter, *ht
 		}
 
 		vcomponent.Post(*data, user.Configs["USER_THEME"]).Render(r.Context(), w)
-		return
 	}
 }
 
@@ -407,6 +408,19 @@ func (vc *implViewController) PostContentHandler() func(http.ResponseWriter, *ht
 	}
 }
 
+func (vc *implViewController) SearchHandler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		store, _ := vc.Session.Get(r, "default")
+		user := store.Values["user"].(*dto.UserDTO)
+
+		vpages.Search(dto.PageDTO{
+			RouteName: "Profile",
+			User:      user,
+			Theme:     user.Configs["USER_THEME"],
+		}).Render(r.Context(), w)
+	}
+}
+
 func (vc *implViewController) ProfileHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		store, _ := vc.Session.Get(r, "default")
@@ -439,7 +453,7 @@ func (vc *implViewController) ProfilePostInfiniteScrollHandler() func(http.Respo
 			newLastPositionID = posts[len(posts)-1].ID
 		}
 
-		vcomponent.ProfilePosts(posts, newLastPositionID, user.Configs["USER_THEME"]).Render(r.Context(), w)
+		vcomponent.Posts(posts, newLastPositionID, user.Configs["USER_THEME"]).Render(r.Context(), w)
 	}
 }
 

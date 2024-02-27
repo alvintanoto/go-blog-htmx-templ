@@ -223,35 +223,7 @@ templ Post (post dto.PostDTO, theme string) {
 	</a>
 }
 
-templ ProfilePosts (posts []dto.PostDTO, lastPosition int, theme string) {
-	if len(posts) > 0 {
-		for idx, post := range posts {
-			<div
-				if len(posts)-1 == idx && len(posts)>= 15 {
-					hx-get={ fmt.Sprintf("/profile/load-posts?last_position=%d", lastPosition) }
-					hx-on="htmx:afterRequest: htmx.remove('#loading')"
-					hx-trigger="intersect once"
-					hx-swap="afterend"
-				}
-			>
-				@Post(post, theme)
-			</div>
-		}
-		if len(posts) >= 15 {
-			<div id="loading" class="animate-spin min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white">
-				<svg width="16px" height="16px" class="stroke-white">
-					<image xlink:href="/assets/icons/spin.svg" width="16px" height="16px"></image>
-				</svg>
-			</div>
-		}
-	} else {
-		if lastPosition == 0 && len(posts) <=0 {
-			@emptyPostStatePage()
-		}
-	}
-}
-
-templ TimelinePosts (posts []dto.PostDTO, lastPosition int, theme string) {
+templ Posts (posts []dto.PostDTO, lastPosition int, theme string) {
 	if len(posts) > 0 {
 		for idx, post := range posts {
 			<a href={ templ.URL(fmt.Sprintf("/post/%d", post.ID)) }>
