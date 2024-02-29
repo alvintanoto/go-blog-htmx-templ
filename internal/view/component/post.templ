@@ -134,7 +134,7 @@ templ PostDetail (post dto.PostDTO, theme string) {
 		</div>
 		<div class="min-h-[96px] p-2 flex flex-col justify-between w-full">
 			<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm text-black-grey">{ post.PostedAt }</span></div>
-			<div class="mb-3 max-w-[768px] text-base">{ post.Content } </div>
+			<div class="mb-3 max-w-[768px] text-base  [overflow-wrap:anywhere]">{ post.Content } </div>
 		</div>
 	</div>
 	<div
@@ -203,18 +203,34 @@ templ Post (post dto.PostDTO, theme string) {
 			</div>
 			<div class="min-h-[96px] p-2  flex flex-col justify-between w-full">
 				<div class="mb-2">&#64;{ post.Poster.Username } &#8226; <span class="text-sm">{ post.PostedAt }</span></div>
-				<div class="mb-3 max-w-[768px]">{ post.Content } </div>
+				<div class="mb-3 max-w-[768px] md:w-full [overflow-wrap:anywhere]">{ post.Content }</div>
 				<div class="text-sm flex flex-row" onclick="return false;">
-					<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center">
+					<div
+						class={ "hover:text-primary px-1 rounded-md cursor-pointer flex flex-row items-center", 
+						templ.KV("hover:bg-separator", theme != "0"),
+						templ.KV("hover:bg-dark-separator", theme == "0") }
+					>
 						{ strconv.Itoa(post.Likes) } Likes
 					</div>
-					<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
+					<div
+						class={ "hover:text-primary px-1 rounded-md cursor-pointer flex flex-row items-center", 
+						templ.KV("hover:bg-separator", theme != "0"),
+						templ.KV("hover:bg-dark-separator", theme == "0") }
+					>
 						{ strconv.Itoa(post.Dislikes) } Dislikes
 					</div>
-					<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
+					<div
+						class={ "hover:text-primary px-1 rounded-md cursor-pointer flex flex-row items-center", 
+						templ.KV("hover:bg-separator", theme != "0"),
+						templ.KV("hover:bg-dark-separator", theme == "0") }
+					>
 						{ strconv.Itoa(post.ReplyCounts) } Replies
 					</div>
-					<div class="hover:text-primary hover:bg-separator px-1 rounded-md cursor-pointer flex flex-row items-center ml-2">
+					<div
+						class={ "hover:text-primary px-1 rounded-md cursor-pointer flex flex-row items-center", 
+						templ.KV("hover:bg-separator", theme != "0"),
+						templ.KV("hover:bg-dark-separator", theme == "0") }
+					>
 						{ strconv.Itoa(post.Impressions) } Impressions
 					</div>
 				</div>
