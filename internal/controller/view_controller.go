@@ -414,7 +414,7 @@ func (vc *implViewController) SearchHandler() func(http.ResponseWriter, *http.Re
 		user := store.Values["user"].(*dto.UserDTO)
 
 		vpages.Search(dto.PageDTO{
-			RouteName: "Profile",
+			RouteName: "Search",
 			User:      user,
 			Theme:     user.Configs["USER_THEME"],
 		}).Render(r.Context(), w)

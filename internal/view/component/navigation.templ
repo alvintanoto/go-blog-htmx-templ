@@ -4,6 +4,30 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/dto"
 )
 
+templ sideNavMenu(path string, routeName string, theme string, sameRoute bool) {
+	if (sameRoute) {
+		<div
+			class={
+				"m-1 p-1 cursor-pointer rounded-sm",
+				templ.KV("text-text hover:bg-separator/10", !sameRoute && theme != "0"),
+				templ.KV("text-dark-text hover:bg-dark-separator/10", !sameRoute && theme == "0"),
+				templ.KV("bg-primary/10 text-primary", sameRoute),
+			}
+		>{ routeName } </div>
+	} else {
+		<a href={ templ.URL(path) }>
+			<div
+				class={
+					"m-1 p-1 cursor-pointer rounded-sm",
+					templ.KV("text-text hover:bg-separator/10", !sameRoute && theme != "0"),
+					templ.KV("text-dark-text hover:bg-dark-separator/10", !sameRoute && theme == "0"),
+					templ.KV("bg-primary/10 text-primary", sameRoute),
+				}
+			>{ routeName } </div>
+		</a>
+	}
+}
+
 templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 	<div
 		class={
@@ -12,16 +36,7 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 			templ.KV("border-dark-default-border", theme == "0"),
 		}
 	>
-		<a href="/">
-			<div
-				class={
-					"m-1 p-1 cursor-pointer rounded-sm",
-					templ.KV("text-text hover:bg-separator/10", routeName != "Home" && theme != "0"),
-					templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Home" && theme == "0"),
-					templ.KV("bg-primary/10 text-primary", routeName == "Home"),
-				}
-			>Home </div>
-		</a>
+		@sideNavMenu("/", "Home", theme, routeName == "Home")
 		if user != nil {
 			<div
 				class={
@@ -39,26 +54,8 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 					templ.KV("text-dark-disabled", theme == "0"),
 				}
 			/>
-			<a href="/search/">
-				<div
-					class={
-						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Search" && theme != "0"),
-						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Search" && theme == "0"),
-						templ.KV("bg-primary/10 text-primary", routeName == "Search"),
-					}
-				>Search </div>
-			</a>
-			<a href="/notification/">
-				<div
-					class={
-						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Notification" && theme != "0"),
-						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Notification" && theme == "0"),
-						templ.KV("bg-primary/10 text-primary", routeName == "Notification"),
-					}
-				>Notification </div>
-			</a>
+			@sideNavMenu("/search/", "Search", theme, routeName == "Search")
+			@sideNavMenu("/notification/", "Notification", theme, routeName == "Notification")
 			<div
 				class={
 					"p-2 text-sm cursor-default",
@@ -85,26 +82,8 @@ templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 					}
 				>Analytics </div>
 			</a>
-			<a href="/settings/">
-				<div
-					class={
-						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Settings" && theme != "0"),
-						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Settings" && theme == "0"),
-						templ.KV("bg-primary/10 text-primary", routeName == "Settings"),
-					}
-				>Settings </div>
-			</a>
-			<a href="/profile/">
-				<div
-					class={
-						"m-1 p-1 cursor-pointer rounded-sm",
-						templ.KV("text-text hover:bg-separator/10", routeName != "Profile" && theme != "0"),
-						templ.KV("text-dark-text hover:bg-dark-separator/10", routeName != "Profile" && theme == "0"),
-						templ.KV("bg-primary/10 text-primary", routeName == "Profile"),
-					}
-				>Profile </div>
-			</a>
+			@sideNavMenu("/settings/", "Settings", theme, routeName == "Settings")
+			@sideNavMenu("/profile/", "Profile", theme, routeName == "Profile")
 		}
 	</div>
 }

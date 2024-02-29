@@ -18,7 +18,7 @@ templ Search(data dto.PageDTO) {
 					templ.KV("md:border-default-border", data.Theme != "0"),
 					templ.KV("md:border-dark-default-border", data.Theme == "0") }
 				>
-					@vcomponent.SideNavigation(data.User, "", data.Theme)
+					@vcomponent.SideNavigation(data.User, data.RouteName, data.Theme)
 				</div>
 				<div class="w-full"></div>
 			</div>

@@ -80,7 +80,7 @@ func Search(data dto.PageDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = vcomponent.SideNavigation(data.User, "", data.Theme).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = vcomponent.SideNavigation(data.User, data.RouteName, data.Theme).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
