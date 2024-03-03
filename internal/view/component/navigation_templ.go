@@ -134,7 +134,7 @@ func SideNavigation(user *dto.UserDTO, routeName string, theme string) templ.Com
 		}
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var8 = []any{
-			"text-base w-full max-h-[calc(100vh-64px)] overflow-y-auto border-r",
+			"text-base w-full min-h-[calc(100vh-64px)] overflow-y-auto border-r",
 			templ.KV("border-default-border", theme != "0"),
 			templ.KV("border-dark-default-border", theme == "0"),
 		}

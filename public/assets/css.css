@@ -575,14 +575,6 @@ h3 {
   position: relative;
 }
 
-.bottom-\[24px\] {
-  bottom: 24px;
-}
-
-.right-\[24px\] {
-  right: 24px;
-}
-
 .top-\[96px\] {
   top: 96px;
 }
@@ -749,6 +741,10 @@ h3 {
   max-height: 100vh;
 }
 
+.max-h-\[16px\] {
+  max-height: 16px;
+}
+
 .max-h-\[calc\(100vh-64px\)\] {
   max-height: calc(100vh - 64px);
 }
@@ -831,6 +827,10 @@ h3 {
 
 .min-w-\[96px\] {
   min-width: 96px;
+}
+
+.max-w-\[16px\] {
+  max-width: 16px;
 }
 
 .max-w-\[480px\] {
@@ -1092,6 +1092,14 @@ h3 {
 
 .bg-transparent {
   background-color: transparent;
+}
+
+.stroke-dark-text {
+  stroke: #FFFFFFD9;
+}
+
+.stroke-text {
+  stroke: #000000E0;
 }
 
 .stroke-white {

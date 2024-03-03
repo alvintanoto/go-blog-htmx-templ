@@ -100,7 +100,7 @@ templ CreatePostInput(user dto.UserDTO) {
 					name="content"
 					placeholder="Type something.."
 					maxlength="150"
-					class={ "px-2 w-full py-1 bg-transparent outline-none resize-none" }
+					class={ "px-2 w-full py-1 bg-transparent outline-none resize-none overflow-hidden" }
 				></textarea>
 				<div class="flex flex-row justify-between align-center mt-2 mx-2">
 					<div class="text-sm"></div>
@@ -256,8 +256,16 @@ templ Posts (posts []dto.PostDTO, lastPosition int, theme string) {
 			</a>
 		}
 		if len(posts) >= 15 {
-			<div id="loading" class="animate-spin min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white">
-				<svg width="16px" height="16px" class="stroke-white">
+			<div
+				id="loading"
+				class={ "animate-spin max-h-[16px] max-w-[16px] m-auto my-4",
+				templ.KV("stroke-dark-text", theme != "0"),
+				templ.KV("stroke-text", theme == "0") }
+			>
+				<svg
+					width="16px"
+					height="16px"
+				>
 					<image xlink:href="/assets/icons/spin.svg" width="16px" height="16px"></image>
 				</svg>
 			</div>

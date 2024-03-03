@@ -174,7 +174,7 @@ func CreatePostInput(user dto.UserDTO) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var7 = []any{"px-2 w-full py-1 bg-transparent outline-none resize-none"}
+		var templ_7745c5c3_Var7 = []any{"px-2 w-full py-1 bg-transparent outline-none resize-none overflow-hidden"}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -772,7 +772,22 @@ func Posts(posts []dto.PostDTO, lastPosition int, theme string) templ.Component 
 				return templ_7745c5c3_Err
 			}
 			if len(posts) >= 15 {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"loading\" class=\"animate-spin min-h-[24px] min-w-[24px] flex items-center justify-center m-auto text-white\"><svg width=\"16px\" height=\"16px\" class=\"stroke-white\"><image xlink:href=\"/assets/icons/spin.svg\" width=\"16px\" height=\"16px\"></image></svg></div>")
+				var templ_7745c5c3_Var41 = []any{"animate-spin max-h-[16px] max-w-[16px] m-auto my-4",
+					templ.KV("stroke-dark-text", theme != "0"),
+					templ.KV("stroke-text", theme == "0")}
+				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var41...)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"loading\" class=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var41).String()))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><svg width=\"16px\" height=\"16px\"><image xlink:href=\"/assets/icons/spin.svg\" width=\"16px\" height=\"16px\"></image></svg></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

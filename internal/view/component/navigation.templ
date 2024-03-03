@@ -31,7 +31,7 @@ templ sideNavMenu(path string, routeName string, theme string, sameRoute bool) {
 templ SideNavigation(user *dto.UserDTO, routeName string, theme string) {
 	<div
 		class={
-			"text-base w-full max-h-[calc(100vh-64px)] overflow-y-auto border-r",
+			"text-base w-full min-h-[calc(100vh-64px)] overflow-y-auto border-r",
 			templ.KV("border-default-border", theme != "0"),
 			templ.KV("border-dark-default-border", theme == "0"),
 		}

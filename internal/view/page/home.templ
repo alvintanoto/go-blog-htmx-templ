@@ -5,22 +5,11 @@ import (
 	"alvintanoto.id/blog-htmx-templ/internal/view/component"
 )
 
-templ postsComponent(user *dto.UserDTO, posts []dto.PostDTO) {
-	<div class="overflow-y-scroll overscroll-contain h-[calc(100vh-64px)]"></div>
-	if user != nil {
-		<div class="max-w-[720px] mx-auto relative">
-			<div class="absolute bottom-[24px] right-[24px]">
-				@vcomponent.NewPostButton("")
-			</div>
-		</div>
-	}
-}
-
 templ Home(data *dto.PageDTO) {
 	<html>
 		@vcomponent.Title()
 		<body
-			class={ "max-h-[100vh] select-none  text-base overflow-hidden",
+			class={ "max-h-[100vh] select-none  text-base overflow-hidden overscroll-contain",
 				templ.KV("bg-layout-background text-text", data.Theme != "0"),
 				templ.KV("bg-dark-layout-background text-dark-text", data.Theme == "0") }
 		>
@@ -34,7 +23,7 @@ templ Home(data *dto.PageDTO) {
 					@vcomponent.SideNavigation(data.User, "Home", data.Theme)
 				</div>
 				<div class="w-full">
-					<div class="overflow-y-auto min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2">
+					<div class="overflow-y-scroll min-h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] px-2 pt-2">
 						if data.User != nil {
 							<div class="mt-2 m-auto max-w-[960px]">
 								@vcomponent.CreatePostInput(*data.User)
